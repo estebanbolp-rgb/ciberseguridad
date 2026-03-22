@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitácora Digital — Guardianas Digitales</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════
+   SCREEN STYLES
+   ════════════════════════════════════════ */
+:root {
+  --ink:#1a1a2e; --ink2:#3d3d5c; --ink3:#6b6b8a;
+  --cream:#faf8f4; --cream2:#f2efe8; --cream3:#e8e4da;
+  --accent:#4f46e5; --accent-l:#ede9fe;
+  --teal:#0f766e; --teal-l:#ccfbf1;
+  --coral:#be185d; --coral-l:#fce7f3;
+  --amber:#b45309; --amber-l:#fef3c7;
+  --green:#166534; --green-l:#dcfce7;
+  --border:#d4d0c8; --border2:#c5c0b5;
+  --r:10px; --rs:6px;
+  --fh:'Syne',sans-serif;
+  --fb:'Lora',serif;
+  --fm:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);color:var(--ink);font-family:var(--fb);font-size:15px;line-height:1.7;}
+
+/* ── APP SHELL ── */
+.app{display:flex;min-height:100vh;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:250px;min-height:100vh;background:#1a1a2e;
+  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0;
+}
+.sb-head{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08);}
+.sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.sb-icon{width:32px;height:32px;background:linear-gradient(135deg,#4f46e5,#0f766e);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.sb-name{font-family:var(--fh);font-size:14px;font-weight:800;color:#fff;letter-spacing:-.2px;}
+.sb-sub{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.8px;text-transform:uppercase;}
+.sb-student-area{padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.08);}
+.sb-student-lbl{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px;}
+.sb-student-val{font-family:var(--fh);font-size:13px;color:#fff;font-weight:700;min-height:18px;}
+.sb-sec{padding:12px 10px 4px;}
+.sb-lbl{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.25);padding:0 10px;margin-bottom:4px;}
+.ni{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;cursor:pointer;transition:all .14s;font-size:12px;color:rgba(255,255,255,.45);user-select:none;position:relative;}
+.ni:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);}
+.ni.active{background:rgba(79,70,229,.25);color:#fff;}
+.ni.active::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:2px;border-radius:2px;background:#4f46e5;}
+.ni-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.ni-ck{margin-left:auto;width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:7px;transition:all .2s;}
+.ni-ck.done{background:#22c55e;border-color:#22c55e;color:#0a0e1a;}
+.sb-bottom{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:16px 20px;}
+.sb-prog{background:rgba(255,255,255,.05);border-radius:8px;padding:12px;border:1px solid rgba(255,255,255,.07);margin-bottom:12px;}
+.sp-lbl{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.5px;margin-bottom:4px;}
+.sp-num{font-family:var(--fh);font-size:20px;font-weight:800;color:#fff;}
+.sp-bar-o{background:rgba(255,255,255,.08);border-radius:99px;height:4px;margin:5px 0;}
+.sp-bar-i{height:4px;border-radius:99px;background:linear-gradient(90deg,#4f46e5,#0f766e);transition:width .5s;}
+.sp-row{font-size:10px;color:rgba(255,255,255,.3);display:flex;justify-content:space-between;}
+.btn-export{width:100%;padding:9px;background:linear-gradient(135deg,#4f46e5,#0f766e);border:none;border-radius:7px;color:#fff;font-family:var(--fh);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;}
+.btn-export:hover{opacity:.88;}
+
+/* ── MAIN ── */
+.main{flex:1;overflow-y:auto;}
+.view{display:none;padding:44px 52px;max-width:820px;}
+.view.active{display:block;}
+
+/* ── WELCOME / SETUP ── */
+.welcome-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:36px;margin-bottom:20px;text-align:center;}
+.welcome-title{font-family:var(--fh);font-size:30px;font-weight:800;letter-spacing:-1px;margin-bottom:8px;color:var(--ink);}
+.welcome-sub{font-size:14px;color:var(--ink3);margin-bottom:28px;font-style:italic;}
+.setup-form{text-align:left;max-width:420px;margin:0 auto;}
+.sf-label{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3);margin-bottom:5px;display:block;}
+.sf-input{width:100%;background:var(--cream2);border:1px solid var(--border2);border-radius:var(--rs);padding:10px 14px;font-size:14px;font-family:var(--fb);color:var(--ink);transition:border-color .15s;}
+.sf-input:focus{outline:none;border-color:var(--accent);}
+.sf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.sf-item{display:flex;flex-direction:column;gap:5px;}
+.btn-start{width:100%;margin-top:6px;padding:12px;background:var(--accent);border:none;border-radius:var(--rs);color:#fff;font-family:var(--fh);font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:all .15s;}
+.btn-start:hover{background:#4338ca;}
+
+/* ── PAGE HEADER ── */
+.ph-ey{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);margin-bottom:6px;font-family:var(--fh);}
+.ph-t{font-family:var(--fh);font-size:30px;font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:10px;color:var(--ink);}
+.ph-d{font-size:14px;color:var(--ink3);line-height:1.7;margin-bottom:28px;font-style:italic;}
+
+/* ── THEORY CARD ── */
+.theory-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px 28px;margin-bottom:14px;border-top:3px solid var(--accent);}
+.theory-card.teal{border-top-color:var(--teal);}
+.theory-card.coral{border-top-color:var(--coral);}
+.theory-card.amber{border-top-color:var(--amber);}
+.tc-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;font-family:var(--fh);}
+.tc-title{font-family:var(--fh);font-size:17px;font-weight:800;color:var(--ink);margin-bottom:8px;letter-spacing:-.3px;}
+.tc-body{font-size:13px;color:var(--ink2);line-height:1.7;}
+.tc-body strong{color:var(--ink);font-weight:600;}
+
+/* ── CONCEPT ACCORDION ── */
+.acc-item{border:1px solid var(--border);border-radius:var(--rs);margin-bottom:6px;overflow:hidden;background:#fff;}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;cursor:pointer;user-select:none;transition:background .14s;}
+.acc-head:hover{background:var(--cream2);}
+.acc-head-txt{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--ink);}
+.acc-arrow{font-size:11px;color:var(--ink3);transition:transform .18s;}
+.acc-item.open .acc-arrow{transform:rotate(180deg);}
+.acc-body{display:none;padding:0 16px 14px;font-size:13px;color:var(--ink2);line-height:1.7;border-top:1px solid var(--border);}
+.acc-body.vis{display:block;}
+.acc-body strong{color:var(--ink);font-weight:600;}
+.acc-body em{color:var(--coral);}
+
+/* ── HIGHLIGHT BOXES ── */
+.hl{border-radius:var(--rs);padding:12px 16px;font-size:13px;line-height:1.65;margin:10px 0;}
+.hl.info{background:var(--accent-l);border-left:3px solid var(--accent);color:var(--ink2);}
+.hl.tip{background:var(--amber-l);border-left:3px solid var(--amber);color:var(--ink2);}
+.hl.warn{background:var(--coral-l);border-left:3px solid var(--coral);color:var(--ink2);}
+.hl.teal{background:var(--teal-l);border-left:3px solid var(--teal);color:var(--ink2);}
+.hl strong{color:var(--ink);font-weight:600;}
+
+/* ── BITACORA FIELDS ── */
+.bitacora-block{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px 28px;margin-bottom:14px;}
+.bb-title{font-family:var(--fh);font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.bb-sub{font-size:12px;color:var(--ink3);font-style:italic;margin-bottom:18px;}
+.field-group{display:flex;flex-direction:column;gap:14px;}
+.fi{display:flex;flex-direction:column;gap:5px;}
+.fi-label{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--ink3);font-weight:600;font-family:var(--fh);}
+.fi-hint{font-size:11px;color:var(--ink3);font-style:italic;margin-bottom:2px;}
+.fi-input{background:var(--cream2);border:1px solid var(--border2);border-radius:var(--rs);padding:10px 14px;font-size:13px;font-family:var(--fb);color:var(--ink);resize:vertical;min-height:44px;line-height:1.6;transition:border-color .15s;width:100%;}
+.fi-input:focus{outline:none;border-color:var(--accent);background:#fff;}
+.fi-input::placeholder{color:#b8b4a8;font-style:italic;}
+textarea.fi-input{min-height:80px;}
+.fi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.save-row{display:flex;align-items:center;gap:10px;margin-top:6px;}
+.btn-save{padding:8px 18px;background:var(--cream2);border:1px solid var(--border2);border-radius:var(--rs);font-size:12px;font-family:var(--fh);font-weight:700;color:var(--ink3);cursor:pointer;transition:all .15s;letter-spacing:.3px;}
+.btn-save:hover{border-color:var(--accent);color:var(--accent);}
+.btn-save.saved{border-color:var(--green);color:var(--green);}
+.save-note{font-size:11px;color:var(--ink3);font-style:italic;}
+
+/* ── QUIZ ── */
+.quiz-block{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px 28px;margin-bottom:14px;}
+.qz-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;font-family:var(--fh);}
+.qz-q{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:14px;line-height:1.5;font-family:var(--fh);}
+.qz-opts{display:flex;flex-direction:column;gap:7px;}
+.qo{background:var(--cream2);border:1px solid var(--border);border-radius:var(--rs);padding:10px 14px;cursor:pointer;transition:all .14s;font-size:13px;color:var(--ink2);}
+.qo:hover{border-color:var(--border2);background:#fff;}
+.qo.ok{border-color:var(--teal);background:var(--teal-l);color:var(--teal);}
+.qo.fail{border-color:var(--coral);background:var(--coral-l);color:var(--coral);}
+.qfb{margin-top:10px;padding:9px 13px;border-radius:var(--rs);font-size:12px;display:none;font-style:italic;}
+.qfb.show{display:block;}
+.qfb.ok{background:var(--teal-l);color:var(--teal);border-left:3px solid var(--teal);}
+.qfb.fail{background:var(--coral-l);color:var(--coral);border-left:3px solid var(--coral);}
+
+/* ── REFLECCION (last field) ── */
+.refl-field{min-height:100px !important;}
+
+/* ── NAV BUTTONS ── */
+.btn-row{display:flex;gap:9px;margin-top:28px;align-items:center;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:var(--rs);font-size:12px;font-weight:700;cursor:pointer;transition:all .14s;font-family:var(--fh);letter-spacing:.3px;}
+.btn-outline{border:1px solid var(--border2);background:#fff;color:var(--ink3);}
+.btn-outline:hover{color:var(--ink);border-color:var(--accent);}
+.btn-primary{background:var(--accent);border:none;color:#fff;}
+.btn-primary:hover{background:#4338ca;}
+.btn-primary.done{background:#166534;}
+
+/* ── PHASE DIVIDERS ── */
+.phase-div{display:flex;align-items:center;gap:12px;margin:28px 0 14px;}
+.phase-div-line{flex:1;height:1px;background:var(--border);}
+.phase-div-label{font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:99px;white-space:nowrap;}
+
+/* ── DASHBOARD ── */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.dash-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden;}
+.dash-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.dash-card.p1::before{background:var(--teal);}
+.dash-card.p2::before{background:var(--accent);}
+.dash-card.p3::before{background:var(--amber);}
+.dash-card.p4::before{background:var(--coral);}
+.dash-card:hover{border-color:var(--border2);transform:translateY(-1px);}
+.dc-phase{font-family:var(--fh);font-size:11px;font-weight:700;letter-spacing:.3px;margin-bottom:3px;}
+.dc-weeks{font-size:11px;color:var(--ink3);margin-bottom:10px;}
+.dc-bar-o{background:var(--cream3);border-radius:99px;height:3px;margin-bottom:6px;}
+.dc-bar-i{height:3px;border-radius:99px;transition:width .5s;}
+.p1 .dc-bar-i{background:var(--teal);}
+.p2 .dc-bar-i{background:var(--accent);}
+.p3 .dc-bar-i{background:var(--amber);}
+.p4 .dc-bar-i{background:var(--coral);}
+.dc-stat{font-size:11px;color:var(--ink3);display:flex;justify-content:space-between;}
+
+/* CHECKLIST */
+.cl{list-style:none;}
+.cl li{display:flex;gap:8px;align-items:flex-start;padding:6px 0;font-size:13px;color:var(--ink2);border-bottom:1px solid var(--border);line-height:1.5;}
+.cl li:last-child{border-bottom:none;}
+.cl li::before{content:'→';color:var(--accent);font-weight:700;flex-shrink:0;margin-top:2px;font-family:var(--fm);}
+
+
+/* ════════════════════════════════════════
+   PRINT STYLES — PDF EXPORT
+   ════════════════════════════════════════ */
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm 20mm 18mm 20mm;
+  }
+
+  /* Hide everything by default */
+  body * { visibility: hidden; }
+
+  /* Show only the active student journal view */
+  #print-area, #print-area * { visibility: visible; }
+
+  #print-area {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    background: #fff;
+  }
+
+  /* Reset layout for print */
+  .app, .main, .sidebar { display: block !important; }
+  .sidebar { display: none !important; }
+  .view { display: block !important; padding: 0 !important; max-width: 100% !important; }
+
+  /* PDF COVER */
+  .pdf-cover {
+    text-align: center;
+    padding: 40px 20px 30px;
+    border-bottom: 2px solid #1a1a2e;
+    margin-bottom: 28px;
+    page-break-after: avoid;
+  }
+  .pdf-cover-badge {
+    display: inline-block;
+    background: #1a1a2e;
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 99px;
+    margin-bottom: 16px;
+  }
+  .pdf-cover-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: #1a1a2e;
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+  }
+  .pdf-cover-sub {
+    font-size: 13px;
+    color: #6b6b8a;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  .pdf-student-box {
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid #d4d0c8;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 auto;
+    font-size: 12px;
+  }
+  .pdf-student-cell {
+    padding: 10px 18px;
+    border-right: 1px solid #d4d0c8;
+    text-align: left;
+  }
+  .pdf-student-cell:last-child { border-right: none; }
+  .pdf-cell-label {
+    font-size: 9px;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    color: #6b6b8a;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .pdf-cell-val {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    color: #1a1a2e;
+    font-size: 13px;
+  }
+
+  /* SECTION HEADERS in PDF */
+  .pdf-week-header {
+    background: #f2efe8;
+    border-left: 4px solid #4f46e5;
+    padding: 10px 14px;
+    margin: 20px 0 14px;
+    page-break-after: avoid;
+  }
+  .pdf-week-header.teal { border-left-color: #0f766e; }
+  .pdf-week-header.amber { border-left-color: #b45309; }
+  .pdf-week-header.coral { border-left-color: #be185d; }
+  .pdf-wh-phase { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #6b6b8a; font-family: 'Syne',sans-serif; font-weight: 700; }
+  .pdf-wh-title { font-family: 'Syne',sans-serif; font-size: 16px; font-weight: 800; color: #1a1a2e; }
+
+  /* FIELD ENTRIES in PDF */
+  .pdf-field {
+    margin-bottom: 14px;
+    page-break-inside: avoid;
+  }
+  .pdf-field-label {
+    font-size: 9px;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    color: #6b6b8a;
+    font-family: 'Syne',sans-serif;
+    font-weight: 700;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #e8e4da;
+    padding-bottom: 3px;
+  }
+  .pdf-field-value {
+    font-size: 12px;
+    color: #1a1a2e;
+    line-height: 1.65;
+    font-family: 'Lora',serif;
+    white-space: pre-wrap;
+    min-height: 18px;
+  }
+  .pdf-field-empty {
+    font-size: 12px;
+    color: #b8b4a8;
+    font-style: italic;
+    font-family: 'Lora',serif;
+  }
+
+  /* QUIZ RESULT in PDF */
+  .pdf-quiz-result {
+    background: #f2efe8;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-family: 'Lora',serif;
+    color: #1a1a2e;
+    margin-bottom: 14px;
+    page-break-inside: avoid;
+  }
+  .pdf-quiz-label {
+    font-size: 9px;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    color: #6b6b8a;
+    font-family: 'Syne',sans-serif;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  /* DIVIDERS */
+  .pdf-divider {
+    border: none;
+    border-top: 1px solid #e8e4da;
+    margin: 20px 0;
+  }
+
+  /* FOOTER on each page */
+  .pdf-footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    font-size: 9px;
+    color: #b8b4a8;
+    font-family: 'Syne',sans-serif;
+    text-align: center;
+    border-top: 1px solid #e8e4da;
+    padding: 6px;
+    background: #fff;
+  }
+
+  /* PAGE BREAKS */
+  .pdf-page-break { page-break-before: always; }
+  h2, h3 { page-break-after: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar">
+  <div class="sb-head">
+    <div class="sb-logo">
+      <div class="sb-icon">🛡</div>
+      <span class="sb-name">Guardianas Digitales</span>
+    </div>
+    <div class="sb-sub">Bitácora de aprendizaje</div>
+  </div>
+  <div class="sb-student-area">
+    <div class="sb-student-lbl">Estudiante</div>
+    <div class="sb-student-val" id="sb-name-display">—</div>
+  </div>
+
+  <div class="sb-sec">
+    <div class="sb-lbl">General</div>
+    <div class="ni active" onclick="showView('inicio')"><span>🏠</span>Inicio</div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl" style="color:rgba(45,212,191,.6)">Fase 1 · Descubrir</div>
+    <div class="ni" onclick="goWeek(1)" id="nw1"><div class="ni-dot" style="background:#2dd4bf"></div>S1 · Huella digital<div class="ni-ck" id="nck1">✓</div></div>
+    <div class="ni" onclick="goWeek(2)" id="nw2"><div class="ni-dot" style="background:#2dd4bf"></div>S2 · Internet<div class="ni-ck" id="nck2">✓</div></div>
+    <div class="ni" onclick="goWeek(3)" id="nw3"><div class="ni-dot" style="background:#2dd4bf"></div>S3 · Amenazas<div class="ni-ck" id="nck3">✓</div></div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl" style="color:rgba(99,102,241,.7)">Fase 2 · Investigar</div>
+    <div class="ni" onclick="goWeek(4)" id="nw4"><div class="ni-dot" style="background:#6366f1"></div>S4 · Mi campaña<div class="ni-ck" id="nck4">✓</div></div>
+    <div class="ni" onclick="goWeek(5)" id="nw5"><div class="ni-dot" style="background:#6366f1"></div>S5 · Contraseñas<div class="ni-ck" id="nck5">✓</div></div>
+    <div class="ni" onclick="goWeek(6)" id="nw6"><div class="ni-dot" style="background:#6366f1"></div>S6 · Redes sociales<div class="ni-ck" id="nck6">✓</div></div>
+    <div class="ni" onclick="goWeek(7)" id="nw7"><div class="ni-dot" style="background:#6366f1"></div>S7 · Diseño campaña<div class="ni-ck" id="nck7">✓</div></div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl" style="color:rgba(245,158,11,.7)">Fase 3 · Crear</div>
+    <div class="ni" onclick="goWeek(8)" id="nw8"><div class="ni-dot" style="background:#f59e0b"></div>S8 · Producción<div class="ni-ck" id="nck8">✓</div></div>
+    <div class="ni" onclick="goWeek(9)" id="nw9"><div class="ni-dot" style="background:#f59e0b"></div>S9 · Revisión pares<div class="ni-ck" id="nck9">✓</div></div>
+    <div class="ni" onclick="goWeek(10)" id="nw10"><div class="ni-dot" style="background:#f59e0b"></div>S10 · Simulacro<div class="ni-ck" id="nck10">✓</div></div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl" style="color:rgba(251,113,133,.7)">Fase 4 · Impactar</div>
+    <div class="ni" onclick="goWeek(11)" id="nw11"><div class="ni-dot" style="background:#fb7185"></div>S11 · Campaña vivo<div class="ni-ck" id="nck11">✓</div></div>
+    <div class="ni" onclick="goWeek(12)" id="nw12"><div class="ni-dot" style="background:#fb7185"></div>S12 · Cierre<div class="ni-ck" id="nck12">✓</div></div>
+  </div>
+
+  <div class="sb-bottom">
+    <div class="sb-prog">
+      <div class="sp-lbl">Mi progreso</div>
+      <div class="sp-num" id="sp-num">0 / 12</div>
+      <div class="sp-bar-o"><div class="sp-bar-i" id="sp-bar" style="width:0%"></div></div>
+      <div class="sp-row"><span id="sp-pct">0%</span><span id="sp-left">12 pendientes</span></div>
+    </div>
+    <button class="btn-export" onclick="exportPDF()">Exportar bitácora PDF</button>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main">
+
+<!-- ─── INICIO / SETUP ─── -->
+<div class="view active" id="view-inicio">
+  <div style="max-width:520px;margin:0 auto;">
+    <div class="welcome-card">
+      <div style="font-size:40px;margin-bottom:12px;">🛡</div>
+      <div class="welcome-title">Bitácora Digital</div>
+      <div class="welcome-sub">Guardianas Digitales · Grado 8</div>
+      <p style="font-size:13px;color:var(--ink3);margin-bottom:28px;line-height:1.7;">Esta es tu bitácora personal de aprendizaje. En cada semana encontrarás la teoría del tema, preguntas para reflexionar y actividades para registrar. Al terminar el curso puedes exportarla como PDF y entregarla como evidencia.</p>
+      <div class="setup-form">
+        <div class="sf-row">
+          <div class="sf-item">
+            <label class="sf-label">Nombre completo</label>
+            <input class="sf-input" id="st-name" placeholder="Tu nombre y apellido">
+          </div>
+          <div class="sf-item">
+            <label class="sf-label">Curso / Grado</label>
+            <input class="sf-input" id="st-grade" placeholder="Ej: 8B">
+          </div>
+        </div>
+        <div class="sf-row">
+          <div class="sf-item">
+            <label class="sf-label">Nombre del colegio</label>
+            <input class="sf-input" id="st-school" placeholder="Nombre del colegio">
+          </div>
+          <div class="sf-item">
+            <label class="sf-label">Año escolar</label>
+            <input class="sf-input" id="st-year" placeholder="Ej: 2025">
+          </div>
+        </div>
+        <button class="btn-start" onclick="startJournal()">Comenzar mi bitácora →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     SEMANAS 1–12
+     ═══════════════════════════════ -->
+
+<!-- ─── SEMANA 1 ─── -->
+<div class="view" id="view-w1">
+  <div class="ph-ey">Semana 1 · Fase 1 · Descubrir</div>
+  <div class="ph-t">Imagen digital</div>
+  <div class="ph-d">¿Qué rastro dejamos en internet, aunque no lo sepamos?</div>
+
+  <div class="theory-card teal">
+    <div class="tc-label">Concepto central</div>
+    <div class="tc-title">La huella digital: activa y pasiva</div>
+    <div class="tc-body">Tu <strong>huella digital</strong> es todo el rastro de información que dejas al usar internet y dispositivos. Tiene dos tipos:<br><br>
+    → <strong>Huella activa:</strong> lo que publicas conscientemente — fotos, comentarios, "me gusta", datos en formularios. Tú decides antes de publicar, pero una vez en internet es muy difícil borrarlo.<br><br>
+    → <strong>Huella pasiva:</strong> se genera sin que lo decidas — tu dirección IP, las cookies de los sitios que visitas, tu ubicación al usar apps, el historial de búsquedas. Muchas personas no saben que este tipo de huella existe.<br><br>
+    Los <strong>datos personales</strong> son cualquier información que puede identificarte: nombre, foto, dirección, teléfono, pero también ubicación GPS y hábitos de navegación. En Colombia la <strong>Ley 1581 de 2012</strong> protege tus datos y te da el derecho de saber qué información recopilan de ti.</div>
+  </div>
+
+  <div class="theory-card">
+    <div class="tc-label">Para profundizar</div>
+    <div class="tc-title">Conceptos clave de esta semana</div>
+    <div id="acc-w1">
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Qué es el derecho al olvido?</span><span class="acc-arrow">▼</span></div><div class="acc-body">El <strong>derecho al olvido</strong> (o derecho de supresión) permite solicitar que se eliminen tus datos personales de plataformas o buscadores cuando ya no son necesarios o fueron publicados sin tu consentimiento. En Europa es un derecho formal (RGPD). En Colombia está parcialmente protegido por la Ley 1581 y el habeas data del Artículo 15 de la Constitución.</div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Por qué es difícil borrar la huella digital?</span><span class="acc-arrow">▼</span></div><div class="acc-body">Una vez que publicas algo, otras personas pueden haberlo visto, guardado, compartido o capturado antes de que lo borres. Los motores de búsqueda indexan el contenido y lo mantienen en caché. Las plataformas pueden conservar copias aunque borres tu publicación. Por eso la decisión más importante ocurre <em>antes</em> de publicar, no después.</div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Qué son las cookies y para qué sirven?</span><span class="acc-arrow">▼</span></div><div class="acc-body">Las <strong>cookies</strong> son pequeños archivos que los sitios web guardan en tu navegador para recordar información: sesión iniciada, preferencias, carrito de compras. Algunas cookies de terceros rastrean tu actividad en múltiples sitios para mostrarte publicidad personalizada. Puedes gestionarlas en la configuración de tu navegador.</div></div>
+    </div>
+  </div>
+
+  <div class="bitacora-block">
+    <div class="bb-title">✏ Mi bitácora — Semana 1</div>
+    <div class="bb-sub">Responde estas preguntas con honestidad. No hay respuestas correctas o incorrectas — es tu reflexión personal.</div>
+    <div class="field-group">
+      <div class="fi">
+        <div class="fi-label">¿Qué encontré cuando busqué mi nombre en internet?</div>
+        <div class="fi-hint">Describe qué resultados aparecieron. ¿Fotos? ¿Menciones? ¿Te sorprendió algo?</div>
+        <textarea class="fi-input" id="w1_q1" placeholder="Escribe aquí tu respuesta..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">Auditoría de mi huella activa</div>
+        <div class="fi-hint">¿Qué publico yo? ¿Qué me etiquetan otros? ¿Qué datos di sin darme cuenta?</div>
+        <textarea class="fi-input" id="w1_q2" placeholder="Lo que publico yo: ...\nLo que otros publican de mí: ...\nDatos que di sin saber: ..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">Una cosa de mi huella digital que quiero cambiar o proteger</div>
+        <textarea class="fi-input" id="w1_q3" placeholder="Escribe aquí tu reflexión..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">Mi reflexión personal sobre esta semana</div>
+        <div class="fi-hint">¿Qué aprendí? ¿Qué me hizo pensar? ¿Qué pregunta me quedó?</div>
+        <textarea class="fi-input refl-field" id="w1_refl" placeholder="Escribe tu reflexión con libertad..."></textarea>
+      </div>
+    </div>
+    <div class="save-row">
+      <button class="btn-save" id="sv1" onclick="save(1)">Guardar semana 1</button>
+      <span class="save-note">Se guarda en este navegador automáticamente</span>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="qz-label">Verificación de aprendizaje</div>
+    <div class="qz-q">¿Cuál de estas acciones genera huella digital <em>pasiva</em>?</div>
+    <div class="qz-opts">
+      <div class="qo" onclick="quiz(this,'qr1',false)">a) Publicar una foto en Instagram</div>
+      <div class="qo" onclick="quiz(this,'qr1',false)">b) Escribir un comentario en TikTok</div>
+      <div class="qo" onclick="quiz(this,'qr1',true)">c) Visitar una página web sin hacer clic en nada</div>
+      <div class="qo" onclick="quiz(this,'qr1',false)">d) Enviar un mensaje de WhatsApp</div>
+    </div>
+    <div class="qfb" id="qr1"></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" id="bw1" onclick="complete(1)">Marcar semana 1 como completada</button>
+    <button class="btn btn-outline" onclick="goWeek(2)">Semana 2 →</button>
+  </div>
+</div>
+
+<!-- ─── SEMANA 2 ─── -->
+<div class="view" id="view-w2">
+  <div class="ph-ey">Semana 2 · Fase 1 · Descubrir</div>
+  <div class="ph-t">Cómo funciona internet</div>
+  <div class="ph-d">Entender el camino que recorren tus datos.</div>
+
+  <div class="theory-card teal">
+    <div class="tc-label">Concepto central</div>
+    <div class="tc-title">De tu celular al servidor y de vuelta</div>
+    <div class="tc-body">Internet es una red de millones de computadores conectados. Cuando visitas un sitio web, tu dispositivo envía una solicitud que viaja por varios puntos hasta llegar al servidor que aloja ese sitio.<br><br>
+    Cada dispositivo en internet tiene una <strong>dirección IP</strong> — como la dirección de tu casa, pero para computadores. El <strong>DNS</strong> es la "guía telefónica" que traduce nombres como "google.com" en números IP reales.<br><br>
+    Los datos viajan divididos en pequeños <strong>paquetes</strong> que pueden tomar rutas distintas y se reensamblan al llegar. El protocolo <strong>HTTPS</strong> cifra esa comunicación para que nadie en el camino pueda leerla. El candadito en el navegador significa que la conexión está cifrada. <em>Nunca ingreses datos personales en un sitio sin HTTPS.</em></div>
+  </div>
+
+  <div class="theory-card">
+    <div class="tc-label">Para profundizar</div>
+    <div class="tc-title">Conceptos clave</div>
+    <div id="acc-w2">
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Qué es el cifrado TLS?</span><span class="acc-arrow">▼</span></div><div class="acc-body">El <strong>cifrado TLS</strong> es el protocolo que hace funcionar HTTPS. Crea un "túnel" protegido entre tu navegador y el servidor usando criptografía de clave pública. El servidor tiene un certificado digital (como una cédula) que tu navegador verifica antes de confiar. Si el certificado es inválido, el navegador te advierte.</div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Qué es una VPN y para qué sirve?</span><span class="acc-arrow">▼</span></div><div class="acc-body">Una <strong>VPN</strong> (Red Privada Virtual) crea un túnel cifrado entre tu dispositivo e internet, ocultando tu IP real y tu actividad de navegación de tu proveedor de internet y de terceros. Es útil en redes Wi-Fi públicas no confiables. No hace que seas completamente anónima — los sitios que visitas aún pueden rastrearte por otros medios.</div></div>
+    </div>
+  </div>
+
+  <div class="bitacora-block">
+    <div class="bb-title">✏ Mi bitácora — Semana 2</div>
+    <div class="bb-sub">Registra lo que aprendiste y tus reflexiones personales.</div>
+    <div class="field-group">
+      <div class="fi">
+        <div class="fi-label">Explica con tus propias palabras cómo viaja un dato en internet</div>
+        <div class="fi-hint">Usa la analogía que te resulte más clara (correo postal, mensajero, teléfono roto, etc.)</div>
+        <textarea class="fi-input" id="w2_q1" placeholder="En mis propias palabras..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">¿Encontré sitios sin HTTPS en los que tengo cuenta? ¿Cuáles?</div>
+        <div class="fi-hint">No escribas contraseñas — solo los nombres de los sitios o apps.</div>
+        <textarea class="fi-input" id="w2_q2" placeholder="Sitios o apps que revisé..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">¿Qué cambiaría en mi forma de navegar después de aprender esto?</div>
+        <textarea class="fi-input" id="w2_q3" placeholder="Escribe aquí..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">Mi reflexión personal</div>
+        <textarea class="fi-input refl-field" id="w2_refl" placeholder="¿Qué me sorprendió? ¿Qué pregunta me quedó?"></textarea>
+      </div>
+    </div>
+    <div class="save-row"><button class="btn-save" id="sv2" onclick="save(2)">Guardar semana 2</button></div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="qz-label">Verificación de aprendizaje</div>
+    <div class="qz-q">Vas a hacer una compra en "http://tienda.com" (sin la S). ¿Qué riesgo real existe?</div>
+    <div class="qz-opts">
+      <div class="qo" onclick="quiz(this,'qr2',false)">a) Ninguno, HTTP y HTTPS son lo mismo</div>
+      <div class="qo" onclick="quiz(this,'qr2',true)">b) Alguien en la misma red podría ver tus datos de pago</div>
+      <div class="qo" onclick="quiz(this,'qr2',false)">c) La página cargará más lento</div>
+      <div class="qo" onclick="quiz(this,'qr2',false)">d) Tu dispositivo se infecta automáticamente</div>
+    </div>
+    <div class="qfb" id="qr2"></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="goWeek(1)">← S1</button>
+    <button class="btn btn-primary" id="bw2" onclick="complete(2)">Marcar como completada</button>
+    <button class="btn btn-outline" onclick="goWeek(3)">S3 →</button>
+  </div>
+</div>
+
+<!-- ─── SEMANA 3 ─── -->
+<div class="view" id="view-w3">
+  <div class="ph-ey">Semana 3 · Fase 1 · Descubrir</div>
+  <div class="ph-t">Amenazas digitales reales</div>
+  <div class="ph-d">Reconocer el peligro antes de caer en él.</div>
+
+  <div class="theory-card teal">
+    <div class="tc-label">Concepto central</div>
+    <div class="tc-title">La mayoría de los ataques explotan personas, no máquinas</div>
+    <div class="tc-body">El <strong>phishing</strong> es un intento de engaño donde alguien se hace pasar por una entidad confiable (banco, empresa, amigo) para robar información. Señales: urgencia extrema, errores de ortografía, dominios extraños. El <strong>smishing</strong> es lo mismo pero por SMS.<br><br>
+    El <strong>malware</strong> es cualquier programa diseñado para dañar o espiar — incluye virus, troyanos y spyware. El <strong>ransomware</strong> cifra tus archivos y exige dinero para devolverlos.<br><br>
+    La <strong>ingeniería social</strong> manipula psicológicamente a las personas para que revelen información. Explota emociones: miedo, urgencia, curiosidad, autoridad. Reglas básicas: ante cualquier mensaje sospechoso — <em>no hagas clic, no respondas, consulta a un adulto de confianza.</em></div>
+  </div>
+
+  <div class="theory-card">
+    <div class="tc-label">Señales de alerta universales</div>
+    <div class="tc-title">El semáforo de seguridad digital</div>
+    <div class="tc-body">
+    🔴 <strong>ROJO — No respondas:</strong> urgencia extrema ("¡10 minutos o pierdes!"), solicitud de contraseñas o datos bancarios, dominio sospechoso, archivo adjunto inesperado.<br><br>
+    🟡 <strong>AMARILLO — Verifica antes:</strong> remitente que conoces pero tono raro, premio o beneficio inesperado, link que no reconoces, solicitud inusual de un amigo.<br><br>
+    🟢 <strong>VERDE — Señales de confianza:</strong> HTTPS visible, dominio oficial, comunicación esperada, sin urgencia artificial, información verificable.</div>
+  </div>
+
+  <div class="theory-card">
+    <div class="tc-label">Para profundizar</div>
+    <div class="tc-title">Tipos de ataques</div>
+    <div id="acc-w3">
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Cómo reconozco un sitio web falso?</span><span class="acc-arrow">▼</span></div><div class="acc-body">Revisa la barra de direcciones: <strong>bancolombia.com</strong> es diferente de <strong>banco-colombia.com</strong> o <strong>bancolombia.seguro.net</strong>. Los ciberdelincuentes usan dominios similares para confundir. Busca el candado HTTPS, pero recuerda que algunos sitios de phishing también usan HTTPS — el cifrado no garantiza que el sitio sea legítimo.</div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Qué hago si creo que caí en un engaño?</span><span class="acc-arrow">▼</span></div><div class="acc-body">1. No entres en pánico. 2. Cambia inmediatamente las contraseñas de las cuentas afectadas. 3. Si diste datos bancarios, llama a tu banco. 4. Cuéntaselo a un adulto de confianza. 5. Denuncia en la Policía Nacional (línea 137) o en el CERT del MinTIC en Colombia. Reportar ayuda a proteger a otras personas.</div></div>
+    </div>
+  </div>
+
+  <div class="bitacora-block">
+    <div class="bb-title">✏ Mi bitácora — Semana 3</div>
+    <div class="bb-sub">Reflexiona sobre las amenazas digitales y tu experiencia personal.</div>
+    <div class="field-group">
+      <div class="fi">
+        <div class="fi-label">¿Alguna vez recibí un mensaje sospechoso? ¿Cómo lo identifiqué?</div>
+        <div class="fi-hint">Describe la situación sin incluir datos personales sensibles.</div>
+        <textarea class="fi-input" id="w3_q1" placeholder="Escribe aquí..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">Mi semáforo personal de seguridad</div>
+        <div class="fi-hint">Escribe las señales que TÚ usarás para identificar mensajes peligrosos, dudosos y confiables.</div>
+        <textarea class="fi-input" id="w3_q2" placeholder="🔴 Rojo (peligro inmediato): ...\n🟡 Amarillo (verificar): ...\n🟢 Verde (confiable): ..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">¿Qué amenaza me parece más relevante para mi comunidad y por qué?</div>
+        <div class="fi-hint">Esto puede ayudarte a definir el tema de tu proyecto.</div>
+        <textarea class="fi-input" id="w3_q3" placeholder="La amenaza que más me preocupa es..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">Mi reflexión personal</div>
+        <textarea class="fi-input refl-field" id="w3_refl" placeholder="¿Qué aprendí? ¿Qué cambiaría en mis hábitos?"></textarea>
+      </div>
+    </div>
+    <div class="save-row"><button class="btn-save" id="sv3" onclick="save(3)">Guardar semana 3</button></div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="qz-label">Verificación de aprendizaje</div>
+    <div class="qz-q">Recibes: "¡Ganaste un iPhone! Haz clic en los próximos 10 minutos o pierdes el premio." ¿Qué tipo de ataque es?</div>
+    <div class="qz-opts">
+      <div class="qo" onclick="quiz(this,'qr3',false)">a) Malware directo</div>
+      <div class="qo" onclick="quiz(this,'qr3',true)">b) Phishing con ingeniería social — táctica de urgencia</div>
+      <div class="qo" onclick="quiz(this,'qr3',false)">c) Ransomware</div>
+      <div class="qo" onclick="quiz(this,'qr3',false)">d) Ataque de fuerza bruta</div>
+    </div>
+    <div class="qfb" id="qr3"></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="goWeek(2)">← S2</button>
+    <button class="btn btn-primary" id="bw3" onclick="complete(3)">Marcar como completada</button>
+    <button class="btn btn-outline" onclick="goWeek(4)">S4 →</button>
+  </div>
+</div>
+
+<!-- ─── SEMANA 4 ─── -->
+<div class="view" id="view-w4">
+  <div class="ph-ey">Semana 4 · Fase 2 · Investigar</div>
+  <div class="ph-t">Mi campaña</div>
+  <div class="ph-d">Elige el problema que quieres resolver y a quién quieres ayudar.</div>
+
+  <div class="theory-card">
+    <div class="tc-label">Concepto central</div>
+    <div class="tc-title">De aprendiz a agente de cambio</div>
+    <div class="tc-body">Una <strong>campaña de comunicación</strong> efectiva tiene cuatro elementos clave:<br><br>
+    → <strong>Un problema claro:</strong> ¿qué riesgo digital existe en tu comunidad?<br>
+    → <strong>Una audiencia específica:</strong> ¿a quién quieres llegar? Cuanto más concreto, mejor.<br>
+    → <strong>Un mensaje único:</strong> una sola idea bien comunicada vale más que diez ideas confusas.<br>
+    → <strong>Un llamado a la acción:</strong> ¿qué quieres que tu audiencia haga después de ver tu campaña? Debe ser una acción pequeña, específica y posible hoy.</div>
+  </div>
+
+  <div class="bitacora-block">
+    <div class="bb-title">✏ Mi bitácora — Semana 4</div>
+    <div class="bb-sub">Define tu propuesta de campaña. Esta será la base de tu proyecto.</div>
+    <div class="field-group">
+      <div class="fi-grid">
+        <div class="fi">
+          <div class="fi-label">Nombre de mi grupo</div>
+          <input type="text" class="fi-input" id="w4_grupo" placeholder="Nombre del equipo">
+        </div>
+        <div class="fi">
+          <div class="fi-label">Integrantes del grupo</div>
+          <input type="text" class="fi-input" id="w4_integrantes" placeholder="Nombres separados por coma">
+        </div>
+      </div>
+      <div class="fi">
+        <div class="fi-label">Problema digital que quiero abordar</div>
+        <div class="fi-hint">Sé específica. "La seguridad digital" es demasiado amplio. "Las niñas de primaria no saben cómo crear contraseñas seguras" es un problema concreto.</div>
+        <textarea class="fi-input" id="w4_q1" placeholder="El problema que identificamos es..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">¿A quién va dirigida la campaña?</div>
+        <div class="fi-hint">Define la audiencia con detalle: edad, relación con la tecnología, dónde los encuentras.</div>
+        <textarea class="fi-input" id="w4_q2" placeholder="Nuestra audiencia es..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">¿Qué formato tendrá la campaña?</div>
+        <div class="fi-hint">Video, infografía, quiz, presentación en vivo, póster con QR, cuento, podcast...</div>
+        <input type="text" class="fi-input" id="w4_formato" placeholder="El formato que elegimos es...">
+      </div>
+      <div class="fi">
+        <div class="fi-label">Nuestra pregunta de investigación</div>
+        <div class="fi-hint">Ejemplo: "¿Cómo enseñarles a los niños de primaria a crear contraseñas seguras de forma fácil?"</div>
+        <textarea class="fi-input" id="w4_q3" placeholder="Nuestra pregunta de investigación es..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">Mi reflexión personal</div>
+        <textarea class="fi-input refl-field" id="w4_refl" placeholder="¿Por qué elegí este tema? ¿Qué me motivó?"></textarea>
+      </div>
+    </div>
+    <div class="save-row"><button class="btn-save" id="sv4" onclick="save(4)">Guardar semana 4</button></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="goWeek(3)">← S3</button>
+    <button class="btn btn-primary" id="bw4" onclick="complete(4)">Marcar como completada</button>
+    <button class="btn btn-outline" onclick="goWeek(5)">S5 →</button>
+  </div>
+</div>
+
+<!-- ─── SEMANA 5 ─── -->
+<div class="view" id="view-w5">
+  <div class="ph-ey">Semana 5 · Fase 2 · Investigar</div>
+  <div class="ph-t">Contraseñas e identidad digital</div>
+  <div class="ph-d">Una contraseña débil es una puerta abierta.</div>
+
+  <div class="theory-card">
+    <div class="tc-label">Concepto central</div>
+    <div class="tc-title">Anatomía de una contraseña segura</div>
+    <div class="tc-body">Una contraseña segura tiene <strong>mínimo 12 caracteres</strong>, combina mayúsculas, minúsculas, números y símbolos, y es <strong>única para cada cuenta</strong>. Reutilizar contraseñas es peligroso: si hackean una cuenta, hackean todas.<br><br>
+    La <strong>técnica de frase-clave</strong> es más segura y fácil de recordar: toma una frase memorable y modifícala. Ejemplo: "MiPerro!Tiene3Años" es mucho más segura que "xK9#mP".<br><br>
+    La <strong>autenticación de dos factores (2FA)</strong> añade una segunda capa: además de la contraseña, pide un código enviado a tu celular. Aunque alguien robe tu contraseña, no puede acceder sin ese segundo código. <em>Actívalo siempre en correo, redes sociales y cuentas bancarias.</em><br><br>
+    Un <strong>gestor de contraseñas</strong> guarda todas tus contraseñas cifradas. Solo necesitas recordar una clave maestra. Opciones gratuitas: Bitwarden, KeePass.</div>
+  </div>
+
+  <div class="bitacora-block">
+    <div class="bb-title">✏ Mi bitácora — Semana 5</div>
+    <div class="field-group">
+      <div class="fi">
+        <div class="fi-label">¿Qué descubrí sobre mis contraseñas actuales?</div>
+        <div class="fi-hint">No escribas las contraseñas — solo describe si eran seguras, débiles, reutilizadas...</div>
+        <textarea class="fi-input" id="w5_q1" placeholder="Lo que descubrí fue..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">Mi nueva frase-clave de ejemplo (no uses una contraseña real)</div>
+        <div class="fi-hint">Crea una contraseña ficticia usando la técnica de frase-clave para practicar.</div>
+        <input type="text" class="fi-input" id="w5_q2" placeholder="Ejemplo ficticio: TrainAzul!99$Rojo">
+      </div>
+      <div class="fi">
+        <div class="fi-label">¿Activé el 2FA en alguna cuenta? ¿En cuál?</div>
+        <textarea class="fi-input" id="w5_q3" placeholder="Activé el 2FA en..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">¿Cómo conecta este tema con mi campaña?</div>
+        <textarea class="fi-input" id="w5_q4" placeholder="Este tema se relaciona con mi campaña porque..."></textarea>
+      </div>
+      <div class="fi">
+        <div class="fi-label">Mi reflexión personal</div>
+        <textarea class="fi-input refl-field" id="w5_refl" placeholder="¿Qué cambiaría en mis hábitos de contraseñas?"></textarea>
+      </div>
+    </div>
+    <div class="save-row"><button class="btn-save" id="sv5" onclick="save(5)">Guardar semana 5</button></div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="qz-label">Verificación de aprendizaje</div>
+    <div class="qz-q">¿Cuál de estas contraseñas es MÁS segura?</div>
+    <div class="qz-opts">
+      <div class="qo" onclick="quiz(this,'qr5',false)">a) Maria2008!</div>
+      <div class="qo" onclick="quiz(this,'qr5',false)">b) 12345678ab</div>
+      <div class="qo" onclick="quiz(this,'qr5',true)">c) Tren!Azul#Cielo$1999</div>
+      <div class="qo" onclick="quiz(this,'qr5',false)">d) contraseña123</div>
+    </div>
+    <div class="qfb" id="qr5"></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="goWeek(4)">← S4</button>
+    <button class="btn btn-primary" id="bw5" onclick="complete(5)">Marcar como completada</button>
+    <button class="btn btn-outline" onclick="goWeek(6)">S6 →</button>
+  </div>
+</div>
+
+<!-- ─── SEMANAS 6–12: estructura abreviada pero completa ─── -->
+<!-- S6 -->
+<div class="view" id="view-w6">
+  <div class="ph-ey">Semana 6 · Fase 2 · Investigar</div>
+  <div class="ph-t">Redes sociales y privacidad</div>
+  <div class="ph-d">Lo que no configuras, lo configuran otros por ti.</div>
+  <div class="theory-card">
+    <div class="tc-label">Concepto central</div>
+    <div class="tc-title">Tu perfil, tus reglas</div>
+    <div class="tc-body">Las redes sociales están diseñadas para compartir al máximo por defecto. Revisar la <strong>configuración de privacidad</strong> periódicamente es un hábito de higiene digital: quién puede ver tu contenido, etiquetarte, encontrarte. Cambia con cada actualización — revísala regularmente.<br><br>
+    El <strong>grooming</strong> es el proceso mediante el cual un adulto establece una relación de confianza con una persona menor en línea para manipularla. Señales: preguntas muy personales, pedir fotos, querer encontrarse en privado, pedir guardar secretos. <em>Ante cualquier señal: bloquea, guarda capturas, cuéntaselo a un adulto de confianza. No es tu culpa.</em><br><br>
+    La <strong>Ley 1581 de 2012</strong> protege tus datos personales en Colombia. Tienes derecho a saber qué datos recopilan de ti y a pedir que los eliminen.</div>
+  </div>
+  <div class="bitacora-block">
+    <div class="bb-title">✏ Mi bitácora — Semana 6</div>
+    <div class="field-group">
+      <div class="fi"><div class="fi-label">¿Qué cambié en mi configuración de privacidad esta semana?</div><textarea class="fi-input" id="w6_q1" placeholder="Los cambios que hice fueron..."></textarea></div>
+      <div class="fi"><div class="fi-label">Mi "guía personal" de qué SÍ y qué NUNCA publicaría</div><textarea class="fi-input" id="w6_q2" placeholder="SÍ publicaría: ...\nNUNCA publicaría: ..."></textarea></div>
+      <div class="fi"><div class="fi-label">¿Conocía el concepto de grooming? ¿Qué aprendí nuevo?</div><textarea class="fi-input" id="w6_q3" placeholder="Escribe aquí..."></textarea></div>
+      <div class="fi"><div class="fi-label">Mi reflexión personal</div><textarea class="fi-input refl-field" id="w6_refl" placeholder="¿Qué aprendí? ¿Qué me preocupa? ¿Qué cambia para mí?"></textarea></div>
+    </div>
+    <div class="save-row"><button class="btn-save" id="sv6" onclick="save(6)">Guardar semana 6</button></div>
+  </div>
+  <div class="btn-row"><button class="btn btn-outline" onclick="goWeek(5)">← S5</button><button class="btn btn-primary" id="bw6" onclick="complete(6)">Marcar como completada</button><button class="btn btn-outline" onclick="goWeek(7)">S7 →</button></div>
+</div>
+
+<!-- S7 -->
+<div class="view" id="view-w7">
+  <div class="ph-ey">Semana 7 · Fase 2 · Investigar</div>
+  <div class="ph-t">Diseño de mi campaña</div>
+  <div class="ph-d">Definir mensajes, formato y llamado a la acción antes de producir.</div>
+  <div class="theory-card">
+    <div class="tc-label">Concepto central</div>
+    <div class="tc-title">Un mensaje, una idea, una acción</div>
+    <div class="tc-body">Las campañas más efectivas comunican <strong>una sola idea con claridad</strong>. Antes de producir, define: ¿Qué quiero que mi audiencia recuerde? ¿Qué quiero que haga? El <strong>llamado a la acción</strong> debe ser pequeño, específico y posible hoy — "activa el 2FA esta tarde" es mejor que "cuídate en internet".</div>
+  </div>
+  <div class="bitacora-block">
+    <div class="bb-title">✏ Mi bitácora — Semana 7</div>
+    <div class="field-group">
+      <div class="fi"><div class="fi-label">El mensaje principal de nuestra campaña (en una oración)</div><input type="text" class="fi-input" id="w7_q1" placeholder="Nuestro mensaje central es..."></div>
+      <div class="fi"><div class="fi-label">Llamado a la acción concreto para nuestra audiencia</div><input type="text" class="fi-input" id="w7_q2" placeholder="Queremos que nuestra audiencia haga..."></div>
+      <div class="fi"><div class="fi-label">Estructura de nuestra campaña (pasos o secciones)</div><textarea class="fi-input" id="w7_q3" placeholder="1. ...\n2. ...\n3. ..."></textarea></div>
+      <div class="fi"><div class="fi-label">Retroalimentación recibida en el checkpoint</div><div class="fi-hint">¿Qué te dijo la profesora? ¿Qué ajustaste?</div><textarea class="fi-input" id="w7_q4" placeholder="La profesora sugirió..."></textarea></div>
+      <div class="fi"><div class="fi-label">Mi reflexión personal</div><textarea class="fi-input refl-field" id="w7_refl" placeholder="¿Cómo me siento con el proyecto hasta ahora?"></textarea></div>
+    </div>
+    <div class="save-row"><button class="btn-save" id="sv7" onclick="save(7)">Guardar semana 7</button></div>
+  </div>
+  <div class="btn-row"><button class="btn btn-outline" onclick="goWeek(6)">← S6</button><button class="btn btn-primary" id="bw7" onclick="complete(7)">Marcar como completada</button><button class="btn btn-outline" onclick="goWeek(8)">S8 →</button></div>
+</div>
+
+<!-- S8 -->
+<div class="view" id="view-w8">
+  <div class="ph-ey">Semana 8 · Fase 3 · Crear</div>
+  <div class="ph-t">Producción de materiales</div>
+  <div class="ph-d">Manos a la obra. Canva, Google Slides o video con celular.</div>
+  <div class="bitacora-block">
+    <div class="bb-title">✏ Mi bitácora — Semana 8</div>
+    <div class="field-group">
+      <div class="fi"><div class="fi-label">Herramienta que usé para crear mi material</div><input type="text" class="fi-input" id="w8_q1" placeholder="Usé..."></div>
+      <div class="fi"><div class="fi-label">¿Qué logré avanzar esta semana?</div><textarea class="fi-input" id="w8_q2" placeholder="Esta semana avancé en..."></textarea></div>
+      <div class="fi"><div class="fi-label">¿Qué dificultades encontré y cómo las resolví?</div><textarea class="fi-input" id="w8_q3" placeholder="Tuve dificultad con... La resolví..."></textarea></div>
+      <div class="fi"><div class="fi-label">Mi reflexión personal</div><textarea class="fi-input refl-field" id="w8_refl" placeholder="¿Qué aprendí sobre crear contenido digital?"></textarea></div>
+    </div>
+    <div class="save-row"><button class="btn-save" id="sv8" onclick="save(8)">Guardar semana 8</button></div>
+  </div>
+  <div class="btn-row"><button class="btn btn-outline" onclick="goWeek(7)">← S7</button><button class="btn btn-primary" id="bw8" onclick="complete(8)">Marcar como completada</button><button class="btn btn-outline" onclick="goWeek(9)">S9 →</button></div>
+</div>
+
+<!-- S9 -->
+<div class="view" id="view-w9">
+  <div class="ph-ey">Semana 9 · Fase 3 · Crear</div>
+  <div class="ph-t">Revisión por pares</div>
+  <div class="ph-d">Dar y recibir retroalimentación constructiva.</div>
+  <div class="theory-card">
+    <div class="tc-label">Habilidad de vida</div>
+    <div class="tc-title">La diferencia entre criticar y retroalimentar</div>
+    <div class="tc-body">"Esto está mal" vs "Podrías mejorar esto haciendo X" — la segunda forma es <strong>retroalimentación constructiva</strong>: señala qué mejorar Y cómo. Una buena retroalimentación menciona primero las fortalezas, luego una sugerencia específica de mejora.</div>
+  </div>
+  <div class="bitacora-block">
+    <div class="bb-title">✏ Mi bitácora — Semana 9</div>
+    <div class="field-group">
+      <div class="fi"><div class="fi-label">¿A qué grupo revisé y qué retroalimentación les di?</div><textarea class="fi-input" id="w9_q1" placeholder="Revisé al grupo... Les sugerí..."></textarea></div>
+      <div class="fi"><div class="fi-label">¿Qué retroalimentación recibí sobre mi trabajo?</div><textarea class="fi-input" id="w9_q2" placeholder="Me dijeron que..."></textarea></div>
+      <div class="fi"><div class="fi-label">¿Qué cambié en mi campaña gracias a esa retroalimentación?</div><textarea class="fi-input" id="w9_q3" placeholder="Decidí cambiar/mejorar..."></textarea></div>
+      <div class="fi"><div class="fi-label">Mi reflexión personal</div><textarea class="fi-input refl-field" id="w9_refl" placeholder="¿Cómo me sentí dando y recibiendo retroalimentación?"></textarea></div>
+    </div>
+    <div class="save-row"><button class="btn-save" id="sv9" onclick="save(9)">Guardar semana 9</button></div>
+  </div>
+  <div class="btn-row"><button class="btn btn-outline" onclick="goWeek(8)">← S8</button><button class="btn btn-primary" id="bw9" onclick="complete(9)">Marcar como completada</button><button class="btn btn-outline" onclick="goWeek(10)">S10 →</button></div>
+</div>
+
+<!-- S10 -->
+<div class="view" id="view-w10">
+  <div class="ph-ey">Semana 10 · Fase 3 · Crear</div>
+  <div class="ph-t">Simulacro de presentación</div>
+  <div class="ph-d">Práctica completa antes de la campaña real.</div>
+  <div class="bitacora-block">
+    <div class="bb-title">✏ Mi bitácora — Semana 10</div>
+    <div class="field-group">
+      <div class="fi"><div class="fi-label">¿Cómo me fue en el simulacro? ¿Qué funcionó bien?</div><textarea class="fi-input" id="w10_q1" placeholder="Lo que salió bien fue..."></textarea></div>
+      <div class="fi"><div class="fi-label">¿Qué mejoré antes de la presentación real?</div><textarea class="fi-input" id="w10_q2" placeholder="Decidí mejorar..."></textarea></div>
+      <div class="fi"><div class="fi-label">¿Cómo me siento antes de presentar ante la comunidad real?</div><textarea class="fi-input" id="w10_q3" placeholder="Me siento..."></textarea></div>
+      <div class="fi"><div class="fi-label">Mi reflexión personal</div><textarea class="fi-input refl-field" id="w10_refl" placeholder="¿Qué aprendí del proceso de preparación?"></textarea></div>
+    </div>
+    <div class="save-row"><button class="btn-save" id="sv10" onclick="save(10)">Guardar semana 10</button></div>
+  </div>
+  <div class="btn-row"><button class="btn btn-outline" onclick="goWeek(9)">← S9</button><button class="btn btn-primary" id="bw10" onclick="complete(10)">Marcar como completada</button><button class="btn btn-outline" onclick="goWeek(11)">S11 →</button></div>
+</div>
+
+<!-- S11 -->
+<div class="view" id="view-w11">
+  <div class="ph-ey">Semana 11 · Fase 4 · Impactar</div>
+  <div class="ph-t">Campaña en vivo</div>
+  <div class="ph-d">El momento cumbre del proyecto. Aprender haciendo algo que importa.</div>
+  <div class="bitacora-block">
+    <div class="bb-title">✏ Mi bitácora — Semana 11</div>
+    <div class="field-group">
+      <div class="fi"><div class="fi-label">¿Cómo fue la experiencia de presentar a una audiencia real?</div><textarea class="fi-input" id="w11_q1" placeholder="La experiencia fue..."></textarea></div>
+      <div class="fi"><div class="fi-label">¿Cómo reaccionó la audiencia? ¿Qué preguntas hicieron?</div><textarea class="fi-input" id="w11_q2" placeholder="La audiencia respondió..."></textarea></div>
+      <div class="fi"><div class="fi-label">¿Qué impacto creo que tuvo la campaña?</div><textarea class="fi-input" id="w11_q3" placeholder="Creo que el impacto fue..."></textarea></div>
+      <div class="fi"><div class="fi-label">Mi reflexión personal</div><textarea class="fi-input refl-field" id="w11_refl" placeholder="¿Cómo me sentí siendo una Guardiana Digital?"></textarea></div>
+    </div>
+    <div class="save-row"><button class="btn-save" id="sv11" onclick="save(11)">Guardar semana 11</button></div>
+  </div>
+  <div class="btn-row"><button class="btn btn-outline" onclick="goWeek(10)">← S10</button><button class="btn btn-primary" id="bw11" onclick="complete(11)">Marcar como completada</button><button class="btn btn-outline" onclick="goWeek(12)">S12 →</button></div>
+</div>
+
+<!-- S12 -->
+<div class="view" id="view-w12">
+  <div class="ph-ey">Semana 12 · Fase 4 · Impactar</div>
+  <div class="ph-t">Reflexión y cierre</div>
+  <div class="ph-d">Pensar sobre lo que aprendiste consolida el aprendizaje.</div>
+  <div class="bitacora-block">
+    <div class="bb-title">✏ Mi bitácora — Semana 12 · Cierre del curso</div>
+    <div class="field-group">
+      <div class="fi"><div class="fi-label">¿Qué sabía sobre seguridad digital antes del curso? ¿Qué sé ahora?</div><textarea class="fi-input" id="w12_q1" placeholder="Antes creía... Ahora sé..."></textarea></div>
+      <div class="fi"><div class="fi-label">¿Qué cambié en mis hábitos digitales durante estas 12 semanas?</div><textarea class="fi-input" id="w12_q2" placeholder="Los cambios concretos que hice fueron..."></textarea></div>
+      <div class="fi"><div class="fi-label">Lo más difícil del proyecto fue... y lo resolví así...</div><textarea class="fi-input" id="w12_q3" placeholder="Lo más difícil fue..."></textarea></div>
+      <div class="fi"><div class="fi-label">¿Qué le diría a una compañera que tomará este curso el año que viene?</div><textarea class="fi-input" id="w12_q4" placeholder="Le diría que..."></textarea></div>
+      <div class="fi"><div class="fi-label">Mi reflexión final del curso</div><textarea class="fi-input" style="min-height:120px" id="w12_refl" placeholder="Escribe tu reflexión más sincera sobre todo el proceso..."></textarea></div>
+    </div>
+    <div class="save-row"><button class="btn-save" id="sv12" onclick="save(12)">Guardar semana 12</button></div>
+  </div>
+  <div style="background:var(--teal-l);border:1px solid var(--teal);border-radius:var(--r);padding:22px 26px;margin-bottom:14px;text-align:center;">
+    <div style="font-family:var(--fh);font-size:18px;font-weight:800;color:var(--teal);margin-bottom:6px;">¡Felicitaciones, Guardiana Digital!</div>
+    <p style="font-size:13px;color:var(--ink2);">Completaste las 12 semanas. Tu bitácora está lista para exportar como evidencia de aprendizaje.</p>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="goWeek(11)">← S11</button>
+    <button class="btn btn-primary" id="bw12" onclick="complete(12)">Completar el curso</button>
+    <button class="btn btn-primary" style="background:var(--teal);" onclick="exportPDF()">Exportar PDF →</button>
+  </div>
+</div>
+
+<!-- ═══ PRINT AREA (hidden in screen, shown in print) ═══ -->
+<div id="print-area" style="display:none;"></div>
+
+</main>
+</div>
+
+<script>
+/* ── STATE ── */
+const S = {};  // all field values
+const done = new Set();
+let studentInfo = {};
+
+const phW = {1:[1,2,3],2:[4,5,6,7],3:[8,9,10],4:[11,12]};
+const wTitles = {
+  1:'Imagen digital',2:'Cómo funciona internet',3:'Amenazas digitales',
+  4:'Mi campaña',5:'Contraseñas',6:'Redes sociales',7:'Diseño de campaña',
+  8:'Producción',9:'Revisión por pares',10:'Simulacro',11:'Campaña en vivo',12:'Reflexión y cierre'
+};
+const wPhase = {1:'Fase 1 · Descubrir',2:'Fase 1 · Descubrir',3:'Fase 1 · Descubrir',
+  4:'Fase 2 · Investigar',5:'Fase 2 · Investigar',6:'Fase 2 · Investigar',7:'Fase 2 · Investigar',
+  8:'Fase 3 · Crear',9:'Fase 3 · Crear',10:'Fase 3 · Crear',
+  11:'Fase 4 · Impactar',12:'Fase 4 · Impactar'};
+const wColor = {1:'teal',2:'teal',3:'teal',4:'',5:'',6:'',7:'',8:'amber',9:'amber',10:'amber',11:'coral',12:'coral'};
+
+/* Field definitions per week */
+const FIELDS = {
+  1: [{id:'w1_q1',label:'¿Qué encontré cuando busqué mi nombre en internet?'},{id:'w1_q2',label:'Auditoría de mi huella activa'},{id:'w1_q3',label:'Una cosa que quiero cambiar o proteger'},{id:'w1_refl',label:'Mi reflexión personal'}],
+  2: [{id:'w2_q1',label:'Cómo funciona internet en mis palabras'},{id:'w2_q2',label:'Sitios sin HTTPS que revisé'},{id:'w2_q3',label:'Qué cambiaría en mi forma de navegar'},{id:'w2_refl',label:'Mi reflexión personal'}],
+  3: [{id:'w3_q1',label:'Experiencia con mensajes sospechosos'},{id:'w3_q2',label:'Mi semáforo personal de seguridad'},{id:'w3_q3',label:'Amenaza más relevante para mi comunidad'},{id:'w3_refl',label:'Mi reflexión personal'}],
+  4: [{id:'w4_grupo',label:'Nombre de mi grupo'},{id:'w4_integrantes',label:'Integrantes'},{id:'w4_q1',label:'Problema digital que abordaremos'},{id:'w4_q2',label:'Nuestra audiencia'},{id:'w4_formato',label:'Formato de la campaña'},{id:'w4_q3',label:'Nuestra pregunta de investigación'},{id:'w4_refl',label:'Mi reflexión personal'}],
+  5: [{id:'w5_q1',label:'Lo que descubrí sobre mis contraseñas'},{id:'w5_q2',label:'Mi frase-clave de ejemplo'},{id:'w5_q3',label:'¿Activé el 2FA?'},{id:'w5_q4',label:'Conexión con mi campaña'},{id:'w5_refl',label:'Mi reflexión personal'}],
+  6: [{id:'w6_q1',label:'Cambios en mi configuración de privacidad'},{id:'w6_q2',label:'Mi guía personal de qué publicar'},{id:'w6_q3',label:'Lo que aprendí sobre grooming'},{id:'w6_refl',label:'Mi reflexión personal'}],
+  7: [{id:'w7_q1',label:'Mensaje principal de nuestra campaña'},{id:'w7_q2',label:'Llamado a la acción'},{id:'w7_q3',label:'Estructura de la campaña'},{id:'w7_q4',label:'Retroalimentación del checkpoint'},{id:'w7_refl',label:'Mi reflexión personal'}],
+  8: [{id:'w8_q1',label:'Herramienta que usé'},{id:'w8_q2',label:'Lo que avancé esta semana'},{id:'w8_q3',label:'Dificultades y cómo las resolví'},{id:'w8_refl',label:'Mi reflexión personal'}],
+  9: [{id:'w9_q1',label:'Retroalimentación que di'},{id:'w9_q2',label:'Retroalimentación que recibí'},{id:'w9_q3',label:'Cambios que hice'},{id:'w9_refl',label:'Mi reflexión personal'}],
+  10:[{id:'w10_q1',label:'Cómo me fue en el simulacro'},{id:'w10_q2',label:'Lo que mejoré'},{id:'w10_q3',label:'Cómo me siento antes de la presentación real'},{id:'w10_refl',label:'Mi reflexión personal'}],
+  11:[{id:'w11_q1',label:'Experiencia de presentar ante audiencia real'},{id:'w11_q2',label:'Reacción de la audiencia'},{id:'w11_q3',label:'Impacto que creo que tuvo'},{id:'w11_refl',label:'Mi reflexión personal'}],
+  12:[{id:'w12_q1',label:'Antes vs ahora: qué sé sobre seguridad digital'},{id:'w12_q2',label:'Cambios concretos en mis hábitos'},{id:'w12_q3',label:'Lo más difícil y cómo lo resolví'},{id:'w12_q4',label:'Consejo para futuras estudiantes'},{id:'w12_refl',label:'Mi reflexión final del curso'}]
+};
+
+/* Quiz answers */
+const quizAnswers = {};
+
+/* ── NAVIGATION ── */
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  const v = document.getElementById('view-' + id);
+  if (v) v.classList.add('active');
+  document.querySelector('.main').scrollTo(0, 0);
+}
+
+function goWeek(n) {
+  showView('w' + n);
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  const nw = document.getElementById('nw' + n);
+  if (nw) nw.classList.add('active');
+}
+
+/* ── SETUP ── */
+function startJournal() {
+  const name  = document.getElementById('st-name').value.trim();
+  const grade = document.getElementById('st-grade').value.trim();
+  const school= document.getElementById('st-school').value.trim();
+  const year  = document.getElementById('st-year').value.trim();
+  if (!name) { alert('Por favor escribe tu nombre.'); return; }
+  studentInfo = { name, grade, school, year };
+  document.getElementById('sb-name-display').textContent = name;
+  localStorage.setItem('gd_student', JSON.stringify(studentInfo));
+  goWeek(1);
+}
+
+/* ── ACCORDION ── */
+function toggleAcc(head) {
+  const item = head.parentElement;
+  const body = item.querySelector('.acc-body');
+  const isOpen = item.classList.contains('open');
+  // close all in same parent
+  head.closest('[id^="acc-"]').querySelectorAll('.acc-item').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.acc-body').classList.remove('vis');
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    body.classList.add('vis');
+  }
+}
+
+/* ── QUIZ ── */
+function quiz(el, id, correct) {
+  const c = el.closest('.quiz-block');
+  c.querySelectorAll('.qo').forEach(o => { o.onclick = null; o.style.pointerEvents = 'none'; });
+  el.classList.add(correct ? 'ok' : 'fail');
+  if (!correct) c.querySelectorAll('.qo').forEach(o => { if (o._c) o.classList.add('ok'); });
+  el._c = correct;
+  const fb = document.getElementById(id);
+  if (fb) {
+    fb.classList.add('show', correct ? 'ok' : 'fail');
+    fb.textContent = correct ? '¡Correcto! Excelente comprensión del concepto.' : 'Casi — la respuesta correcta está en verde. ¡Sigue aprendiendo!';
+  }
+  quizAnswers[id] = { question: c.querySelector('.qz-q').textContent, answer: el.textContent.trim(), correct };
+  localStorage.setItem('gd_quiz', JSON.stringify(quizAnswers));
+}
+document.querySelectorAll('.qo').forEach(o => {
+  const oc = o.getAttribute('onclick') || '';
+  if (oc.includes(',true)')) o._c = true;
+});
+
+/* ── SAVE FIELDS ── */
+function save(w) {
+  const prefix = 'gd_w' + w + '_';
+  FIELDS[w].forEach(f => {
+    const el = document.getElementById(f.id);
+    if (el) {
+      S[f.id] = el.value;
+      localStorage.setItem(prefix + f.id, el.value);
+    }
+  });
+  const btn = document.getElementById('sv' + w);
+  if (btn) {
+    btn.textContent = '✓ Guardado';
+    btn.classList.add('saved');
+    setTimeout(() => { btn.textContent = 'Guardar semana ' + w; btn.classList.remove('saved'); }, 2200);
+  }
+}
+
+/* ── COMPLETE ── */
+function complete(n) {
+  save(n);
+  done.add(n);
+  syncUI();
+  const b = document.getElementById('bw' + n);
+  if (b) { b.textContent = '✓ Completada'; b.classList.add('done'); }
+  localStorage.setItem('gd_done', JSON.stringify([...done]));
+}
+
+/* ── SYNC UI ── */
+function syncUI() {
+  for (let w = 1; w <= 12; w++) {
+    const isDone = done.has(w);
+    const nck = document.getElementById('nck' + w);
+    if (nck) nck.classList.toggle('done', isDone);
+    const b = document.getElementById('bw' + w);
+    if (b && isDone) { b.textContent = '✓ Completada'; b.classList.add('done'); }
+  }
+  const total = done.size;
+  const pct = Math.round((total / 12) * 100);
+  document.getElementById('sp-num').textContent = total + ' / 12';
+  document.getElementById('sp-bar').style.width = pct + '%';
+  document.getElementById('sp-pct').textContent = pct + '%';
+  document.getElementById('sp-left').textContent = (12 - total) + ' pendientes';
+}
+
+/* ── LOAD ── */
+function loadAll() {
+  const si = localStorage.getItem('gd_student');
+  if (si) {
+    studentInfo = JSON.parse(si);
+    document.getElementById('sb-name-display').textContent = studentInfo.name || '—';
+    ['st-name','st-grade','st-school','st-year'].forEach(id => {
+      const key = id.replace('st-','');
+      const el = document.getElementById(id);
+      if (el && studentInfo[key]) el.value = studentInfo[key];
+    });
+  }
+  for (let w = 1; w <= 12; w++) {
+    if (!FIELDS[w]) continue;
+    const prefix = 'gd_w' + w + '_';
+    FIELDS[w].forEach(f => {
+      const el = document.getElementById(f.id);
+      const v = localStorage.getItem(prefix + f.id);
+      if (el && v) { el.value = v; S[f.id] = v; }
+    });
+  }
+  const savedDone = localStorage.getItem('gd_done');
+  if (savedDone) { JSON.parse(savedDone).forEach(n => done.add(Number(n))); syncUI(); }
+  const savedQuiz = localStorage.getItem('gd_quiz');
+  if (savedQuiz) { Object.assign(quizAnswers, JSON.parse(savedQuiz)); }
+}
+
+/* ── PDF EXPORT ── */
+function exportPDF() {
+  buildPrintArea();
+  setTimeout(() => window.print(), 300);
+}
+
+function buildPrintArea() {
+  const pa = document.getElementById('print-area');
+  const si = studentInfo;
+  const today = new Date().toLocaleDateString('es-CO', {year:'numeric',month:'long',day:'numeric'});
+
+  let html = `
+  <div class="pdf-cover">
+    <div class="pdf-cover-badge">Bitácora de Aprendizaje</div>
+    <div class="pdf-cover-title">Guardianas Digitales</div>
+    <div class="pdf-cover-sub">Imagen, Redes y Seguridad Digital · Grado 8</div>
+    <div class="pdf-student-box">
+      <div class="pdf-student-cell"><div class="pdf-cell-label">Estudiante</div><div class="pdf-cell-val">${si.name||'—'}</div></div>
+      <div class="pdf-student-cell"><div class="pdf-cell-label">Curso</div><div class="pdf-cell-val">${si.grade||'—'}</div></div>
+      <div class="pdf-student-cell"><div class="pdf-cell-label">Año</div><div class="pdf-cell-val">${si.year||'—'}</div></div>
+    </div>
+    ${si.school ? `<div style="font-size:12px;color:#6b6b8a;margin-top:10px;font-family:'Lora',serif;">${si.school}</div>` : ''}
+    <div style="font-size:11px;color:#b8b4a8;margin-top:6px;font-family:'Syne',sans-serif;">Generado el ${today}</div>
+  </div>
+  <div class="pdf-footer">Guardianas Digitales · Bitácora de aprendizaje · ${si.name||''} · ${si.school||''}</div>
+  `;
+
+  const phaseColors = {1:'teal',2:'',3:'amber',4:'coral'};
+  const phaseNames = {1:'Fase 1 · Descubrir',2:'Fase 2 · Investigar',3:'Fase 3 · Crear',4:'Fase 4 · Impactar'};
+
+  let currentPhase = 0;
+
+  for (let w = 1; w <= 12; w++) {
+    // Phase separator
+    let ph = Object.keys(phW).find(p => phW[p].includes(w));
+    ph = Number(ph);
+    if (ph !== currentPhase) {
+      if (w > 1) html += '<hr class="pdf-divider">';
+      html += `<div class="pdf-page-break" style="margin-bottom:8px"></div>`;
+      html += `<div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#6b6b8a;margin-bottom:16px;padding-bottom:6px;border-bottom:1px solid #e8e4da;">${phaseNames[ph]}</div>`;
+      currentPhase = ph;
+    }
+
+    html += `
+    <div class="pdf-week-header ${wColor[w]}">
+      <div class="pdf-wh-phase">Semana ${w} · ${wPhase[w]}</div>
+      <div class="pdf-wh-title">${wTitles[w]}</div>
+    </div>
+    `;
+
+    if (FIELDS[w]) {
+      FIELDS[w].forEach(f => {
+        const val = (S[f.id] || localStorage.getItem('gd_w'+w+'_'+f.id) || '').trim();
+        html += `
+        <div class="pdf-field">
+          <div class="pdf-field-label">${f.label}</div>
+          ${val ? `<div class="pdf-field-value">${escHtml(val)}</div>` : `<div class="pdf-field-empty">Sin respuesta</div>`}
+        </div>`;
+      });
+    }
+
+    // Quiz result if available
+    const qKey = 'qr' + w;
+    if (quizAnswers[qKey]) {
+      const q = quizAnswers[qKey];
+      html += `
+      <div class="pdf-quiz-result">
+        <div class="pdf-quiz-label">Verificación de aprendizaje — ${q.correct ? '✓ Correcta' : '✗ Incorrecta'}</div>
+        <div>${escHtml(q.question)}</div>
+        <div style="margin-top:4px;font-weight:500;">Respuesta elegida: ${escHtml(q.answer)}</div>
+      </div>`;
+    }
+
+    if (done.has(w)) {
+      html += `<div style="font-size:10px;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:.5px;color:#166534;margin-bottom:14px;">✓ Semana completada</div>`;
+    }
+  }
+
+  pa.innerHTML = html;
+  pa.style.display = 'block';
+}
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+loadAll();
+</script>
+</body>
+</html>
