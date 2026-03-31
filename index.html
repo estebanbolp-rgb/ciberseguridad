@@ -3,376 +3,423 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bitácora Digital — Guardianas Digitales</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>CiberAgencia — Guardianas Digitales</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ════════════════════════════════════════
-   SCREEN STYLES
-   ════════════════════════════════════════ */
 :root {
-  --ink:#1a1a2e; --ink2:#3d3d5c; --ink3:#6b6b8a;
-  --cream:#faf8f4; --cream2:#f2efe8; --cream3:#e8e4da;
-  --accent:#4f46e5; --accent-l:#ede9fe;
-  --teal:#0f766e; --teal-l:#ccfbf1;
-  --coral:#be185d; --coral-l:#fce7f3;
-  --amber:#b45309; --amber-l:#fef3c7;
-  --green:#166534; --green-l:#dcfce7;
-  --border:#d4d0c8; --border2:#c5c0b5;
-  --r:10px; --rs:6px;
-  --fh:'Syne',sans-serif;
-  --fb:'Lora',serif;
-  --fm:'DM Mono',monospace;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--cream);color:var(--ink);font-family:var(--fb);font-size:15px;line-height:1.7;}
+  --bg: #f5f2ec;
+  --ink: #0f0f0f;
+  --ink2: #3a3a3a;
+  --ink3: #888;
+  --white: #ffffff;
+  --card: #ffffff;
+  --border: #e2ddd6;
+  --border2: #ccc8c0;
 
-/* ── APP SHELL ── */
-.app{display:flex;min-height:100vh;}
+  --neon: #c8f73a;       /* lime accent */
+  --neon2: #a8e620;
+  --electric: #0a0a0a;
+  --magenta: #e91e8c;
+  --cyan: #00c9d4;
+  --orange: #ff6b2b;
+  --purple: #7c3aed;
+
+  /* Phase colors */
+  --p1: #0a0a0a;
+  --p2: #e91e8c;
+  --p3: #00c9d4;
+  --p4: #ff6b2b;
+  --p5: #7c3aed;
+
+  --fh: 'Bebas Neue', sans-serif;
+  --fb: 'Outfit', sans-serif;
+  --fm: 'DM Mono', monospace;
+  --r: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--fb);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ── NOISE TEXTURE overlay ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+
+/* ── LAYOUT ── */
+.app { display: flex; min-height: 100vh; position: relative; z-index: 1; }
 
 /* ── SIDEBAR ── */
-.sidebar{
-  width:250px;min-height:100vh;background:#1a1a2e;
-  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0;
+.sidebar {
+  width: 272px; flex-shrink: 0;
+  background: var(--ink);
+  min-height: 100vh;
+  position: sticky; top: 0; height: 100vh;
+  overflow-y: auto;
+  display: flex; flex-direction: column;
 }
-.sb-head{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08);}
-.sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
-.sb-icon{width:32px;height:32px;background:linear-gradient(135deg,#4f46e5,#0f766e);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
-.sb-name{font-family:var(--fh);font-size:14px;font-weight:800;color:#fff;letter-spacing:-.2px;}
-.sb-sub{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.8px;text-transform:uppercase;}
-.sb-student-area{padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.08);}
-.sb-student-lbl{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px;}
-.sb-student-val{font-family:var(--fh);font-size:13px;color:#fff;font-weight:700;min-height:18px;}
-.sb-sec{padding:12px 10px 4px;}
-.sb-lbl{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.25);padding:0 10px;margin-bottom:4px;}
-.ni{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;cursor:pointer;transition:all .14s;font-size:12px;color:rgba(255,255,255,.45);user-select:none;position:relative;}
-.ni:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);}
-.ni.active{background:rgba(79,70,229,.25);color:#fff;}
-.ni.active::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:2px;border-radius:2px;background:#4f46e5;}
-.ni-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.ni-ck{margin-left:auto;width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:7px;transition:all .2s;}
-.ni-ck.done{background:#22c55e;border-color:#22c55e;color:#0a0e1a;}
-.sb-bottom{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:16px 20px;}
-.sb-prog{background:rgba(255,255,255,.05);border-radius:8px;padding:12px;border:1px solid rgba(255,255,255,.07);margin-bottom:12px;}
-.sp-lbl{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.5px;margin-bottom:4px;}
-.sp-num{font-family:var(--fh);font-size:20px;font-weight:800;color:#fff;}
-.sp-bar-o{background:rgba(255,255,255,.08);border-radius:99px;height:4px;margin:5px 0;}
-.sp-bar-i{height:4px;border-radius:99px;background:linear-gradient(90deg,#4f46e5,#0f766e);transition:width .5s;}
-.sp-row{font-size:10px;color:rgba(255,255,255,.3);display:flex;justify-content:space-between;}
-.btn-export{width:100%;padding:9px;background:linear-gradient(135deg,#4f46e5,#0f766e);border:none;border-radius:7px;color:#fff;font-family:var(--fh);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;}
-.btn-export:hover{opacity:.88;}
+.sb-top {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.sb-agency {
+  display: inline-block;
+  background: var(--neon);
+  color: var(--ink);
+  font-family: var(--fh);
+  font-size: 22px;
+  letter-spacing: 1px;
+  padding: 4px 10px 2px;
+  margin-bottom: 6px;
+}
+.sb-tagline {
+  font-size: 10px;
+  color: rgba(255,255,255,.35);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.sb-team-area {
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.sb-team-lbl { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.25); margin-bottom: 3px; }
+.sb-team-val { font-family: var(--fh); font-size: 16px; color: var(--neon); letter-spacing: .5px; min-height: 20px; }
+
+/* NAV */
+.sb-nav { padding: 16px 14px; flex: 1; }
+.sb-sec-lbl {
+  font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase;
+  color: rgba(255,255,255,.2); padding: 0 10px; margin: 10px 0 4px;
+}
+.ni {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: 8px;
+  cursor: pointer; transition: all .15s;
+  font-size: 13px; color: rgba(255,255,255,.45);
+  user-select: none; position: relative;
+  margin-bottom: 1px;
+}
+.ni:hover { background: rgba(255,255,255,.06); color: rgba(255,255,255,.8); }
+.ni.active { background: rgba(200,247,58,.12); color: var(--neon); }
+.ni.active::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 2px; border-radius: 2px; background: var(--neon); }
+.ni-phase {
+  width: 20px; height: 20px; border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; flex-shrink: 0;
+  font-family: var(--fm);
+}
+.ni-check { margin-left: auto; font-size: 10px; opacity: 0; transition: opacity .2s; }
+.ni-check.show { opacity: 1; color: var(--neon); }
+
+/* PROGRESS in sidebar */
+.sb-progress {
+  padding: 16px 24px 20px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.sp-label { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.25); margin-bottom: 6px; }
+.sp-track { background: rgba(255,255,255,.08); border-radius: 99px; height: 4px; margin-bottom: 8px; }
+.sp-fill { height: 4px; border-radius: 99px; background: var(--neon); transition: width .5s ease; }
+.sp-steps {
+  display: flex; justify-content: space-between;
+  font-size: 10px; color: rgba(255,255,255,.3);
+}
+.sp-steps span:first-child { font-family: var(--fh); font-size: 16px; color: #fff; }
 
 /* ── MAIN ── */
-.main{flex:1;overflow-y:auto;}
-.view{display:none;padding:44px 52px;max-width:820px;}
-.view.active{display:block;}
+.main { flex: 1; overflow-y: auto; }
+.view { display: none; padding: 48px 52px; max-width: 900px; }
+.view.active { display: block; }
 
-/* ── WELCOME / SETUP ── */
-.welcome-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:36px;margin-bottom:20px;text-align:center;}
-.welcome-title{font-family:var(--fh);font-size:30px;font-weight:800;letter-spacing:-1px;margin-bottom:8px;color:var(--ink);}
-.welcome-sub{font-size:14px;color:var(--ink3);margin-bottom:28px;font-style:italic;}
-.setup-form{text-align:left;max-width:420px;margin:0 auto;}
-.sf-label{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3);margin-bottom:5px;display:block;}
-.sf-input{width:100%;background:var(--cream2);border:1px solid var(--border2);border-radius:var(--rs);padding:10px 14px;font-size:14px;font-family:var(--fb);color:var(--ink);transition:border-color .15s;}
-.sf-input:focus{outline:none;border-color:var(--accent);}
-.sf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
-.sf-item{display:flex;flex-direction:column;gap:5px;}
-.btn-start{width:100%;margin-top:6px;padding:12px;background:var(--accent);border:none;border-radius:var(--rs);color:#fff;font-family:var(--fh);font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:all .15s;}
-.btn-start:hover{background:#4338ca;}
+/* ── HERO HEADER ── */
+.view-hero {
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+}
+.vh-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--fm); font-size: 11px;
+  color: var(--ink3); margin-bottom: 12px;
+  letter-spacing: .5px;
+}
+.vh-tag-dot { width: 6px; height: 6px; border-radius: 50%; }
+.vh-title {
+  font-family: var(--fh);
+  font-size: 64px; line-height: .95;
+  letter-spacing: 1px;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+.vh-title span { color: var(--neon); background: var(--ink); padding: 0 8px; }
+.vh-desc { font-size: 15px; color: var(--ink2); max-width: 560px; line-height: 1.7; }
 
-/* ── PAGE HEADER ── */
-.ph-ey{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);margin-bottom:6px;font-family:var(--fh);}
-.ph-t{font-family:var(--fh);font-size:30px;font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:10px;color:var(--ink);}
-.ph-d{font-size:14px;color:var(--ink3);line-height:1.7;margin-bottom:28px;font-style:italic;}
+/* ── PHASE BADGE ── */
+.phase-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--fm); font-size: 10px; font-weight: 500;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 99px;
+  margin-bottom: 14px;
+}
 
-/* ── THEORY CARD ── */
-.theory-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px 28px;margin-bottom:14px;border-top:3px solid var(--accent);}
-.theory-card.teal{border-top-color:var(--teal);}
-.theory-card.coral{border-top-color:var(--coral);}
-.theory-card.amber{border-top-color:var(--amber);}
-.tc-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;font-family:var(--fh);}
-.tc-title{font-family:var(--fh);font-size:17px;font-weight:800;color:var(--ink);margin-bottom:8px;letter-spacing:-.3px;}
-.tc-body{font-size:13px;color:var(--ink2);line-height:1.7;}
-.tc-body strong{color:var(--ink);font-weight:600;}
+/* ── CARDS ── */
+.card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px 28px;
+  margin-bottom: 16px;
+  transition: border-color .15s;
+}
+.card:hover { border-color: var(--border2); }
+.card-title {
+  font-family: var(--fh); font-size: 18px; letter-spacing: .5px;
+  color: var(--ink); margin-bottom: 8px;
+}
+.card-body { font-size: 14px; color: var(--ink2); line-height: 1.7; }
 
-/* ── CONCEPT ACCORDION ── */
-.acc-item{border:1px solid var(--border);border-radius:var(--rs);margin-bottom:6px;overflow:hidden;background:#fff;}
-.acc-head{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;cursor:pointer;user-select:none;transition:background .14s;}
-.acc-head:hover{background:var(--cream2);}
-.acc-head-txt{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--ink);}
-.acc-arrow{font-size:11px;color:var(--ink3);transition:transform .18s;}
-.acc-item.open .acc-arrow{transform:rotate(180deg);}
-.acc-body{display:none;padding:0 16px 14px;font-size:13px;color:var(--ink2);line-height:1.7;border-top:1px solid var(--border);}
-.acc-body.vis{display:block;}
-.acc-body strong{color:var(--ink);font-weight:600;}
-.acc-body em{color:var(--coral);}
+/* ── THEORY PILL (expandable) ── */
+.theory-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--ink); color: var(--neon);
+  font-family: var(--fm); font-size: 11px;
+  padding: 5px 12px; border-radius: 99px;
+  cursor: pointer; transition: all .15s;
+  user-select: none; margin: 3px 3px 3px 0;
+}
+.theory-pill:hover { background: #222; }
+.theory-pill.open { background: var(--neon); color: var(--ink); }
+.theory-panel {
+  background: var(--ink); color: rgba(255,255,255,.8);
+  border-radius: var(--r); padding: 20px 22px;
+  margin-top: 10px; font-size: 13px; line-height: 1.75;
+  display: none;
+  animation: slideDown .18s ease;
+}
+.theory-panel.vis { display: block; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+.theory-panel strong { color: var(--neon); font-weight: 600; }
+.theory-panel em { color: var(--cyan); font-style: normal; }
+
+/* ── PROJECT FORM FIELDS ── */
+.proj-section {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.ps-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 22px;
+  border-bottom: 1.5px solid var(--border);
+  background: var(--ink);
+}
+.ps-num {
+  width: 28px; height: 28px; border-radius: 6px;
+  background: var(--neon); color: var(--ink);
+  font-family: var(--fh); font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ps-title { font-family: var(--fh); font-size: 16px; letter-spacing: .3px; color: #fff; }
+.ps-body { padding: 20px 22px; }
+
+/* Fields */
+.field { margin-bottom: 16px; }
+.field:last-child { margin-bottom: 0; }
+.field-label {
+  font-size: 11px; letter-spacing: .8px; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 6px; display: block;
+  font-weight: 600;
+}
+.field-hint { font-size: 12px; color: var(--ink3); font-style: italic; margin-bottom: 6px; }
+.field-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px; font-family: var(--fb);
+  color: var(--ink);
+  transition: border-color .15s;
+  resize: vertical;
+}
+.field-input:focus { outline: none; border-color: var(--ink); background: #fff; }
+.field-input::placeholder { color: #bbb; }
+textarea.field-input { min-height: 80px; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field-grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+/* Color picker group */
+.color-group { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.color-swatch {
+  width: 36px; height: 36px; border-radius: 8px;
+  border: 2px solid transparent; cursor: pointer;
+  transition: all .15s;
+}
+.color-swatch.selected { border-color: var(--ink); transform: scale(1.15); }
+.color-custom { border: 1.5px solid var(--border); border-radius: 8px; padding: 4px 10px; font-size: 12px; font-family: var(--fm); width: 100px; }
+
+/* ── THEORY SIDEBAR PANEL ── */
+.theory-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+
+/* ── SAVE / COMPLETE ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 11px 22px; border-radius: 8px;
+  font-family: var(--fb); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .15s; border: none;
+  letter-spacing: .2px;
+}
+.btn-black { background: var(--ink); color: #fff; }
+.btn-black:hover { background: #222; }
+.btn-neon { background: var(--neon); color: var(--ink); }
+.btn-neon:hover { background: var(--neon2); }
+.btn-outline { background: transparent; border: 1.5px solid var(--border2); color: var(--ink2); }
+.btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+.btn-done { background: #166534; color: #fff; }
+.btn-row { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; align-items: center; }
 
 /* ── HIGHLIGHT BOXES ── */
-.hl{border-radius:var(--rs);padding:12px 16px;font-size:13px;line-height:1.65;margin:10px 0;}
-.hl.info{background:var(--accent-l);border-left:3px solid var(--accent);color:var(--ink2);}
-.hl.tip{background:var(--amber-l);border-left:3px solid var(--amber);color:var(--ink2);}
-.hl.warn{background:var(--coral-l);border-left:3px solid var(--coral);color:var(--ink2);}
-.hl.teal{background:var(--teal-l);border-left:3px solid var(--teal);color:var(--ink2);}
-.hl strong{color:var(--ink);font-weight:600;}
+.hl {
+  border-radius: 8px; padding: 13px 16px;
+  font-size: 13px; line-height: 1.65; margin: 12px 0;
+}
+.hl-tip { background: #fef9e7; border-left: 3px solid #f59e0b; color: var(--ink2); }
+.hl-info { background: #eff6ff; border-left: 3px solid #3b82f6; color: var(--ink2); }
+.hl-warn { background: #fff1f2; border-left: 3px solid #e91e8c; color: var(--ink2); }
+.hl strong { color: var(--ink); }
 
-/* ── BITACORA FIELDS ── */
-.bitacora-block{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px 28px;margin-bottom:14px;}
-.bb-title{font-family:var(--fh);font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:8px;}
-.bb-sub{font-size:12px;color:var(--ink3);font-style:italic;margin-bottom:18px;}
-.field-group{display:flex;flex-direction:column;gap:14px;}
-.fi{display:flex;flex-direction:column;gap:5px;}
-.fi-label{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--ink3);font-weight:600;font-family:var(--fh);}
-.fi-hint{font-size:11px;color:var(--ink3);font-style:italic;margin-bottom:2px;}
-.fi-input{background:var(--cream2);border:1px solid var(--border2);border-radius:var(--rs);padding:10px 14px;font-size:13px;font-family:var(--fb);color:var(--ink);resize:vertical;min-height:44px;line-height:1.6;transition:border-color .15s;width:100%;}
-.fi-input:focus{outline:none;border-color:var(--accent);background:#fff;}
-.fi-input::placeholder{color:#b8b4a8;font-style:italic;}
-textarea.fi-input{min-height:80px;}
-.fi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.save-row{display:flex;align-items:center;gap:10px;margin-top:6px;}
-.btn-save{padding:8px 18px;background:var(--cream2);border:1px solid var(--border2);border-radius:var(--rs);font-size:12px;font-family:var(--fh);font-weight:700;color:var(--ink3);cursor:pointer;transition:all .15s;letter-spacing:.3px;}
-.btn-save:hover{border-color:var(--accent);color:var(--accent);}
-.btn-save.saved{border-color:var(--green);color:var(--green);}
-.save-note{font-size:11px;color:var(--ink3);font-style:italic;}
+/* ── CHECKLIST ── */
+.cl { list-style: none; }
+.cl li {
+  display: flex; gap: 9px; align-items: flex-start;
+  padding: 7px 0; font-size: 13px; color: var(--ink2);
+  border-bottom: 1px solid var(--border); line-height: 1.5;
+}
+.cl li:last-child { border-bottom: none; }
+.cl li::before { content: '→'; color: var(--ink); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+/* ── PITCH CANVAS ── */
+.pitch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pitch-cell {
+  background: var(--bg);
+  border: 1.5px dashed var(--border2);
+  border-radius: 8px; padding: 16px;
+  min-height: 90px;
+}
+.pitch-cell-label {
+  font-family: var(--fm); font-size: 10px;
+  letter-spacing: .8px; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 8px;
+}
+
+/* ── PHASE STRIP (dashboard) ── */
+.phase-strip {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-bottom: 28px;
+}
+.ps-item {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: var(--r); padding: 14px 18px;
+  cursor: pointer; transition: all .15s;
+  position: relative; overflow: hidden;
+}
+.ps-item::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px;
+}
+.ps-item.ph1::before { background: var(--p1); }
+.ps-item.ph2::before { background: var(--p2); }
+.ps-item.ph3::before { background: var(--p3); }
+.ps-item.ph4::before { background: var(--p4); }
+.ps-item.ph5::before { background: var(--p5); }
+.ps-item:hover { border-color: var(--border2); transform: translateX(2px); }
+.psi-num {
+  font-family: var(--fh); font-size: 28px; color: var(--ink3);
+  width: 36px; flex-shrink: 0; line-height: 1;
+}
+.psi-info { flex: 1; }
+.psi-title { font-family: var(--fh); font-size: 15px; letter-spacing: .3px; }
+.psi-sub { font-size: 12px; color: var(--ink3); }
+.psi-bar-wrap { width: 80px; flex-shrink: 0; }
+.psi-bar-o { background: var(--border); border-radius: 99px; height: 4px; margin-bottom: 3px; }
+.psi-bar-i { height: 4px; border-radius: 99px; transition: width .5s; }
+.ph1 .psi-bar-i { background: var(--p1); }
+.ph2 .psi-bar-i { background: var(--p2); }
+.ph3 .psi-bar-i { background: var(--p3); }
+.ph4 .psi-bar-i { background: var(--p4); }
+.ph5 .psi-bar-i { background: var(--p5); }
+.psi-pct { font-family: var(--fm); font-size: 10px; color: var(--ink3); text-align: right; }
+.psi-done { margin-left: 8px; font-size: 14px; opacity: 0; transition: opacity .2s; }
+.psi-done.show { opacity: 1; }
+
+/* ── BRAND PREVIEW ── */
+.brand-preview {
+  background: var(--ink); border-radius: var(--r);
+  padding: 28px; margin-top: 8px;
+  min-height: 160px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 10px; transition: all .3s;
+}
+.bp-name {
+  font-family: var(--fh);
+  font-size: 42px; letter-spacing: 2px;
+  transition: color .3s;
+  text-align: center; line-height: 1;
+}
+.bp-slogan {
+  font-size: 13px; color: rgba(255,255,255,.5);
+  text-align: center; max-width: 320px;
+  font-style: italic; transition: color .3s;
+}
+.bp-tag {
+  font-family: var(--fm); font-size: 10px;
+  padding: 3px 10px; border-radius: 99px;
+  letter-spacing: .8px; text-transform: uppercase;
+  transition: all .3s;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
 
 /* ── QUIZ ── */
-.quiz-block{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px 28px;margin-bottom:14px;}
-.qz-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;font-family:var(--fh);}
-.qz-q{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:14px;line-height:1.5;font-family:var(--fh);}
-.qz-opts{display:flex;flex-direction:column;gap:7px;}
-.qo{background:var(--cream2);border:1px solid var(--border);border-radius:var(--rs);padding:10px 14px;cursor:pointer;transition:all .14s;font-size:13px;color:var(--ink2);}
-.qo:hover{border-color:var(--border2);background:#fff;}
-.qo.ok{border-color:var(--teal);background:var(--teal-l);color:var(--teal);}
-.qo.fail{border-color:var(--coral);background:var(--coral-l);color:var(--coral);}
-.qfb{margin-top:10px;padding:9px 13px;border-radius:var(--rs);font-size:12px;display:none;font-style:italic;}
-.qfb.show{display:block;}
-.qfb.ok{background:var(--teal-l);color:var(--teal);border-left:3px solid var(--teal);}
-.qfb.fail{background:var(--coral-l);color:var(--coral);border-left:3px solid var(--coral);}
+.quiz-wrap { background: var(--bg); border-radius: 8px; padding: 16px 18px; margin-top: 10px; }
+.quiz-q { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 12px; line-height: 1.5; }
+.quiz-opts { display: flex; flex-direction: column; gap: 6px; }
+.qo {
+  background: #fff; border: 1.5px solid var(--border);
+  border-radius: 7px; padding: 9px 14px;
+  cursor: pointer; font-size: 13px; color: var(--ink2);
+  transition: all .14s;
+}
+.qo:hover { border-color: var(--border2); }
+.qo.ok { border-color: #166534; background: #f0fdf4; color: #166534; }
+.qo.fail { border-color: var(--magenta); background: #fff1f5; color: var(--magenta); }
+.qfb { font-size: 12px; margin-top: 8px; padding: 8px 12px; border-radius: 6px; display: none; font-style: italic; }
+.qfb.show { display: block; }
+.qfb.ok { background: #f0fdf4; color: #166534; }
+.qfb.fail { background: #fff1f5; color: var(--magenta); }
 
-/* ── REFLECCION (last field) ── */
-.refl-field{min-height:100px !important;}
-
-/* ── NAV BUTTONS ── */
-.btn-row{display:flex;gap:9px;margin-top:28px;align-items:center;flex-wrap:wrap;}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:var(--rs);font-size:12px;font-weight:700;cursor:pointer;transition:all .14s;font-family:var(--fh);letter-spacing:.3px;}
-.btn-outline{border:1px solid var(--border2);background:#fff;color:var(--ink3);}
-.btn-outline:hover{color:var(--ink);border-color:var(--accent);}
-.btn-primary{background:var(--accent);border:none;color:#fff;}
-.btn-primary:hover{background:#4338ca;}
-.btn-primary.done{background:#166534;}
-
-/* ── PHASE DIVIDERS ── */
-.phase-div{display:flex;align-items:center;gap:12px;margin:28px 0 14px;}
-.phase-div-line{flex:1;height:1px;background:var(--border);}
-.phase-div-label{font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:99px;white-space:nowrap;}
-
-/* ── DASHBOARD ── */
-.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
-.dash-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden;}
-.dash-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.dash-card.p1::before{background:var(--teal);}
-.dash-card.p2::before{background:var(--accent);}
-.dash-card.p3::before{background:var(--amber);}
-.dash-card.p4::before{background:var(--coral);}
-.dash-card:hover{border-color:var(--border2);transform:translateY(-1px);}
-.dc-phase{font-family:var(--fh);font-size:11px;font-weight:700;letter-spacing:.3px;margin-bottom:3px;}
-.dc-weeks{font-size:11px;color:var(--ink3);margin-bottom:10px;}
-.dc-bar-o{background:var(--cream3);border-radius:99px;height:3px;margin-bottom:6px;}
-.dc-bar-i{height:3px;border-radius:99px;transition:width .5s;}
-.p1 .dc-bar-i{background:var(--teal);}
-.p2 .dc-bar-i{background:var(--accent);}
-.p3 .dc-bar-i{background:var(--amber);}
-.p4 .dc-bar-i{background:var(--coral);}
-.dc-stat{font-size:11px;color:var(--ink3);display:flex;justify-content:space-between;}
-
-/* CHECKLIST */
-.cl{list-style:none;}
-.cl li{display:flex;gap:8px;align-items:flex-start;padding:6px 0;font-size:13px;color:var(--ink2);border-bottom:1px solid var(--border);line-height:1.5;}
-.cl li:last-child{border-bottom:none;}
-.cl li::before{content:'→';color:var(--accent);font-weight:700;flex-shrink:0;margin-top:2px;font-family:var(--fm);}
-
-
-/* ════════════════════════════════════════
-   PRINT STYLES — PDF EXPORT
-   ════════════════════════════════════════ */
-@media print {
-  @page {
-    size: A4;
-    margin: 18mm 20mm 18mm 20mm;
-  }
-
-  /* Hide everything by default */
-  body * { visibility: hidden; }
-
-  /* Show only the active student journal view */
-  #print-area, #print-area * { visibility: visible; }
-
-  #print-area {
-    position: absolute;
-    left: 0; top: 0;
-    width: 100%;
-    background: #fff;
-  }
-
-  /* Reset layout for print */
-  .app, .main, .sidebar { display: block !important; }
-  .sidebar { display: none !important; }
-  .view { display: block !important; padding: 0 !important; max-width: 100% !important; }
-
-  /* PDF COVER */
-  .pdf-cover {
-    text-align: center;
-    padding: 40px 20px 30px;
-    border-bottom: 2px solid #1a1a2e;
-    margin-bottom: 28px;
-    page-break-after: avoid;
-  }
-  .pdf-cover-badge {
-    display: inline-block;
-    background: #1a1a2e;
-    color: #fff;
-    font-family: 'Syne', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 5px 16px;
-    border-radius: 99px;
-    margin-bottom: 16px;
-  }
-  .pdf-cover-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 26px;
-    font-weight: 800;
-    color: #1a1a2e;
-    letter-spacing: -1px;
-    margin-bottom: 6px;
-  }
-  .pdf-cover-sub {
-    font-size: 13px;
-    color: #6b6b8a;
-    font-style: italic;
-    margin-bottom: 20px;
-  }
-  .pdf-student-box {
-    display: inline-grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 0;
-    border: 1px solid #d4d0c8;
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 0 auto;
-    font-size: 12px;
-  }
-  .pdf-student-cell {
-    padding: 10px 18px;
-    border-right: 1px solid #d4d0c8;
-    text-align: left;
-  }
-  .pdf-student-cell:last-child { border-right: none; }
-  .pdf-cell-label {
-    font-size: 9px;
-    letter-spacing: .8px;
-    text-transform: uppercase;
-    color: #6b6b8a;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    margin-bottom: 3px;
-  }
-  .pdf-cell-val {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    color: #1a1a2e;
-    font-size: 13px;
-  }
-
-  /* SECTION HEADERS in PDF */
-  .pdf-week-header {
-    background: #f2efe8;
-    border-left: 4px solid #4f46e5;
-    padding: 10px 14px;
-    margin: 20px 0 14px;
-    page-break-after: avoid;
-  }
-  .pdf-week-header.teal { border-left-color: #0f766e; }
-  .pdf-week-header.amber { border-left-color: #b45309; }
-  .pdf-week-header.coral { border-left-color: #be185d; }
-  .pdf-wh-phase { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #6b6b8a; font-family: 'Syne',sans-serif; font-weight: 700; }
-  .pdf-wh-title { font-family: 'Syne',sans-serif; font-size: 16px; font-weight: 800; color: #1a1a2e; }
-
-  /* FIELD ENTRIES in PDF */
-  .pdf-field {
-    margin-bottom: 14px;
-    page-break-inside: avoid;
-  }
-  .pdf-field-label {
-    font-size: 9px;
-    letter-spacing: .8px;
-    text-transform: uppercase;
-    color: #6b6b8a;
-    font-family: 'Syne',sans-serif;
-    font-weight: 700;
-    margin-bottom: 5px;
-    border-bottom: 1px solid #e8e4da;
-    padding-bottom: 3px;
-  }
-  .pdf-field-value {
-    font-size: 12px;
-    color: #1a1a2e;
-    line-height: 1.65;
-    font-family: 'Lora',serif;
-    white-space: pre-wrap;
-    min-height: 18px;
-  }
-  .pdf-field-empty {
-    font-size: 12px;
-    color: #b8b4a8;
-    font-style: italic;
-    font-family: 'Lora',serif;
-  }
-
-  /* QUIZ RESULT in PDF */
-  .pdf-quiz-result {
-    background: #f2efe8;
-    border-radius: 6px;
-    padding: 8px 12px;
-    font-size: 12px;
-    font-family: 'Lora',serif;
-    color: #1a1a2e;
-    margin-bottom: 14px;
-    page-break-inside: avoid;
-  }
-  .pdf-quiz-label {
-    font-size: 9px;
-    letter-spacing: .8px;
-    text-transform: uppercase;
-    color: #6b6b8a;
-    font-family: 'Syne',sans-serif;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-
-  /* DIVIDERS */
-  .pdf-divider {
-    border: none;
-    border-top: 1px solid #e8e4da;
-    margin: 20px 0;
-  }
-
-  /* FOOTER on each page */
-  .pdf-footer {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    font-size: 9px;
-    color: #b8b4a8;
-    font-family: 'Syne',sans-serif;
-    text-align: center;
-    border-top: 1px solid #e8e4da;
-    padding: 6px;
-    background: #fff;
-  }
-
-  /* PAGE BREAKS */
-  .pdf-page-break { page-break-before: always; }
-  h2, h3 { page-break-after: avoid; }
+@media(max-width:720px){
+  .sidebar{display:none;}
+  .view{padding:24px 18px;}
+  .field-grid,.field-grid3,.pitch-grid{grid-template-columns:1fr;}
+  .vh-title{font-size:40px;}
 }
 </style>
 </head>
@@ -381,692 +428,723 @@ textarea.fi-input{min-height:80px;}
 
 <!-- ═══ SIDEBAR ═══ -->
 <aside class="sidebar">
-  <div class="sb-head">
-    <div class="sb-logo">
-      <div class="sb-icon">🛡</div>
-      <span class="sb-name">Guardianas Digitales</span>
-    </div>
-    <div class="sb-sub">Bitácora de aprendizaje</div>
+  <div class="sb-top">
+    <div class="sb-agency">CIBERAGENCIA</div>
+    <div style="display:block;height:4px"></div>
+    <div class="sb-tagline">Guardianas Digitales · Grado 8</div>
   </div>
-  <div class="sb-student-area">
-    <div class="sb-student-lbl">Estudiante</div>
-    <div class="sb-student-val" id="sb-name-display">—</div>
+  <div class="sb-team-area">
+    <div class="sb-team-lbl">Agencia</div>
+    <div class="sb-team-val" id="sb-team">—</div>
   </div>
 
-  <div class="sb-sec">
-    <div class="sb-lbl">General</div>
-    <div class="ni active" onclick="showView('inicio')"><span>🏠</span>Inicio</div>
-  </div>
-  <div class="sb-sec">
-    <div class="sb-lbl" style="color:rgba(45,212,191,.6)">Fase 1 · Descubrir</div>
-    <div class="ni" onclick="goWeek(1)" id="nw1"><div class="ni-dot" style="background:#2dd4bf"></div>S1 · Huella digital<div class="ni-ck" id="nck1">✓</div></div>
-    <div class="ni" onclick="goWeek(2)" id="nw2"><div class="ni-dot" style="background:#2dd4bf"></div>S2 · Internet<div class="ni-ck" id="nck2">✓</div></div>
-    <div class="ni" onclick="goWeek(3)" id="nw3"><div class="ni-dot" style="background:#2dd4bf"></div>S3 · Amenazas<div class="ni-ck" id="nck3">✓</div></div>
-  </div>
-  <div class="sb-sec">
-    <div class="sb-lbl" style="color:rgba(99,102,241,.7)">Fase 2 · Investigar</div>
-    <div class="ni" onclick="goWeek(4)" id="nw4"><div class="ni-dot" style="background:#6366f1"></div>S4 · Mi campaña<div class="ni-ck" id="nck4">✓</div></div>
-    <div class="ni" onclick="goWeek(5)" id="nw5"><div class="ni-dot" style="background:#6366f1"></div>S5 · Contraseñas<div class="ni-ck" id="nck5">✓</div></div>
-    <div class="ni" onclick="goWeek(6)" id="nw6"><div class="ni-dot" style="background:#6366f1"></div>S6 · Redes sociales<div class="ni-ck" id="nck6">✓</div></div>
-    <div class="ni" onclick="goWeek(7)" id="nw7"><div class="ni-dot" style="background:#6366f1"></div>S7 · Diseño campaña<div class="ni-ck" id="nck7">✓</div></div>
-  </div>
-  <div class="sb-sec">
-    <div class="sb-lbl" style="color:rgba(245,158,11,.7)">Fase 3 · Crear</div>
-    <div class="ni" onclick="goWeek(8)" id="nw8"><div class="ni-dot" style="background:#f59e0b"></div>S8 · Producción<div class="ni-ck" id="nck8">✓</div></div>
-    <div class="ni" onclick="goWeek(9)" id="nw9"><div class="ni-dot" style="background:#f59e0b"></div>S9 · Revisión pares<div class="ni-ck" id="nck9">✓</div></div>
-    <div class="ni" onclick="goWeek(10)" id="nw10"><div class="ni-dot" style="background:#f59e0b"></div>S10 · Simulacro<div class="ni-ck" id="nck10">✓</div></div>
-  </div>
-  <div class="sb-sec">
-    <div class="sb-lbl" style="color:rgba(251,113,133,.7)">Fase 4 · Impactar</div>
-    <div class="ni" onclick="goWeek(11)" id="nw11"><div class="ni-dot" style="background:#fb7185"></div>S11 · Campaña vivo<div class="ni-ck" id="nck11">✓</div></div>
-    <div class="ni" onclick="goWeek(12)" id="nw12"><div class="ni-dot" style="background:#fb7185"></div>S12 · Cierre<div class="ni-ck" id="nck12">✓</div></div>
-  </div>
-
-  <div class="sb-bottom">
-    <div class="sb-prog">
-      <div class="sp-lbl">Mi progreso</div>
-      <div class="sp-num" id="sp-num">0 / 12</div>
-      <div class="sp-bar-o"><div class="sp-bar-i" id="sp-bar" style="width:0%"></div></div>
-      <div class="sp-row"><span id="sp-pct">0%</span><span id="sp-left">12 pendientes</span></div>
+  <nav class="sb-nav">
+    <div class="sb-sec-lbl">Inicio</div>
+    <div class="ni active" onclick="go('home')">
+      <div class="ni-phase" style="background:#333;color:var(--neon)">⌂</div>
+      Panel de agencia
     </div>
-    <button class="btn-export" onclick="exportPDF()">Exportar bitácora PDF</button>
+
+    <div class="sb-sec-lbl" style="margin-top:14px">Fase 1 — El Brief</div>
+    <div class="ni" onclick="go('p1')" id="ni-p1">
+      <div class="ni-phase" style="background:#333;color:#fff">01</div>
+      Configurar mi agencia
+      <span class="ni-check" id="nc1">✓</span>
+    </div>
+
+    <div class="sb-sec-lbl" style="margin-top:14px">Fase 2 — Investigación</div>
+    <div class="ni" onclick="go('p2')" id="ni-p2">
+      <div class="ni-phase" style="background:#2d1040;color:#e91e8c">02</div>
+      Problema y audiencia
+      <span class="ni-check" id="nc2">✓</span>
+    </div>
+
+    <div class="sb-sec-lbl" style="margin-top:14px">Fase 3 — Estrategia</div>
+    <div class="ni" onclick="go('p3')" id="ni-p3">
+      <div class="ni-phase" style="background:#00292d;color:#00c9d4">03</div>
+      Propuesta de valor
+      <span class="ni-check" id="nc3">✓</span>
+    </div>
+
+    <div class="sb-sec-lbl" style="margin-top:14px">Fase 4 — Identidad</div>
+    <div class="ni" onclick="go('p4')" id="ni-p4">
+      <div class="ni-phase" style="background:#2a1200;color:#ff6b2b">04</div>
+      Diseño de marca
+      <span class="ni-check" id="nc4">✓</span>
+    </div>
+
+    <div class="sb-sec-lbl" style="margin-top:14px">Fase 5 — Lanzamiento</div>
+    <div class="ni" onclick="go('p5')" id="ni-p5">
+      <div class="ni-phase" style="background:#1e0a40;color:#7c3aed">05</div>
+      Pitch & campaña
+      <span class="ni-check" id="nc5">✓</span>
+    </div>
+  </nav>
+
+  <div class="sb-progress">
+    <div class="sp-label">Progreso de la campaña</div>
+    <div class="sp-track"><div class="sp-fill" id="sp-fill" style="width:0%"></div></div>
+    <div class="sp-steps">
+      <span id="sp-num">0/5</span>
+      <span id="sp-pct">fases completadas</span>
+    </div>
   </div>
 </aside>
 
 <!-- ═══ MAIN ═══ -->
 <main class="main">
 
-<!-- ─── INICIO / SETUP ─── -->
-<div class="view active" id="view-inicio">
-  <div style="max-width:520px;margin:0 auto;">
-    <div class="welcome-card">
-      <div style="font-size:40px;margin-bottom:12px;">🛡</div>
-      <div class="welcome-title">Bitácora Digital</div>
-      <div class="welcome-sub">Guardianas Digitales · Grado 8</div>
-      <p style="font-size:13px;color:var(--ink3);margin-bottom:28px;line-height:1.7;">Esta es tu bitácora personal de aprendizaje. En cada semana encontrarás la teoría del tema, preguntas para reflexionar y actividades para registrar. Al terminar el curso puedes exportarla como PDF y entregarla como evidencia.</p>
-      <div class="setup-form">
-        <div class="sf-row">
-          <div class="sf-item">
-            <label class="sf-label">Nombre completo</label>
-            <input class="sf-input" id="st-name" placeholder="Tu nombre y apellido">
-          </div>
-          <div class="sf-item">
-            <label class="sf-label">Curso / Grado</label>
-            <input class="sf-input" id="st-grade" placeholder="Ej: 8B">
-          </div>
+<!-- ─── HOME ─── -->
+<div class="view active" id="view-home">
+  <div class="view-hero">
+    <div class="vh-tag">
+      <div class="vh-tag-dot" style="background:var(--neon)"></div>
+      Proyecto de emprendimiento + ciberseguridad
+    </div>
+    <div class="vh-title">CREA TU<br><span>CAMPAÑA</span><br>DIGITAL</div>
+    <div class="vh-desc">Tu equipo es una agencia de publicidad. Tu misión: crear una campaña real que enseñe a tu comunidad a protegerse en internet. Cinco fases, una marca, un pitch ante el jurado.</div>
+  </div>
+
+  <div class="phase-strip">
+    <div class="ps-item ph1" onclick="go('p1')">
+      <div class="psi-num">01</div>
+      <div class="psi-info">
+        <div class="psi-title">El Brief — Configurar mi agencia</div>
+        <div class="psi-sub">Nombre, equipo y contexto del proyecto</div>
+      </div>
+      <div class="psi-bar-wrap">
+        <div class="psi-bar-o"><div class="psi-bar-i" id="bar1" style="width:0%"></div></div>
+        <div class="psi-pct" id="pct1">0%</div>
+      </div>
+      <div class="psi-done" id="done1">✓</div>
+    </div>
+    <div class="ps-item ph2" onclick="go('p2')">
+      <div class="psi-num">02</div>
+      <div class="psi-info">
+        <div class="psi-title">Investigación — Problema y audiencia</div>
+        <div class="psi-sub">¿Qué riesgo digital existe? ¿A quién ayudamos?</div>
+      </div>
+      <div class="psi-bar-wrap">
+        <div class="psi-bar-o"><div class="psi-bar-i" id="bar2" style="width:0%"></div></div>
+        <div class="psi-pct" id="pct2">0%</div>
+      </div>
+      <div class="psi-done" id="done2">✓</div>
+    </div>
+    <div class="ps-item ph3" onclick="go('p3')">
+      <div class="psi-num">03</div>
+      <div class="psi-info">
+        <div class="psi-title">Estrategia — Propuesta de valor</div>
+        <div class="psi-sub">Mensaje único, promesa de marca, llamado a la acción</div>
+      </div>
+      <div class="psi-bar-wrap">
+        <div class="psi-bar-o"><div class="psi-bar-i" id="bar3" style="width:0%"></div></div>
+        <div class="psi-pct" id="pct3">0%</div>
+      </div>
+      <div class="psi-done" id="done3">✓</div>
+    </div>
+    <div class="ps-item ph4" onclick="go('p4')">
+      <div class="psi-num">04</div>
+      <div class="psi-info">
+        <div class="psi-title">Identidad — Diseño de marca</div>
+        <div class="psi-sub">Nombre, slogan, colores, tipografía, piezas</div>
+      </div>
+      <div class="psi-bar-wrap">
+        <div class="psi-bar-o"><div class="psi-bar-i" id="bar4" style="width:0%"></div></div>
+        <div class="psi-pct" id="pct4">0%</div>
+      </div>
+      <div class="psi-done" id="done4">✓</div>
+    </div>
+    <div class="ps-item ph5" onclick="go('p5')">
+      <div class="psi-num">05</div>
+      <div class="psi-info">
+        <div class="psi-title">Lanzamiento — Pitch & campaña</div>
+        <div class="psi-sub">Presentación ante el jurado, evidencias, impacto</div>
+      </div>
+      <div class="psi-bar-wrap">
+        <div class="psi-bar-o"><div class="psi-bar-i" id="bar5" style="width:0%"></div></div>
+        <div class="psi-pct" id="pct5">0%</div>
+      </div>
+      <div class="psi-done" id="done5">✓</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">La pregunta que guía todo</div>
+    <div style="font-size:20px;font-family:var(--fh);color:var(--ink);margin:8px 0 10px;letter-spacing:.5px;line-height:1.3;">"¿Cómo diseñar una campaña publicitaria que proteja a nuestra comunidad de los peligros digitales?"</div>
+    <div class="card-body">Combina lo que aprendes en emprendimiento (marca, propuesta de valor, pitch) con los temas de seguridad digital. El resultado es una campaña real con impacto en tu colegio.</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:4px">
+    <div class="card" style="padding:18px;text-align:center">
+      <div style="font-family:var(--fh);font-size:32px;margin-bottom:4px">12</div>
+      <div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px">Semanas</div>
+    </div>
+    <div class="card" style="padding:18px;text-align:center">
+      <div style="font-family:var(--fh);font-size:32px;margin-bottom:4px">5</div>
+      <div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px">Fases</div>
+    </div>
+    <div class="card" style="padding:18px;text-align:center">
+      <div style="font-family:var(--fh);font-size:32px;margin-bottom:4px">1</div>
+      <div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px">Campaña real</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FASE 1: EL BRIEF ─── -->
+<div class="view" id="view-p1">
+  <div class="view-hero">
+    <div class="vh-tag"><div class="vh-tag-dot" style="background:#fff"></div>Fase 01 · El Brief</div>
+    <div class="vh-title" style="font-size:52px">CONFIGURA<br>TU AGENCIA</div>
+    <div class="vh-desc">Toda campaña empieza con un brief: quién eres, con quién trabajas y qué contexto tienes. Es el documento de partida de tu agencia.</div>
+  </div>
+
+  <!-- Theory pills -->
+  <div class="card">
+    <div class="card-title">¿Qué es un brief publicitario?</div>
+    <div class="card-body" style="margin-bottom:12px">En publicidad, el <strong>brief</strong> es el documento que define el proyecto antes de empezar. Resume el cliente, el problema, la audiencia y los objetivos. Sin un buen brief, la campaña no tiene norte.</div>
+    <div class="theory-grid">
+      <div class="theory-pill" onclick="toggleT('t1a',this)">▸ ¿Qué es la imagen digital?</div>
+      <div class="theory-pill" onclick="toggleT('t1b',this)">▸ Huella activa y pasiva</div>
+      <div class="theory-pill" onclick="toggleT('t1c',this)">▸ Datos personales</div>
+    </div>
+    <div class="theory-panel" id="t1a">La <strong>imagen digital</strong> es la percepción que otros tienen de ti en internet — la suma de todo lo que publicas, lo que te etiquetan y los datos que dejan tus dispositivos. Es la base del problema que tu campaña va a resolver: muchas personas no saben qué imagen digital tienen ni cómo gestionarla.</div>
+    <div class="theory-panel" id="t1b">La <strong>huella activa</strong> es lo que publicamos conscientemente: fotos, comentarios, likes, formularios. La <strong>huella pasiva</strong> se genera sola: dirección IP, cookies, historial, ubicación de apps. Tu campaña puede enfocarse en cualquiera de las dos — o en ambas.</div>
+    <div class="theory-panel" id="t1c"><strong>Datos personales</strong> son cualquier información que identifica a una persona: nombre, foto, teléfono, correo, pero también ubicación GPS y hábitos de navegación. En Colombia la <strong>Ley 1581 de 2012</strong> protege estos datos y da derecho a saber qué recopilan de ti.</div>
+  </div>
+
+  <div class="proj-section">
+    <div class="ps-header">
+      <div class="ps-num">A</div>
+      <div class="ps-title">Datos del equipo</div>
+    </div>
+    <div class="ps-body">
+      <div class="field-grid">
+        <div class="field">
+          <label class="field-label">Nombre de la agencia</label>
+          <div class="field-hint">Inventen un nombre que refleje su campaña. Ej: "CiberGuardas", "Pantalla Segura", "Red Alert"</div>
+          <input class="field-input" id="f_agencia" placeholder="Nombre de su agencia..." oninput="updateTeam()">
         </div>
-        <div class="sf-row">
-          <div class="sf-item">
-            <label class="sf-label">Nombre del colegio</label>
-            <input class="sf-input" id="st-school" placeholder="Nombre del colegio">
-          </div>
-          <div class="sf-item">
-            <label class="sf-label">Año escolar</label>
-            <input class="sf-input" id="st-year" placeholder="Ej: 2025">
-          </div>
-        </div>
-        <button class="btn-start" onclick="startJournal()">Comenzar mi bitácora →</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════
-     SEMANAS 1–12
-     ═══════════════════════════════ -->
-
-<!-- ─── SEMANA 1 ─── -->
-<div class="view" id="view-w1">
-  <div class="ph-ey">Semana 1 · Fase 1 · Descubrir</div>
-  <div class="ph-t">Imagen digital</div>
-  <div class="ph-d">¿Qué rastro dejamos en internet, aunque no lo sepamos?</div>
-
-  <div class="theory-card teal">
-    <div class="tc-label">Concepto central</div>
-    <div class="tc-title">La huella digital: activa y pasiva</div>
-    <div class="tc-body">Tu <strong>huella digital</strong> es todo el rastro de información que dejas al usar internet y dispositivos. Tiene dos tipos:<br><br>
-    → <strong>Huella activa:</strong> lo que publicas conscientemente — fotos, comentarios, "me gusta", datos en formularios. Tú decides antes de publicar, pero una vez en internet es muy difícil borrarlo.<br><br>
-    → <strong>Huella pasiva:</strong> se genera sin que lo decidas — tu dirección IP, las cookies de los sitios que visitas, tu ubicación al usar apps, el historial de búsquedas. Muchas personas no saben que este tipo de huella existe.<br><br>
-    Los <strong>datos personales</strong> son cualquier información que puede identificarte: nombre, foto, dirección, teléfono, pero también ubicación GPS y hábitos de navegación. En Colombia la <strong>Ley 1581 de 2012</strong> protege tus datos y te da el derecho de saber qué información recopilan de ti.</div>
-  </div>
-
-  <div class="theory-card">
-    <div class="tc-label">Para profundizar</div>
-    <div class="tc-title">Conceptos clave de esta semana</div>
-    <div id="acc-w1">
-      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Qué es el derecho al olvido?</span><span class="acc-arrow">▼</span></div><div class="acc-body">El <strong>derecho al olvido</strong> (o derecho de supresión) permite solicitar que se eliminen tus datos personales de plataformas o buscadores cuando ya no son necesarios o fueron publicados sin tu consentimiento. En Europa es un derecho formal (RGPD). En Colombia está parcialmente protegido por la Ley 1581 y el habeas data del Artículo 15 de la Constitución.</div></div>
-      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Por qué es difícil borrar la huella digital?</span><span class="acc-arrow">▼</span></div><div class="acc-body">Una vez que publicas algo, otras personas pueden haberlo visto, guardado, compartido o capturado antes de que lo borres. Los motores de búsqueda indexan el contenido y lo mantienen en caché. Las plataformas pueden conservar copias aunque borres tu publicación. Por eso la decisión más importante ocurre <em>antes</em> de publicar, no después.</div></div>
-      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Qué son las cookies y para qué sirven?</span><span class="acc-arrow">▼</span></div><div class="acc-body">Las <strong>cookies</strong> son pequeños archivos que los sitios web guardan en tu navegador para recordar información: sesión iniciada, preferencias, carrito de compras. Algunas cookies de terceros rastrean tu actividad en múltiples sitios para mostrarte publicidad personalizada. Puedes gestionarlas en la configuración de tu navegador.</div></div>
-    </div>
-  </div>
-
-  <div class="bitacora-block">
-    <div class="bb-title">✏ Mi bitácora — Semana 1</div>
-    <div class="bb-sub">Responde estas preguntas con honestidad. No hay respuestas correctas o incorrectas — es tu reflexión personal.</div>
-    <div class="field-group">
-      <div class="fi">
-        <div class="fi-label">¿Qué encontré cuando busqué mi nombre en internet?</div>
-        <div class="fi-hint">Describe qué resultados aparecieron. ¿Fotos? ¿Menciones? ¿Te sorprendió algo?</div>
-        <textarea class="fi-input" id="w1_q1" placeholder="Escribe aquí tu respuesta..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">Auditoría de mi huella activa</div>
-        <div class="fi-hint">¿Qué publico yo? ¿Qué me etiquetan otros? ¿Qué datos di sin darme cuenta?</div>
-        <textarea class="fi-input" id="w1_q2" placeholder="Lo que publico yo: ...\nLo que otros publican de mí: ...\nDatos que di sin saber: ..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">Una cosa de mi huella digital que quiero cambiar o proteger</div>
-        <textarea class="fi-input" id="w1_q3" placeholder="Escribe aquí tu reflexión..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">Mi reflexión personal sobre esta semana</div>
-        <div class="fi-hint">¿Qué aprendí? ¿Qué me hizo pensar? ¿Qué pregunta me quedó?</div>
-        <textarea class="fi-input refl-field" id="w1_refl" placeholder="Escribe tu reflexión con libertad..."></textarea>
-      </div>
-    </div>
-    <div class="save-row">
-      <button class="btn-save" id="sv1" onclick="save(1)">Guardar semana 1</button>
-      <span class="save-note">Se guarda en este navegador automáticamente</span>
-    </div>
-  </div>
-
-  <div class="quiz-block">
-    <div class="qz-label">Verificación de aprendizaje</div>
-    <div class="qz-q">¿Cuál de estas acciones genera huella digital <em>pasiva</em>?</div>
-    <div class="qz-opts">
-      <div class="qo" onclick="quiz(this,'qr1',false)">a) Publicar una foto en Instagram</div>
-      <div class="qo" onclick="quiz(this,'qr1',false)">b) Escribir un comentario en TikTok</div>
-      <div class="qo" onclick="quiz(this,'qr1',true)">c) Visitar una página web sin hacer clic en nada</div>
-      <div class="qo" onclick="quiz(this,'qr1',false)">d) Enviar un mensaje de WhatsApp</div>
-    </div>
-    <div class="qfb" id="qr1"></div>
-  </div>
-
-  <div class="btn-row">
-    <button class="btn btn-primary" id="bw1" onclick="complete(1)">Marcar semana 1 como completada</button>
-    <button class="btn btn-outline" onclick="goWeek(2)">Semana 2 →</button>
-  </div>
-</div>
-
-<!-- ─── SEMANA 2 ─── -->
-<div class="view" id="view-w2">
-  <div class="ph-ey">Semana 2 · Fase 1 · Descubrir</div>
-  <div class="ph-t">Cómo funciona internet</div>
-  <div class="ph-d">Entender el camino que recorren tus datos.</div>
-
-  <div class="theory-card teal">
-    <div class="tc-label">Concepto central</div>
-    <div class="tc-title">De tu celular al servidor y de vuelta</div>
-    <div class="tc-body">Internet es una red de millones de computadores conectados. Cuando visitas un sitio web, tu dispositivo envía una solicitud que viaja por varios puntos hasta llegar al servidor que aloja ese sitio.<br><br>
-    Cada dispositivo en internet tiene una <strong>dirección IP</strong> — como la dirección de tu casa, pero para computadores. El <strong>DNS</strong> es la "guía telefónica" que traduce nombres como "google.com" en números IP reales.<br><br>
-    Los datos viajan divididos en pequeños <strong>paquetes</strong> que pueden tomar rutas distintas y se reensamblan al llegar. El protocolo <strong>HTTPS</strong> cifra esa comunicación para que nadie en el camino pueda leerla. El candadito en el navegador significa que la conexión está cifrada. <em>Nunca ingreses datos personales en un sitio sin HTTPS.</em></div>
-  </div>
-
-  <div class="theory-card">
-    <div class="tc-label">Para profundizar</div>
-    <div class="tc-title">Conceptos clave</div>
-    <div id="acc-w2">
-      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Qué es el cifrado TLS?</span><span class="acc-arrow">▼</span></div><div class="acc-body">El <strong>cifrado TLS</strong> es el protocolo que hace funcionar HTTPS. Crea un "túnel" protegido entre tu navegador y el servidor usando criptografía de clave pública. El servidor tiene un certificado digital (como una cédula) que tu navegador verifica antes de confiar. Si el certificado es inválido, el navegador te advierte.</div></div>
-      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Qué es una VPN y para qué sirve?</span><span class="acc-arrow">▼</span></div><div class="acc-body">Una <strong>VPN</strong> (Red Privada Virtual) crea un túnel cifrado entre tu dispositivo e internet, ocultando tu IP real y tu actividad de navegación de tu proveedor de internet y de terceros. Es útil en redes Wi-Fi públicas no confiables. No hace que seas completamente anónima — los sitios que visitas aún pueden rastrearte por otros medios.</div></div>
-    </div>
-  </div>
-
-  <div class="bitacora-block">
-    <div class="bb-title">✏ Mi bitácora — Semana 2</div>
-    <div class="bb-sub">Registra lo que aprendiste y tus reflexiones personales.</div>
-    <div class="field-group">
-      <div class="fi">
-        <div class="fi-label">Explica con tus propias palabras cómo viaja un dato en internet</div>
-        <div class="fi-hint">Usa la analogía que te resulte más clara (correo postal, mensajero, teléfono roto, etc.)</div>
-        <textarea class="fi-input" id="w2_q1" placeholder="En mis propias palabras..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">¿Encontré sitios sin HTTPS en los que tengo cuenta? ¿Cuáles?</div>
-        <div class="fi-hint">No escribas contraseñas — solo los nombres de los sitios o apps.</div>
-        <textarea class="fi-input" id="w2_q2" placeholder="Sitios o apps que revisé..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">¿Qué cambiaría en mi forma de navegar después de aprender esto?</div>
-        <textarea class="fi-input" id="w2_q3" placeholder="Escribe aquí..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">Mi reflexión personal</div>
-        <textarea class="fi-input refl-field" id="w2_refl" placeholder="¿Qué me sorprendió? ¿Qué pregunta me quedó?"></textarea>
-      </div>
-    </div>
-    <div class="save-row"><button class="btn-save" id="sv2" onclick="save(2)">Guardar semana 2</button></div>
-  </div>
-
-  <div class="quiz-block">
-    <div class="qz-label">Verificación de aprendizaje</div>
-    <div class="qz-q">Vas a hacer una compra en "http://tienda.com" (sin la S). ¿Qué riesgo real existe?</div>
-    <div class="qz-opts">
-      <div class="qo" onclick="quiz(this,'qr2',false)">a) Ninguno, HTTP y HTTPS son lo mismo</div>
-      <div class="qo" onclick="quiz(this,'qr2',true)">b) Alguien en la misma red podría ver tus datos de pago</div>
-      <div class="qo" onclick="quiz(this,'qr2',false)">c) La página cargará más lento</div>
-      <div class="qo" onclick="quiz(this,'qr2',false)">d) Tu dispositivo se infecta automáticamente</div>
-    </div>
-    <div class="qfb" id="qr2"></div>
-  </div>
-
-  <div class="btn-row">
-    <button class="btn btn-outline" onclick="goWeek(1)">← S1</button>
-    <button class="btn btn-primary" id="bw2" onclick="complete(2)">Marcar como completada</button>
-    <button class="btn btn-outline" onclick="goWeek(3)">S3 →</button>
-  </div>
-</div>
-
-<!-- ─── SEMANA 3 ─── -->
-<div class="view" id="view-w3">
-  <div class="ph-ey">Semana 3 · Fase 1 · Descubrir</div>
-  <div class="ph-t">Amenazas digitales reales</div>
-  <div class="ph-d">Reconocer el peligro antes de caer en él.</div>
-
-  <div class="theory-card teal">
-    <div class="tc-label">Concepto central</div>
-    <div class="tc-title">La mayoría de los ataques explotan personas, no máquinas</div>
-    <div class="tc-body">El <strong>phishing</strong> es un intento de engaño donde alguien se hace pasar por una entidad confiable (banco, empresa, amigo) para robar información. Señales: urgencia extrema, errores de ortografía, dominios extraños. El <strong>smishing</strong> es lo mismo pero por SMS.<br><br>
-    El <strong>malware</strong> es cualquier programa diseñado para dañar o espiar — incluye virus, troyanos y spyware. El <strong>ransomware</strong> cifra tus archivos y exige dinero para devolverlos.<br><br>
-    La <strong>ingeniería social</strong> manipula psicológicamente a las personas para que revelen información. Explota emociones: miedo, urgencia, curiosidad, autoridad. Reglas básicas: ante cualquier mensaje sospechoso — <em>no hagas clic, no respondas, consulta a un adulto de confianza.</em></div>
-  </div>
-
-  <div class="theory-card">
-    <div class="tc-label">Señales de alerta universales</div>
-    <div class="tc-title">El semáforo de seguridad digital</div>
-    <div class="tc-body">
-    🔴 <strong>ROJO — No respondas:</strong> urgencia extrema ("¡10 minutos o pierdes!"), solicitud de contraseñas o datos bancarios, dominio sospechoso, archivo adjunto inesperado.<br><br>
-    🟡 <strong>AMARILLO — Verifica antes:</strong> remitente que conoces pero tono raro, premio o beneficio inesperado, link que no reconoces, solicitud inusual de un amigo.<br><br>
-    🟢 <strong>VERDE — Señales de confianza:</strong> HTTPS visible, dominio oficial, comunicación esperada, sin urgencia artificial, información verificable.</div>
-  </div>
-
-  <div class="theory-card">
-    <div class="tc-label">Para profundizar</div>
-    <div class="tc-title">Tipos de ataques</div>
-    <div id="acc-w3">
-      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Cómo reconozco un sitio web falso?</span><span class="acc-arrow">▼</span></div><div class="acc-body">Revisa la barra de direcciones: <strong>bancolombia.com</strong> es diferente de <strong>banco-colombia.com</strong> o <strong>bancolombia.seguro.net</strong>. Los ciberdelincuentes usan dominios similares para confundir. Busca el candado HTTPS, pero recuerda que algunos sitios de phishing también usan HTTPS — el cifrado no garantiza que el sitio sea legítimo.</div></div>
-      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-txt">¿Qué hago si creo que caí en un engaño?</span><span class="acc-arrow">▼</span></div><div class="acc-body">1. No entres en pánico. 2. Cambia inmediatamente las contraseñas de las cuentas afectadas. 3. Si diste datos bancarios, llama a tu banco. 4. Cuéntaselo a un adulto de confianza. 5. Denuncia en la Policía Nacional (línea 137) o en el CERT del MinTIC en Colombia. Reportar ayuda a proteger a otras personas.</div></div>
-    </div>
-  </div>
-
-  <div class="bitacora-block">
-    <div class="bb-title">✏ Mi bitácora — Semana 3</div>
-    <div class="bb-sub">Reflexiona sobre las amenazas digitales y tu experiencia personal.</div>
-    <div class="field-group">
-      <div class="fi">
-        <div class="fi-label">¿Alguna vez recibí un mensaje sospechoso? ¿Cómo lo identifiqué?</div>
-        <div class="fi-hint">Describe la situación sin incluir datos personales sensibles.</div>
-        <textarea class="fi-input" id="w3_q1" placeholder="Escribe aquí..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">Mi semáforo personal de seguridad</div>
-        <div class="fi-hint">Escribe las señales que TÚ usarás para identificar mensajes peligrosos, dudosos y confiables.</div>
-        <textarea class="fi-input" id="w3_q2" placeholder="🔴 Rojo (peligro inmediato): ...\n🟡 Amarillo (verificar): ...\n🟢 Verde (confiable): ..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">¿Qué amenaza me parece más relevante para mi comunidad y por qué?</div>
-        <div class="fi-hint">Esto puede ayudarte a definir el tema de tu proyecto.</div>
-        <textarea class="fi-input" id="w3_q3" placeholder="La amenaza que más me preocupa es..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">Mi reflexión personal</div>
-        <textarea class="fi-input refl-field" id="w3_refl" placeholder="¿Qué aprendí? ¿Qué cambiaría en mis hábitos?"></textarea>
-      </div>
-    </div>
-    <div class="save-row"><button class="btn-save" id="sv3" onclick="save(3)">Guardar semana 3</button></div>
-  </div>
-
-  <div class="quiz-block">
-    <div class="qz-label">Verificación de aprendizaje</div>
-    <div class="qz-q">Recibes: "¡Ganaste un iPhone! Haz clic en los próximos 10 minutos o pierdes el premio." ¿Qué tipo de ataque es?</div>
-    <div class="qz-opts">
-      <div class="qo" onclick="quiz(this,'qr3',false)">a) Malware directo</div>
-      <div class="qo" onclick="quiz(this,'qr3',true)">b) Phishing con ingeniería social — táctica de urgencia</div>
-      <div class="qo" onclick="quiz(this,'qr3',false)">c) Ransomware</div>
-      <div class="qo" onclick="quiz(this,'qr3',false)">d) Ataque de fuerza bruta</div>
-    </div>
-    <div class="qfb" id="qr3"></div>
-  </div>
-
-  <div class="btn-row">
-    <button class="btn btn-outline" onclick="goWeek(2)">← S2</button>
-    <button class="btn btn-primary" id="bw3" onclick="complete(3)">Marcar como completada</button>
-    <button class="btn btn-outline" onclick="goWeek(4)">S4 →</button>
-  </div>
-</div>
-
-<!-- ─── SEMANA 4 ─── -->
-<div class="view" id="view-w4">
-  <div class="ph-ey">Semana 4 · Fase 2 · Investigar</div>
-  <div class="ph-t">Mi campaña</div>
-  <div class="ph-d">Elige el problema que quieres resolver y a quién quieres ayudar.</div>
-
-  <div class="theory-card">
-    <div class="tc-label">Concepto central</div>
-    <div class="tc-title">De aprendiz a agente de cambio</div>
-    <div class="tc-body">Una <strong>campaña de comunicación</strong> efectiva tiene cuatro elementos clave:<br><br>
-    → <strong>Un problema claro:</strong> ¿qué riesgo digital existe en tu comunidad?<br>
-    → <strong>Una audiencia específica:</strong> ¿a quién quieres llegar? Cuanto más concreto, mejor.<br>
-    → <strong>Un mensaje único:</strong> una sola idea bien comunicada vale más que diez ideas confusas.<br>
-    → <strong>Un llamado a la acción:</strong> ¿qué quieres que tu audiencia haga después de ver tu campaña? Debe ser una acción pequeña, específica y posible hoy.</div>
-  </div>
-
-  <div class="bitacora-block">
-    <div class="bb-title">✏ Mi bitácora — Semana 4</div>
-    <div class="bb-sub">Define tu propuesta de campaña. Esta será la base de tu proyecto.</div>
-    <div class="field-group">
-      <div class="fi-grid">
-        <div class="fi">
-          <div class="fi-label">Nombre de mi grupo</div>
-          <input type="text" class="fi-input" id="w4_grupo" placeholder="Nombre del equipo">
-        </div>
-        <div class="fi">
-          <div class="fi-label">Integrantes del grupo</div>
-          <input type="text" class="fi-input" id="w4_integrantes" placeholder="Nombres separados por coma">
+        <div class="field">
+          <label class="field-label">Slogan provisional</label>
+          <div class="field-hint">Una frase corta y memorable. Pueden cambiarlo en la Fase 4.</div>
+          <input class="field-input" id="f_slogan_prov" placeholder="Tu slogan provisional...">
         </div>
       </div>
-      <div class="fi">
-        <div class="fi-label">Problema digital que quiero abordar</div>
-        <div class="fi-hint">Sé específica. "La seguridad digital" es demasiado amplio. "Las niñas de primaria no saben cómo crear contraseñas seguras" es un problema concreto.</div>
-        <textarea class="fi-input" id="w4_q1" placeholder="El problema que identificamos es..."></textarea>
+      <div class="field">
+        <label class="field-label">Integrantes del equipo</label>
+        <textarea class="field-input" id="f_integrantes" placeholder="Nombre de cada integrante y su rol en la agencia (directora creativa, investigadora, diseñadora, presentadora...)"></textarea>
       </div>
-      <div class="fi">
-        <div class="fi-label">¿A quién va dirigida la campaña?</div>
-        <div class="fi-hint">Define la audiencia con detalle: edad, relación con la tecnología, dónde los encuentras.</div>
-        <textarea class="fi-input" id="w4_q2" placeholder="Nuestra audiencia es..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">¿Qué formato tendrá la campaña?</div>
-        <div class="fi-hint">Video, infografía, quiz, presentación en vivo, póster con QR, cuento, podcast...</div>
-        <input type="text" class="fi-input" id="w4_formato" placeholder="El formato que elegimos es...">
-      </div>
-      <div class="fi">
-        <div class="fi-label">Nuestra pregunta de investigación</div>
-        <div class="fi-hint">Ejemplo: "¿Cómo enseñarles a los niños de primaria a crear contraseñas seguras de forma fácil?"</div>
-        <textarea class="fi-input" id="w4_q3" placeholder="Nuestra pregunta de investigación es..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">Mi reflexión personal</div>
-        <textarea class="fi-input refl-field" id="w4_refl" placeholder="¿Por qué elegí este tema? ¿Qué me motivó?"></textarea>
+      <div class="field-grid">
+        <div class="field">
+          <label class="field-label">Curso</label>
+          <input class="field-input" id="f_curso" placeholder="Ej: 8B">
+        </div>
+        <div class="field">
+          <label class="field-label">Colegio</label>
+          <input class="field-input" id="f_colegio" placeholder="Nombre del colegio">
+        </div>
       </div>
     </div>
-    <div class="save-row"><button class="btn-save" id="sv4" onclick="save(4)">Guardar semana 4</button></div>
+  </div>
+
+  <div class="proj-section">
+    <div class="ps-header">
+      <div class="ps-num">B</div>
+      <div class="ps-title">Contexto del proyecto</div>
+    </div>
+    <div class="ps-body">
+      <div class="field">
+        <label class="field-label">¿Por qué es importante hablar de seguridad digital hoy?</label>
+        <div class="field-hint">Esto es el "contexto de mercado" en publicidad. ¿Qué pasa en el mundo digital que hace urgente su campaña?</div>
+        <textarea class="field-input" id="f_contexto" placeholder="Hoy más que nunca..."></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">¿Qué observan en su colegio o comunidad sobre hábitos digitales?</label>
+        <textarea class="field-input" id="f_observacion" placeholder="En nuestro colegio hemos notado que..."></textarea>
+      </div>
+    </div>
   </div>
 
   <div class="btn-row">
-    <button class="btn btn-outline" onclick="goWeek(3)">← S3</button>
-    <button class="btn btn-primary" id="bw4" onclick="complete(4)">Marcar como completada</button>
-    <button class="btn btn-outline" onclick="goWeek(5)">S5 →</button>
+    <button class="btn btn-neon" onclick="complete(1)">Completar Fase 1 →</button>
+    <button class="btn btn-outline" onclick="go('p2')">Siguiente fase</button>
   </div>
 </div>
 
-<!-- ─── SEMANA 5 ─── -->
-<div class="view" id="view-w5">
-  <div class="ph-ey">Semana 5 · Fase 2 · Investigar</div>
-  <div class="ph-t">Contraseñas e identidad digital</div>
-  <div class="ph-d">Una contraseña débil es una puerta abierta.</div>
-
-  <div class="theory-card">
-    <div class="tc-label">Concepto central</div>
-    <div class="tc-title">Anatomía de una contraseña segura</div>
-    <div class="tc-body">Una contraseña segura tiene <strong>mínimo 12 caracteres</strong>, combina mayúsculas, minúsculas, números y símbolos, y es <strong>única para cada cuenta</strong>. Reutilizar contraseñas es peligroso: si hackean una cuenta, hackean todas.<br><br>
-    La <strong>técnica de frase-clave</strong> es más segura y fácil de recordar: toma una frase memorable y modifícala. Ejemplo: "MiPerro!Tiene3Años" es mucho más segura que "xK9#mP".<br><br>
-    La <strong>autenticación de dos factores (2FA)</strong> añade una segunda capa: además de la contraseña, pide un código enviado a tu celular. Aunque alguien robe tu contraseña, no puede acceder sin ese segundo código. <em>Actívalo siempre en correo, redes sociales y cuentas bancarias.</em><br><br>
-    Un <strong>gestor de contraseñas</strong> guarda todas tus contraseñas cifradas. Solo necesitas recordar una clave maestra. Opciones gratuitas: Bitwarden, KeePass.</div>
+<!-- ─── FASE 2: INVESTIGACIÓN ─── -->
+<div class="view" id="view-p2">
+  <div class="view-hero">
+    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--magenta)"></div>Fase 02 · Investigación</div>
+    <div class="vh-title" style="font-size:52px">PROBLEMA<br>Y <span style="color:var(--magenta);background:var(--ink)">AUDIENCIA</span></div>
+    <div class="vh-desc">Ninguna campaña exitosa empieza con la solución — empieza con entender el problema y a la persona que lo tiene.</div>
   </div>
 
-  <div class="bitacora-block">
-    <div class="bb-title">✏ Mi bitácora — Semana 5</div>
-    <div class="field-group">
-      <div class="fi">
-        <div class="fi-label">¿Qué descubrí sobre mis contraseñas actuales?</div>
-        <div class="fi-hint">No escribas las contraseñas — solo describe si eran seguras, débiles, reutilizadas...</div>
-        <textarea class="fi-input" id="w5_q1" placeholder="Lo que descubrí fue..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">Mi nueva frase-clave de ejemplo (no uses una contraseña real)</div>
-        <div class="fi-hint">Crea una contraseña ficticia usando la técnica de frase-clave para practicar.</div>
-        <input type="text" class="fi-input" id="w5_q2" placeholder="Ejemplo ficticio: TrainAzul!99$Rojo">
-      </div>
-      <div class="fi">
-        <div class="fi-label">¿Activé el 2FA en alguna cuenta? ¿En cuál?</div>
-        <textarea class="fi-input" id="w5_q3" placeholder="Activé el 2FA en..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">¿Cómo conecta este tema con mi campaña?</div>
-        <textarea class="fi-input" id="w5_q4" placeholder="Este tema se relaciona con mi campaña porque..."></textarea>
-      </div>
-      <div class="fi">
-        <div class="fi-label">Mi reflexión personal</div>
-        <textarea class="fi-input refl-field" id="w5_refl" placeholder="¿Qué cambiaría en mis hábitos de contraseñas?"></textarea>
-      </div>
+  <div class="card">
+    <div class="card-title">Teoría que necesitas para esta fase</div>
+    <div class="theory-grid">
+      <div class="theory-pill" onclick="toggleT('t2a',this)">▸ Phishing</div>
+      <div class="theory-pill" onclick="toggleT('t2b',this)">▸ Malware y ransomware</div>
+      <div class="theory-pill" onclick="toggleT('t2c',this)">▸ Ingeniería social</div>
+      <div class="theory-pill" onclick="toggleT('t2d',this)">▸ Grooming</div>
+      <div class="theory-pill" onclick="toggleT('t2e',this)">▸ Contraseñas inseguras</div>
+      <div class="theory-pill" onclick="toggleT('t2f',this)">▸ Privacidad en redes</div>
     </div>
-    <div class="save-row"><button class="btn-save" id="sv5" onclick="save(5)">Guardar semana 5</button></div>
+    <div class="theory-panel" id="t2a"><strong>Phishing:</strong> intento de engaño donde alguien se hace pasar por una entidad confiable para robar información. Llega por correo, SMS o sitios falsos. Señales: urgencia extrema, errores ortográficos, dominios sospechosos. El <em>smishing</em> es phishing por SMS — muy frecuente en Colombia.</div>
+    <div class="theory-panel" id="t2b"><strong>Malware</strong> es cualquier programa diseñado para dañar o espiar — virus, troyanos, spyware. El <strong>ransomware</strong> cifra tus archivos y exige dinero para devolverlos. Se distribuye por descargas no confiables y adjuntos de correos. La mejor defensa: no abrir archivos de fuentes desconocidas y tener copias de seguridad.</div>
+    <div class="theory-panel" id="t2c"><strong>Ingeniería social:</strong> manipulación psicológica para que una persona revele información o realice acciones que comprometan su seguridad. No usa código — usa el engaño directo. Explota miedo ("tu cuenta fue hackeada"), urgencia, autoridad ("soy del banco") o recompensa ("ganaste un premio").</div>
+    <div class="theory-panel" id="t2d"><strong>Grooming:</strong> proceso mediante el cual un adulto construye una relación de confianza con una persona menor en línea para manipularla. Señales: preguntas muy personales, pedir fotos, querer privacidad, pedir guardar secretos. Ante cualquier señal: bloquea, guarda capturas, cuéntale a un adulto de confianza. <em>No es tu culpa.</em></div>
+    <div class="theory-panel" id="t2e">El <strong>80% de los hackeos exitosos</strong> involucran contraseñas débiles o reutilizadas. Una contraseña segura tiene +12 caracteres, combina tipos y es única por cuenta. La <strong>autenticación de dos factores (2FA)</strong> añade una segunda capa — aunque alguien robe tu contraseña, no puede entrar sin el código de tu celular.</div>
+    <div class="theory-panel" id="t2f">Las redes sociales están diseñadas para <strong>compartir al máximo por defecto</strong>. La configuración de privacidad controla quién ve tu contenido, puede etiquetarte o encontrarte. Cambia con cada actualización — hay que revisarla regularmente. La <strong>Ley 1581 de 2012</strong> protege los datos de los colombianos y da el derecho a pedir su eliminación.</div>
   </div>
 
-  <div class="quiz-block">
-    <div class="qz-label">Verificación de aprendizaje</div>
-    <div class="qz-q">¿Cuál de estas contraseñas es MÁS segura?</div>
-    <div class="qz-opts">
-      <div class="qo" onclick="quiz(this,'qr5',false)">a) Maria2008!</div>
-      <div class="qo" onclick="quiz(this,'qr5',false)">b) 12345678ab</div>
-      <div class="qo" onclick="quiz(this,'qr5',true)">c) Tren!Azul#Cielo$1999</div>
-      <div class="qo" onclick="quiz(this,'qr5',false)">d) contraseña123</div>
+  <div class="proj-section">
+    <div class="ps-header">
+      <div class="ps-num">A</div>
+      <div class="ps-title">El problema digital que vamos a resolver</div>
     </div>
-    <div class="qfb" id="qr5"></div>
+    <div class="ps-body">
+      <div class="field">
+        <label class="field-label">¿Qué amenaza o riesgo digital eligieron?</label>
+        <div class="field-hint">Phishing, contraseñas débiles, grooming, privacidad en redes, malware... Elijan uno y sean específicas.</div>
+        <input class="field-input" id="f_problema" placeholder="El problema que vamos a abordar es...">
+      </div>
+      <div class="field">
+        <label class="field-label">¿Por qué este problema y no otro?</label>
+        <textarea class="field-input" id="f_por_que" placeholder="Elegimos este problema porque en nuestra comunidad..."></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Datos o evidencias que encontraron sobre este problema</label>
+        <div class="field-hint">Estadísticas, noticias, casos que investigaron. Esto es la "investigación de mercado" de su campaña.</div>
+        <textarea class="field-input" id="f_evidencia" placeholder="Según investigamos, encontramos que..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-section">
+    <div class="ps-header">
+      <div class="ps-num">B</div>
+      <div class="ps-title">Perfil del cliente / audiencia objetivo</div>
+    </div>
+    <div class="ps-body">
+      <div class="hl hl-info"><strong>En emprendimiento</strong> se llama "cliente ideal" o "buyer persona". En publicidad es la "audiencia objetivo". Cuanto más específica, más efectiva la campaña.</div>
+      <div class="field-grid">
+        <div class="field">
+          <label class="field-label">¿A quién va dirigida la campaña?</label>
+          <input class="field-input" id="f_audiencia" placeholder="Ej: Niñas de 5° a 7° grado">
+        </div>
+        <div class="field">
+          <label class="field-label">¿Dónde encuentran a esa audiencia?</label>
+          <input class="field-input" id="f_donde" placeholder="Ej: En el colegio, en Instagram, en WhatsApp familiar">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Perfil detallado de la audiencia</label>
+        <div class="field-hint">¿Qué edad tiene? ¿Qué dispositivos usa? ¿Qué redes frecuenta? ¿Cuánto sabe de seguridad digital? ¿Qué la motiva?</div>
+        <textarea class="field-input" id="f_perfil" placeholder="Nuestra audiencia tiene entre... usa principalmente... y sabe poco sobre..."></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">¿Qué siente, piensa o hace frente al problema que elegieron?</label>
+        <div class="field-hint">Esto es el "mapa de empatía" — entender cómo vive el problema tu audiencia.</div>
+        <textarea class="field-input" id="f_empatia" placeholder="Nuestra audiencia probablemente no sabe que... / Cree que... / Hace..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick quiz -->
+  <div class="card">
+    <div class="card-title">Verifica tu comprensión</div>
+    <div class="quiz-wrap">
+      <div class="quiz-q">Tu campaña es sobre phishing. Tu audiencia son padres de familia mayores de 40 años. ¿Qué canal es MÁS efectivo para llegar a ellos?</div>
+      <div class="quiz-opts">
+        <div class="qo" onclick="qz(this,'qz2',false)">a) TikTok con videos cortos y efectos virales</div>
+        <div class="qo" onclick="qz(this,'qz2',true)">b) Una presentación en la reunión de padres + material impreso para llevar</div>
+        <div class="qo" onclick="qz(this,'qz2',false)">c) Un filtro de Instagram Stories</div>
+        <div class="qo" onclick="qz(this,'qz2',false)">d) Una cuenta de BeReal del colegio</div>
+      </div>
+      <div class="qfb" id="qz2"></div>
+    </div>
   </div>
 
   <div class="btn-row">
-    <button class="btn btn-outline" onclick="goWeek(4)">← S4</button>
-    <button class="btn btn-primary" id="bw5" onclick="complete(5)">Marcar como completada</button>
-    <button class="btn btn-outline" onclick="goWeek(6)">S6 →</button>
+    <button class="btn btn-outline" onclick="go('p1')">← Fase 1</button>
+    <button class="btn btn-neon" onclick="complete(2)">Completar Fase 2 →</button>
+    <button class="btn btn-outline" onclick="go('p3')">Fase 3 →</button>
   </div>
 </div>
 
-<!-- ─── SEMANAS 6–12: estructura abreviada pero completa ─── -->
-<!-- S6 -->
-<div class="view" id="view-w6">
-  <div class="ph-ey">Semana 6 · Fase 2 · Investigar</div>
-  <div class="ph-t">Redes sociales y privacidad</div>
-  <div class="ph-d">Lo que no configuras, lo configuran otros por ti.</div>
-  <div class="theory-card">
-    <div class="tc-label">Concepto central</div>
-    <div class="tc-title">Tu perfil, tus reglas</div>
-    <div class="tc-body">Las redes sociales están diseñadas para compartir al máximo por defecto. Revisar la <strong>configuración de privacidad</strong> periódicamente es un hábito de higiene digital: quién puede ver tu contenido, etiquetarte, encontrarte. Cambia con cada actualización — revísala regularmente.<br><br>
-    El <strong>grooming</strong> es el proceso mediante el cual un adulto establece una relación de confianza con una persona menor en línea para manipularla. Señales: preguntas muy personales, pedir fotos, querer encontrarse en privado, pedir guardar secretos. <em>Ante cualquier señal: bloquea, guarda capturas, cuéntaselo a un adulto de confianza. No es tu culpa.</em><br><br>
-    La <strong>Ley 1581 de 2012</strong> protege tus datos personales en Colombia. Tienes derecho a saber qué datos recopilan de ti y a pedir que los eliminen.</div>
+<!-- ─── FASE 3: ESTRATEGIA ─── -->
+<div class="view" id="view-p3">
+  <div class="view-hero">
+    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--cyan)"></div>Fase 03 · Estrategia</div>
+    <div class="vh-title" style="font-size:52px">PROPUESTA<br>DE <span style="color:var(--cyan);background:var(--ink)">VALOR</span></div>
+    <div class="vh-desc">¿Qué le prometemos a nuestra audiencia? ¿Qué cambio va a experimentar si sigue nuestra campaña? Esta es la columna vertebral de la marca.</div>
   </div>
-  <div class="bitacora-block">
-    <div class="bb-title">✏ Mi bitácora — Semana 6</div>
-    <div class="field-group">
-      <div class="fi"><div class="fi-label">¿Qué cambié en mi configuración de privacidad esta semana?</div><textarea class="fi-input" id="w6_q1" placeholder="Los cambios que hice fueron..."></textarea></div>
-      <div class="fi"><div class="fi-label">Mi "guía personal" de qué SÍ y qué NUNCA publicaría</div><textarea class="fi-input" id="w6_q2" placeholder="SÍ publicaría: ...\nNUNCA publicaría: ..."></textarea></div>
-      <div class="fi"><div class="fi-label">¿Conocía el concepto de grooming? ¿Qué aprendí nuevo?</div><textarea class="fi-input" id="w6_q3" placeholder="Escribe aquí..."></textarea></div>
-      <div class="fi"><div class="fi-label">Mi reflexión personal</div><textarea class="fi-input refl-field" id="w6_refl" placeholder="¿Qué aprendí? ¿Qué me preocupa? ¿Qué cambia para mí?"></textarea></div>
-    </div>
-    <div class="save-row"><button class="btn-save" id="sv6" onclick="save(6)">Guardar semana 6</button></div>
-  </div>
-  <div class="btn-row"><button class="btn btn-outline" onclick="goWeek(5)">← S5</button><button class="btn btn-primary" id="bw6" onclick="complete(6)">Marcar como completada</button><button class="btn btn-outline" onclick="goWeek(7)">S7 →</button></div>
-</div>
 
-<!-- S7 -->
-<div class="view" id="view-w7">
-  <div class="ph-ey">Semana 7 · Fase 2 · Investigar</div>
-  <div class="ph-t">Diseño de mi campaña</div>
-  <div class="ph-d">Definir mensajes, formato y llamado a la acción antes de producir.</div>
-  <div class="theory-card">
-    <div class="tc-label">Concepto central</div>
-    <div class="tc-title">Un mensaje, una idea, una acción</div>
-    <div class="tc-body">Las campañas más efectivas comunican <strong>una sola idea con claridad</strong>. Antes de producir, define: ¿Qué quiero que mi audiencia recuerde? ¿Qué quiero que haga? El <strong>llamado a la acción</strong> debe ser pequeño, específico y posible hoy — "activa el 2FA esta tarde" es mejor que "cuídate en internet".</div>
-  </div>
-  <div class="bitacora-block">
-    <div class="bb-title">✏ Mi bitácora — Semana 7</div>
-    <div class="field-group">
-      <div class="fi"><div class="fi-label">El mensaje principal de nuestra campaña (en una oración)</div><input type="text" class="fi-input" id="w7_q1" placeholder="Nuestro mensaje central es..."></div>
-      <div class="fi"><div class="fi-label">Llamado a la acción concreto para nuestra audiencia</div><input type="text" class="fi-input" id="w7_q2" placeholder="Queremos que nuestra audiencia haga..."></div>
-      <div class="fi"><div class="fi-label">Estructura de nuestra campaña (pasos o secciones)</div><textarea class="fi-input" id="w7_q3" placeholder="1. ...\n2. ...\n3. ..."></textarea></div>
-      <div class="fi"><div class="fi-label">Retroalimentación recibida en el checkpoint</div><div class="fi-hint">¿Qué te dijo la profesora? ¿Qué ajustaste?</div><textarea class="fi-input" id="w7_q4" placeholder="La profesora sugirió..."></textarea></div>
-      <div class="fi"><div class="fi-label">Mi reflexión personal</div><textarea class="fi-input refl-field" id="w7_refl" placeholder="¿Cómo me siento con el proyecto hasta ahora?"></textarea></div>
+  <div class="card">
+    <div class="card-title">Conceptos clave para esta fase</div>
+    <div class="theory-grid">
+      <div class="theory-pill" onclick="toggleT('t3a',this)">▸ ¿Qué es una propuesta de valor?</div>
+      <div class="theory-pill" onclick="toggleT('t3b',this)">▸ Mensaje único (USP)</div>
+      <div class="theory-pill" onclick="toggleT('t3c',this)">▸ Llamado a la acción</div>
+      <div class="theory-pill" onclick="toggleT('t3d',this)">▸ HTTP vs HTTPS</div>
+      <div class="theory-pill" onclick="toggleT('t3e',this)">▸ Contraseñas seguras</div>
     </div>
-    <div class="save-row"><button class="btn-save" id="sv7" onclick="save(7)">Guardar semana 7</button></div>
+    <div class="theory-panel" id="t3a">La <strong>propuesta de valor</strong> es la promesa central que le haces a tu audiencia: qué beneficio concreto obtendrá si atiende tu campaña. No es lo que haces — es <em>qué cambia en la vida de la persona</em>. Ejemplo débil: "te enseñamos sobre phishing". Ejemplo fuerte: "después de nuestra campaña, nunca más caerás en una trampa digital".</div>
+    <div class="theory-panel" id="t3b">El <strong>Unique Selling Proposition (USP)</strong> o mensaje único es la idea que diferencia tu campaña de cualquier otra. Una sola idea, expresada con claridad y memorabilidad. Si tu campaña intenta comunicar 5 cosas a la vez, no comunica ninguna. Pregunta filtro: si tu audiencia recuerda UNA sola cosa de tu campaña, ¿qué quieres que sea?</div>
+    <div class="theory-panel" id="t3c">El <strong>llamado a la acción (CTA)</strong> es la acción específica que quieres que tu audiencia realice después de ver la campaña. Debe ser pequeño, posible hoy y medible. Malo: "cuídate en internet". Bueno: "esta tarde, activa el 2FA en tu correo — toma 3 minutos". La diferencia entre informar y transformar comportamientos está en el CTA.</div>
+    <div class="theory-panel" id="t3d">Si tu campaña es sobre compras seguras o banca en línea, necesitas explicar <strong>HTTP vs HTTPS</strong>. HTTPS cifra la comunicación — el candadito en el navegador lo confirma. Sin HTTPS, cualquier persona en la misma red Wi-Fi puede interceptar los datos que envías. En redes públicas (café, aeropuerto), esto es especialmente peligroso.</div>
+    <div class="theory-panel" id="t3e">Campaña de contraseñas: la <strong>técnica de frase-clave</strong> es más segura y fácil de recordar que una contraseña compleja sin sentido. "TrenAzul!Cielo99" es más fuerte que "xK9#p". La longitud importa más que la complejidad. El <strong>gestor de contraseñas</strong> (Bitwarden, gratuito) resuelve el problema de recordarlas todas.</div>
   </div>
-  <div class="btn-row"><button class="btn btn-outline" onclick="goWeek(6)">← S6</button><button class="btn btn-primary" id="bw7" onclick="complete(7)">Marcar como completada</button><button class="btn btn-outline" onclick="goWeek(8)">S8 →</button></div>
-</div>
 
-<!-- S8 -->
-<div class="view" id="view-w8">
-  <div class="ph-ey">Semana 8 · Fase 3 · Crear</div>
-  <div class="ph-t">Producción de materiales</div>
-  <div class="ph-d">Manos a la obra. Canva, Google Slides o video con celular.</div>
-  <div class="bitacora-block">
-    <div class="bb-title">✏ Mi bitácora — Semana 8</div>
-    <div class="field-group">
-      <div class="fi"><div class="fi-label">Herramienta que usé para crear mi material</div><input type="text" class="fi-input" id="w8_q1" placeholder="Usé..."></div>
-      <div class="fi"><div class="fi-label">¿Qué logré avanzar esta semana?</div><textarea class="fi-input" id="w8_q2" placeholder="Esta semana avancé en..."></textarea></div>
-      <div class="fi"><div class="fi-label">¿Qué dificultades encontré y cómo las resolví?</div><textarea class="fi-input" id="w8_q3" placeholder="Tuve dificultad con... La resolví..."></textarea></div>
-      <div class="fi"><div class="fi-label">Mi reflexión personal</div><textarea class="fi-input refl-field" id="w8_refl" placeholder="¿Qué aprendí sobre crear contenido digital?"></textarea></div>
+  <div class="proj-section">
+    <div class="ps-header">
+      <div class="ps-num">A</div>
+      <div class="ps-title">Propuesta de valor y mensaje</div>
     </div>
-    <div class="save-row"><button class="btn-save" id="sv8" onclick="save(8)">Guardar semana 8</button></div>
+    <div class="ps-body">
+      <div class="field">
+        <label class="field-label">Nuestra propuesta de valor</label>
+        <div class="field-hint">Completa: "Después de ver nuestra campaña, [audiencia] podrá/sabrá/logrará [beneficio concreto]."</div>
+        <textarea class="field-input" id="f_valor" placeholder="Después de ver nuestra campaña..."></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Nuestro mensaje único (USP)</label>
+        <div class="field-hint">Una oración. La idea que diferencia su campaña. Deben poder decirla en 10 segundos.</div>
+        <input class="field-input" id="f_usp" placeholder="Una sola idea poderosa...">
+      </div>
+      <div class="field">
+        <label class="field-label">Llamado a la acción principal</label>
+        <div class="field-hint">¿Qué acción concreta y pequeña le pedimos a la audiencia? Debe ser posible hoy.</div>
+        <input class="field-input" id="f_cta" placeholder="Después de la campaña, queremos que...">
+      </div>
+    </div>
   </div>
-  <div class="btn-row"><button class="btn btn-outline" onclick="goWeek(7)">← S7</button><button class="btn btn-primary" id="bw8" onclick="complete(8)">Marcar como completada</button><button class="btn btn-outline" onclick="goWeek(9)">S9 →</button></div>
-</div>
 
-<!-- S9 -->
-<div class="view" id="view-w9">
-  <div class="ph-ey">Semana 9 · Fase 3 · Crear</div>
-  <div class="ph-t">Revisión por pares</div>
-  <div class="ph-d">Dar y recibir retroalimentación constructiva.</div>
-  <div class="theory-card">
-    <div class="tc-label">Habilidad de vida</div>
-    <div class="tc-title">La diferencia entre criticar y retroalimentar</div>
-    <div class="tc-body">"Esto está mal" vs "Podrías mejorar esto haciendo X" — la segunda forma es <strong>retroalimentación constructiva</strong>: señala qué mejorar Y cómo. Una buena retroalimentación menciona primero las fortalezas, luego una sugerencia específica de mejora.</div>
-  </div>
-  <div class="bitacora-block">
-    <div class="bb-title">✏ Mi bitácora — Semana 9</div>
-    <div class="field-group">
-      <div class="fi"><div class="fi-label">¿A qué grupo revisé y qué retroalimentación les di?</div><textarea class="fi-input" id="w9_q1" placeholder="Revisé al grupo... Les sugerí..."></textarea></div>
-      <div class="fi"><div class="fi-label">¿Qué retroalimentación recibí sobre mi trabajo?</div><textarea class="fi-input" id="w9_q2" placeholder="Me dijeron que..."></textarea></div>
-      <div class="fi"><div class="fi-label">¿Qué cambié en mi campaña gracias a esa retroalimentación?</div><textarea class="fi-input" id="w9_q3" placeholder="Decidí cambiar/mejorar..."></textarea></div>
-      <div class="fi"><div class="fi-label">Mi reflexión personal</div><textarea class="fi-input refl-field" id="w9_refl" placeholder="¿Cómo me sentí dando y recibiendo retroalimentación?"></textarea></div>
+  <div class="proj-section">
+    <div class="ps-header">
+      <div class="ps-num">B</div>
+      <div class="ps-title">Estrategia de comunicación</div>
     </div>
-    <div class="save-row"><button class="btn-save" id="sv9" onclick="save(9)">Guardar semana 9</button></div>
+    <div class="ps-body">
+      <div class="field">
+        <label class="field-label">Tono de la campaña</label>
+        <div class="field-hint">¿Cómo quieren sonar? El tono debe ajustarse a la audiencia.</div>
+        <div class="field-grid">
+          <div id="tone-opts" style="display:flex;flex-wrap:wrap;gap:6px;grid-column:1/-1">
+            <div class="tone-opt" data-val="Urgente y directo" onclick="selTone(this)" style="padding:6px 12px;border-radius:99px;border:1.5px solid var(--border);cursor:pointer;font-size:12px;transition:all .15s">Urgente y directo</div>
+            <div class="tone-opt" data-val="Educativo y amigable" onclick="selTone(this)" style="padding:6px 12px;border-radius:99px;border:1.5px solid var(--border);cursor:pointer;font-size:12px;transition:all .15s">Educativo y amigable</div>
+            <div class="tone-opt" data-val="Humorístico y cercano" onclick="selTone(this)" style="padding:6px 12px;border-radius:99px;border:1.5px solid var(--border);cursor:pointer;font-size:12px;transition:all .15s">Humorístico y cercano</div>
+            <div class="tone-opt" data-val="Empoderador y motivador" onclick="selTone(this)" style="padding:6px 12px;border-radius:99px;border:1.5px solid var(--border);cursor:pointer;font-size:12px;transition:all .15s">Empoderador y motivador</div>
+            <div class="tone-opt" data-val="Serio y profesional" onclick="selTone(this)" style="padding:6px 12px;border-radius:99px;border:1.5px solid var(--border);cursor:pointer;font-size:12px;transition:all .15s">Serio y profesional</div>
+          </div>
+          <input class="field-input" id="f_tono" placeholder="O escribe el tono que eligieron..." style="grid-column:1/-1;margin-top:6px">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Canales de distribución</label>
+        <div class="field-hint">¿Dónde van a publicar o presentar la campaña?</div>
+        <textarea class="field-input" id="f_canales" placeholder="Presentación en el salón de..., póster en..., publicación en..."></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">¿Cómo medirán el éxito de la campaña?</label>
+        <div class="field-hint">En emprendimiento esto se llama "métricas". ¿Cuántas personas llegaron? ¿Cuántas tomaron la acción que pediste?</div>
+        <textarea class="field-input" id="f_metricas" placeholder="Sabremos que fue exitosa si..."></textarea>
+      </div>
+    </div>
   </div>
-  <div class="btn-row"><button class="btn btn-outline" onclick="goWeek(8)">← S8</button><button class="btn btn-primary" id="bw9" onclick="complete(9)">Marcar como completada</button><button class="btn btn-outline" onclick="goWeek(10)">S10 →</button></div>
-</div>
 
-<!-- S10 -->
-<div class="view" id="view-w10">
-  <div class="ph-ey">Semana 10 · Fase 3 · Crear</div>
-  <div class="ph-t">Simulacro de presentación</div>
-  <div class="ph-d">Práctica completa antes de la campaña real.</div>
-  <div class="bitacora-block">
-    <div class="bb-title">✏ Mi bitácora — Semana 10</div>
-    <div class="field-group">
-      <div class="fi"><div class="fi-label">¿Cómo me fue en el simulacro? ¿Qué funcionó bien?</div><textarea class="fi-input" id="w10_q1" placeholder="Lo que salió bien fue..."></textarea></div>
-      <div class="fi"><div class="fi-label">¿Qué mejoré antes de la presentación real?</div><textarea class="fi-input" id="w10_q2" placeholder="Decidí mejorar..."></textarea></div>
-      <div class="fi"><div class="fi-label">¿Cómo me siento antes de presentar ante la comunidad real?</div><textarea class="fi-input" id="w10_q3" placeholder="Me siento..."></textarea></div>
-      <div class="fi"><div class="fi-label">Mi reflexión personal</div><textarea class="fi-input refl-field" id="w10_refl" placeholder="¿Qué aprendí del proceso de preparación?"></textarea></div>
-    </div>
-    <div class="save-row"><button class="btn-save" id="sv10" onclick="save(10)">Guardar semana 10</button></div>
-  </div>
-  <div class="btn-row"><button class="btn btn-outline" onclick="goWeek(9)">← S9</button><button class="btn btn-primary" id="bw10" onclick="complete(10)">Marcar como completada</button><button class="btn btn-outline" onclick="goWeek(11)">S11 →</button></div>
-</div>
-
-<!-- S11 -->
-<div class="view" id="view-w11">
-  <div class="ph-ey">Semana 11 · Fase 4 · Impactar</div>
-  <div class="ph-t">Campaña en vivo</div>
-  <div class="ph-d">El momento cumbre del proyecto. Aprender haciendo algo que importa.</div>
-  <div class="bitacora-block">
-    <div class="bb-title">✏ Mi bitácora — Semana 11</div>
-    <div class="field-group">
-      <div class="fi"><div class="fi-label">¿Cómo fue la experiencia de presentar a una audiencia real?</div><textarea class="fi-input" id="w11_q1" placeholder="La experiencia fue..."></textarea></div>
-      <div class="fi"><div class="fi-label">¿Cómo reaccionó la audiencia? ¿Qué preguntas hicieron?</div><textarea class="fi-input" id="w11_q2" placeholder="La audiencia respondió..."></textarea></div>
-      <div class="fi"><div class="fi-label">¿Qué impacto creo que tuvo la campaña?</div><textarea class="fi-input" id="w11_q3" placeholder="Creo que el impacto fue..."></textarea></div>
-      <div class="fi"><div class="fi-label">Mi reflexión personal</div><textarea class="fi-input refl-field" id="w11_refl" placeholder="¿Cómo me sentí siendo una Guardiana Digital?"></textarea></div>
-    </div>
-    <div class="save-row"><button class="btn-save" id="sv11" onclick="save(11)">Guardar semana 11</button></div>
-  </div>
-  <div class="btn-row"><button class="btn btn-outline" onclick="goWeek(10)">← S10</button><button class="btn btn-primary" id="bw11" onclick="complete(11)">Marcar como completada</button><button class="btn btn-outline" onclick="goWeek(12)">S12 →</button></div>
-</div>
-
-<!-- S12 -->
-<div class="view" id="view-w12">
-  <div class="ph-ey">Semana 12 · Fase 4 · Impactar</div>
-  <div class="ph-t">Reflexión y cierre</div>
-  <div class="ph-d">Pensar sobre lo que aprendiste consolida el aprendizaje.</div>
-  <div class="bitacora-block">
-    <div class="bb-title">✏ Mi bitácora — Semana 12 · Cierre del curso</div>
-    <div class="field-group">
-      <div class="fi"><div class="fi-label">¿Qué sabía sobre seguridad digital antes del curso? ¿Qué sé ahora?</div><textarea class="fi-input" id="w12_q1" placeholder="Antes creía... Ahora sé..."></textarea></div>
-      <div class="fi"><div class="fi-label">¿Qué cambié en mis hábitos digitales durante estas 12 semanas?</div><textarea class="fi-input" id="w12_q2" placeholder="Los cambios concretos que hice fueron..."></textarea></div>
-      <div class="fi"><div class="fi-label">Lo más difícil del proyecto fue... y lo resolví así...</div><textarea class="fi-input" id="w12_q3" placeholder="Lo más difícil fue..."></textarea></div>
-      <div class="fi"><div class="fi-label">¿Qué le diría a una compañera que tomará este curso el año que viene?</div><textarea class="fi-input" id="w12_q4" placeholder="Le diría que..."></textarea></div>
-      <div class="fi"><div class="fi-label">Mi reflexión final del curso</div><textarea class="fi-input" style="min-height:120px" id="w12_refl" placeholder="Escribe tu reflexión más sincera sobre todo el proceso..."></textarea></div>
-    </div>
-    <div class="save-row"><button class="btn-save" id="sv12" onclick="save(12)">Guardar semana 12</button></div>
-  </div>
-  <div style="background:var(--teal-l);border:1px solid var(--teal);border-radius:var(--r);padding:22px 26px;margin-bottom:14px;text-align:center;">
-    <div style="font-family:var(--fh);font-size:18px;font-weight:800;color:var(--teal);margin-bottom:6px;">¡Felicitaciones, Guardiana Digital!</div>
-    <p style="font-size:13px;color:var(--ink2);">Completaste las 12 semanas. Tu bitácora está lista para exportar como evidencia de aprendizaje.</p>
-  </div>
   <div class="btn-row">
-    <button class="btn btn-outline" onclick="goWeek(11)">← S11</button>
-    <button class="btn btn-primary" id="bw12" onclick="complete(12)">Completar el curso</button>
-    <button class="btn btn-primary" style="background:var(--teal);" onclick="exportPDF()">Exportar PDF →</button>
+    <button class="btn btn-outline" onclick="go('p2')">← Fase 2</button>
+    <button class="btn btn-neon" onclick="complete(3)">Completar Fase 3 →</button>
+    <button class="btn btn-outline" onclick="go('p4')">Fase 4 →</button>
   </div>
 </div>
 
-<!-- ═══ PRINT AREA (hidden in screen, shown in print) ═══ -->
-<div id="print-area" style="display:none;"></div>
+<!-- ─── FASE 4: IDENTIDAD ─── -->
+<div class="view" id="view-p4">
+  <div class="view-hero">
+    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--orange)"></div>Fase 04 · Identidad visual</div>
+    <div class="vh-title" style="font-size:52px">DISEÑO<br>DE <span style="color:var(--orange);background:var(--ink)">MARCA</span></div>
+    <div class="vh-desc">El nombre, los colores, la tipografía y el slogan son la piel de la campaña. Deben reflejar el tono, la audiencia y el mensaje.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Teoría de diseño para campañas</div>
+    <div class="theory-grid">
+      <div class="theory-pill" onclick="toggleT('t4a',this)">▸ Psicología del color</div>
+      <div class="theory-pill" onclick="toggleT('t4b',this)">▸ ¿Qué hace un buen logo?</div>
+      <div class="theory-pill" onclick="toggleT('t4c',this)">▸ Tipografía y emoción</div>
+      <div class="theory-pill" onclick="toggleT('t4d',this)">▸ Consistencia de marca</div>
+    </div>
+    <div class="theory-panel" id="t4a"><strong>Colores y emociones:</strong> rojo = urgencia, peligro, energía. Azul = confianza, seguridad, profesionalismo. Verde = protección, salud, éxito. Negro = poder, sofisticación. Amarillo/lima = alerta, energía, juventud. Naranja = cercanía, amigable, accesible. Para una campaña de seguridad digital, azul y verde comunican protección; rojo comunica amenaza/urgencia.</div>
+    <div class="theory-panel" id="t4b">Un buen logo es <strong>simple, memorable y versátil</strong>. Funciona en blanco y negro. Se lee a cualquier tamaño. No necesita explicación. Para Canva: usen un ícono simple (escudo, candado, pantalla) + el nombre de la agencia en tipografía bold. Eviten logos con demasiados elementos — lo simple triunfa.</div>
+    <div class="theory-panel" id="t4c">La tipografía comunica sin palabras. <strong>Sans-serif</strong> (sin remates) = moderno, técnico, digital — buena para campañas de ciberseguridad. <strong>Serif</strong> (con remates) = tradición, confianza, autoridad. <strong>Display / script</strong> = personalidad, creatividad. En Canva: elijan máximo 2 tipografías — una para títulos, una para cuerpo de texto.</div>
+    <div class="theory-panel" id="t4d"><strong>Consistencia de marca</strong>: todos los materiales de la campaña (póster, presentación, reel, volante) deben usar los mismos colores, fuentes y estilo visual. Esto construye reconocimiento. Una campaña que cambia de estilo en cada pieza parece amateur. Creen una "mini guía de marca": paleta de 3 colores + 2 tipografías + logo.</div>
+  </div>
+
+  <div class="proj-section">
+    <div class="ps-header">
+      <div class="ps-num">A</div>
+      <div class="ps-title">Nombre y slogan definitivos</div>
+    </div>
+    <div class="ps-body">
+      <div class="field-grid">
+        <div class="field">
+          <label class="field-label">Nombre definitivo de la campaña</label>
+          <div class="field-hint">No es el nombre de su agencia — es el nombre de la campaña que van a lanzar.</div>
+          <input class="field-input" id="f_camp_name" placeholder="Nombre de la campaña..." oninput="updatePreview()">
+        </div>
+        <div class="field">
+          <label class="field-label">Slogan definitivo</label>
+          <div class="field-hint">Corto, memorable, accionable. Máximo 8 palabras.</div>
+          <input class="field-input" id="f_slogan" placeholder="Slogan de la campaña..." oninput="updatePreview()">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">¿Por qué ese nombre? ¿Qué significa?</label>
+        <textarea class="field-input" id="f_nombre_why" placeholder="Elegimos este nombre porque..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-section">
+    <div class="ps-header">
+      <div class="ps-num">B</div>
+      <div class="ps-title">Sistema visual</div>
+    </div>
+    <div class="ps-body">
+      <div class="field">
+        <label class="field-label">Paleta de colores de la campaña</label>
+        <div class="field-hint">Elijan hasta 3 colores. ¿Por qué cada uno?</div>
+        <div class="color-group" id="color-swatches">
+          <div class="color-swatch" style="background:#0a0a0a" onclick="pickColor('#0a0a0a',this)" title="Negro"></div>
+          <div class="color-swatch" style="background:#c8f73a" onclick="pickColor('#c8f73a',this)" title="Lima"></div>
+          <div class="color-swatch" style="background:#e91e8c" onclick="pickColor('#e91e8c',this)" title="Magenta"></div>
+          <div class="color-swatch" style="background:#00c9d4" onclick="pickColor('#00c9d4',this)" title="Cyan"></div>
+          <div class="color-swatch" style="background:#ff6b2b" onclick="pickColor('#ff6b2b',this)" title="Naranja"></div>
+          <div class="color-swatch" style="background:#7c3aed" onclick="pickColor('#7c3aed',this)" title="Morado"></div>
+          <div class="color-swatch" style="background:#1d4ed8" onclick="pickColor('#1d4ed8',this)" title="Azul"></div>
+          <div class="color-swatch" style="background:#059669" onclick="pickColor('#059669',this)" title="Verde"></div>
+          <div class="color-swatch" style="background:#dc2626" onclick="pickColor('#dc2626',this)" title="Rojo"></div>
+          <div class="color-swatch" style="background:#f5f2ec" onclick="pickColor('#f5f2ec',this)" title="Crema"></div>
+        </div>
+        <textarea class="field-input" id="f_colores" placeholder="Elegimos estos colores porque..." style="margin-top:10px;min-height:60px"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Tipografía elegida</label>
+        <div class="field-hint">¿Qué fuente usarán en Canva? ¿Por qué transmite lo que quieren comunicar?</div>
+        <input class="field-input" id="f_typo" placeholder="Ej: Bebas Neue para títulos + Outfit para texto — transmite fuerza y modernidad">
+      </div>
+      <div class="field">
+        <label class="field-label">Descripción del logo</label>
+        <div class="field-hint">Describan su logo antes de hacerlo en Canva. ¿Qué ícono? ¿Qué forma? ¿Cómo combina con el nombre?</div>
+        <textarea class="field-input" id="f_logo" placeholder="Nuestro logo tiene un escudo/candado/pantalla que representa... El nombre aparece..."></textarea>
+      </div>
+
+      <!-- Live brand preview -->
+      <div class="field">
+        <label class="field-label">Vista previa de marca</label>
+        <div class="brand-preview" id="brand-prev">
+          <div class="bp-name" id="bp-name" style="color:var(--neon)">NOMBRE</div>
+          <div class="bp-slogan" id="bp-slogan">tu slogan aquí</div>
+          <div class="bp-tag" id="bp-tag" style="background:var(--neon);color:#0a0a0a">CAMPAÑA DE CIBERSEGURIDAD</div>
+        </div>
+        <div style="font-size:11px;color:var(--ink3);margin-top:6px;font-style:italic">Esta vista previa se actualiza mientras escribes. Úsala como referencia para Canva.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-section">
+    <div class="ps-header">
+      <div class="ps-num">C</div>
+      <div class="ps-title">Piezas de la campaña</div>
+    </div>
+    <div class="ps-body">
+      <div class="hl hl-tip"><strong>Piezas mínimas requeridas:</strong> (1) Póster o infografía principal, (2) Presentación de pitch (mínimo 8 slides), (3) Una pieza adicional a elección — reel, volante, quiz, cuento, etc.</div>
+      <div class="field">
+        <label class="field-label">¿Qué piezas van a crear?</label>
+        <textarea class="field-input" id="f_piezas" placeholder="Crearemos: 1) Un póster en Canva que muestre... 2) Una presentación con... 3) Un video/reel/quiz que..."></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">División de tareas del equipo</label>
+        <div class="field-hint">¿Quién hace qué? Esto es gestión de proyecto — clave en emprendimiento.</div>
+        <textarea class="field-input" id="f_tareas" placeholder="[Nombre] se encarga de...\n[Nombre] diseña...\n[Nombre] escribe..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="go('p3')">← Fase 3</button>
+    <button class="btn btn-neon" onclick="complete(4)">Completar Fase 4 →</button>
+    <button class="btn btn-outline" onclick="go('p5')">Fase 5 →</button>
+  </div>
+</div>
+
+<!-- ─── FASE 5: PITCH ─── -->
+<div class="view" id="view-p5">
+  <div class="view-hero">
+    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--purple)"></div>Fase 05 · Lanzamiento</div>
+    <div class="vh-title" style="font-size:52px">PITCH<br>&amp; <span style="color:var(--purple);background:var(--ink)">CAMPAÑA</span></div>
+    <div class="vh-desc">El momento de presentar ante el jurado y de lanzar la campaña a la comunidad real. Preparen cada slide de su presentación.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Estructura del pitch (8 slides mínimo)</div>
+    <div class="theory-grid">
+      <div class="theory-pill" onclick="toggleT('t5a',this)">▸ ¿Qué es un pitch?</div>
+      <div class="theory-pill" onclick="toggleT('t5b',this)">▸ La regla 10-20-30</div>
+      <div class="theory-pill" onclick="toggleT('t5c',this)">▸ Storytelling en publicidad</div>
+    </div>
+    <div class="theory-panel" id="t5a">Un <strong>pitch</strong> es una presentación corta y poderosa que busca convencer a una audiencia (inversionistas, jurado, clientes) de que tu idea vale la pena. Tiene estructura: problema → solución → evidencia → llamado a la acción. En emprendimiento, el pitch es la habilidad más valorada — es la puerta de entrada a cualquier oportunidad.</div>
+    <div class="theory-panel" id="t5b">La <strong>regla 10-20-30</strong> de Guy Kawasaki: máximo 10 slides, máximo 20 minutos, mínimo 30 puntos de tamaño de fuente. Menos es más. Una slide = una idea. Si necesitas leer el texto de la slide, tiene demasiado. El texto es apoyo visual — tú eres la presentación.</div>
+    <div class="theory-panel" id="t5c">El <strong>storytelling</strong> es contar una historia que enganche emocionalmente. La mejor estructura: (1) Érase una vez [audiencia en situación de riesgo]. (2) Cada día [problema que vive]. (3) Hasta que un día [tu campaña llega]. (4) Por eso [cambio de comportamiento]. (5) Resultado: [vida más segura]. Las historias se recuerdan; las estadísticas se olvidan.</div>
+  </div>
+
+  <!-- Pitch Canvas -->
+  <div class="proj-section">
+    <div class="ps-header">
+      <div class="ps-num">A</div>
+      <div class="ps-title">Canvas del pitch — estructura slide a slide</div>
+    </div>
+    <div class="ps-body">
+      <div class="pitch-grid">
+        <div class="pitch-cell">
+          <div class="pitch-cell-label">Slide 1 · Portada</div>
+          <textarea class="field-input" id="ps1" placeholder="Nombre campaña, agencia, integrantes, slogan" style="min-height:70px;background:transparent;border:none;padding:0;font-size:12px;resize:none"></textarea>
+        </div>
+        <div class="pitch-cell">
+          <div class="pitch-cell-label">Slide 2 · El problema</div>
+          <textarea class="field-input" id="ps2" placeholder="¿Qué riesgo digital existe? Datos impactantes." style="min-height:70px;background:transparent;border:none;padding:0;font-size:12px;resize:none"></textarea>
+        </div>
+        <div class="pitch-cell">
+          <div class="pitch-cell-label">Slide 3 · La audiencia</div>
+          <textarea class="field-input" id="ps3" placeholder="¿A quién afecta? Perfil de la persona que ayudamos." style="min-height:70px;background:transparent;border:none;padding:0;font-size:12px;resize:none"></textarea>
+        </div>
+        <div class="pitch-cell">
+          <div class="pitch-cell-label">Slide 4 · Nuestra solución</div>
+          <textarea class="field-input" id="ps4" placeholder="La campaña como respuesta. Propuesta de valor." style="min-height:70px;background:transparent;border:none;padding:0;font-size:12px;resize:none"></textarea>
+        </div>
+        <div class="pitch-cell">
+          <div class="pitch-cell-label">Slide 5 · La marca</div>
+          <textarea class="field-input" id="ps5" placeholder="Nombre, logo, slogan, colores, por qué este diseño." style="min-height:70px;background:transparent;border:none;padding:0;font-size:12px;resize:none"></textarea>
+        </div>
+        <div class="pitch-cell">
+          <div class="pitch-cell-label">Slide 6 · Las piezas</div>
+          <textarea class="field-input" id="ps6" placeholder="Mostrar el póster, el video u otras piezas creadas." style="min-height:70px;background:transparent;border:none;padding:0;font-size:12px;resize:none"></textarea>
+        </div>
+        <div class="pitch-cell">
+          <div class="pitch-cell-label">Slide 7 · Impacto real</div>
+          <textarea class="field-input" id="ps7" placeholder="¿Cuántas personas alcanzamos? ¿Qué cambió? Evidencias." style="min-height:70px;background:transparent;border:none;padding:0;font-size:12px;resize:none"></textarea>
+        </div>
+        <div class="pitch-cell">
+          <div class="pitch-cell-label">Slide 8 · Cierre y CTA</div>
+          <textarea class="field-input" id="ps8" placeholder="Frase final poderosa + llamado a la acción para el jurado." style="min-height:70px;background:transparent;border:none;padding:0;font-size:12px;resize:none"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-section">
+    <div class="ps-header">
+      <div class="ps-num">B</div>
+      <div class="ps-title">Lanzamiento y evidencias</div>
+    </div>
+    <div class="ps-body">
+      <div class="field-grid">
+        <div class="field">
+          <label class="field-label">¿Cómo y dónde lanzaron la campaña?</label>
+          <textarea class="field-input" id="f_lanzamiento" placeholder="Lanzamos la campaña en..."></textarea>
+        </div>
+        <div class="field">
+          <label class="field-label">¿Cuántas personas llegamos a impactar?</label>
+          <textarea class="field-input" id="f_alcance" placeholder="Llegamos a aproximadamente..."></textarea>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">¿Qué reacción tuvo la audiencia?</label>
+        <textarea class="field-input" id="f_reaccion" placeholder="La audiencia respondió..."></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Evidencias recopiladas</label>
+        <div class="field-hint">Fotos, capturas, número de personas que tomaron la acción que pedimos, comentarios recibidos.</div>
+        <textarea class="field-input" id="f_evidencias" placeholder="Las evidencias que recopilamos fueron..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-section">
+    <div class="ps-header">
+      <div class="ps-num">C</div>
+      <div class="ps-title">Reflexión final del equipo</div>
+    </div>
+    <div class="ps-body">
+      <div class="field-grid">
+        <div class="field">
+          <label class="field-label">¿Qué aprendimos sobre seguridad digital?</label>
+          <textarea class="field-input" id="f_aprendizaje_cyber" placeholder="Lo más importante que aprendimos fue..."></textarea>
+        </div>
+        <div class="field">
+          <label class="field-label">¿Qué aprendimos sobre publicidad y emprendimiento?</label>
+          <textarea class="field-input" id="f_aprendizaje_emp" placeholder="Sobre crear una campaña aprendimos..."></textarea>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Si volviéramos a hacer esta campaña, ¿qué cambiaríamos?</label>
+        <textarea class="field-input" id="f_mejora" placeholder="La próxima vez haríamos diferente..."></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Una frase que resume la experiencia de ser una Agencia de Ciberseguridad</label>
+        <input class="field-input" id="f_frase_final" placeholder="Ser una guardiana digital significa...">
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="go('p4')">← Fase 4</button>
+    <button class="btn btn-neon" onclick="complete(5)">¡Completar proyecto!</button>
+  </div>
+</div>
 
 </main>
 </div>
 
 <script>
 /* ── STATE ── */
-const S = {};  // all field values
-const done = new Set();
-let studentInfo = {};
-
-const phW = {1:[1,2,3],2:[4,5,6,7],3:[8,9,10],4:[11,12]};
-const wTitles = {
-  1:'Imagen digital',2:'Cómo funciona internet',3:'Amenazas digitales',
-  4:'Mi campaña',5:'Contraseñas',6:'Redes sociales',7:'Diseño de campaña',
-  8:'Producción',9:'Revisión por pares',10:'Simulacro',11:'Campaña en vivo',12:'Reflexión y cierre'
+const completed = new Set();
+const FIELDS_BY_PHASE = {
+  1: ['f_agencia','f_slogan_prov','f_integrantes','f_curso','f_colegio','f_contexto','f_observacion'],
+  2: ['f_problema','f_por_que','f_evidencia','f_audiencia','f_donde','f_perfil','f_empatia'],
+  3: ['f_valor','f_usp','f_cta','f_tono','f_canales','f_metricas'],
+  4: ['f_camp_name','f_slogan','f_nombre_why','f_colores','f_typo','f_logo','f_piezas','f_tareas'],
+  5: ['ps1','ps2','ps3','ps4','ps5','ps6','ps7','ps8','f_lanzamiento','f_alcance','f_reaccion','f_evidencias','f_aprendizaje_cyber','f_aprendizaje_emp','f_mejora','f_frase_final']
 };
-const wPhase = {1:'Fase 1 · Descubrir',2:'Fase 1 · Descubrir',3:'Fase 1 · Descubrir',
-  4:'Fase 2 · Investigar',5:'Fase 2 · Investigar',6:'Fase 2 · Investigar',7:'Fase 2 · Investigar',
-  8:'Fase 3 · Crear',9:'Fase 3 · Crear',10:'Fase 3 · Crear',
-  11:'Fase 4 · Impactar',12:'Fase 4 · Impactar'};
-const wColor = {1:'teal',2:'teal',3:'teal',4:'',5:'',6:'',7:'',8:'amber',9:'amber',10:'amber',11:'coral',12:'coral'};
+let selectedAccent = '#c8f73a';
 
-/* Field definitions per week */
-const FIELDS = {
-  1: [{id:'w1_q1',label:'¿Qué encontré cuando busqué mi nombre en internet?'},{id:'w1_q2',label:'Auditoría de mi huella activa'},{id:'w1_q3',label:'Una cosa que quiero cambiar o proteger'},{id:'w1_refl',label:'Mi reflexión personal'}],
-  2: [{id:'w2_q1',label:'Cómo funciona internet en mis palabras'},{id:'w2_q2',label:'Sitios sin HTTPS que revisé'},{id:'w2_q3',label:'Qué cambiaría en mi forma de navegar'},{id:'w2_refl',label:'Mi reflexión personal'}],
-  3: [{id:'w3_q1',label:'Experiencia con mensajes sospechosos'},{id:'w3_q2',label:'Mi semáforo personal de seguridad'},{id:'w3_q3',label:'Amenaza más relevante para mi comunidad'},{id:'w3_refl',label:'Mi reflexión personal'}],
-  4: [{id:'w4_grupo',label:'Nombre de mi grupo'},{id:'w4_integrantes',label:'Integrantes'},{id:'w4_q1',label:'Problema digital que abordaremos'},{id:'w4_q2',label:'Nuestra audiencia'},{id:'w4_formato',label:'Formato de la campaña'},{id:'w4_q3',label:'Nuestra pregunta de investigación'},{id:'w4_refl',label:'Mi reflexión personal'}],
-  5: [{id:'w5_q1',label:'Lo que descubrí sobre mis contraseñas'},{id:'w5_q2',label:'Mi frase-clave de ejemplo'},{id:'w5_q3',label:'¿Activé el 2FA?'},{id:'w5_q4',label:'Conexión con mi campaña'},{id:'w5_refl',label:'Mi reflexión personal'}],
-  6: [{id:'w6_q1',label:'Cambios en mi configuración de privacidad'},{id:'w6_q2',label:'Mi guía personal de qué publicar'},{id:'w6_q3',label:'Lo que aprendí sobre grooming'},{id:'w6_refl',label:'Mi reflexión personal'}],
-  7: [{id:'w7_q1',label:'Mensaje principal de nuestra campaña'},{id:'w7_q2',label:'Llamado a la acción'},{id:'w7_q3',label:'Estructura de la campaña'},{id:'w7_q4',label:'Retroalimentación del checkpoint'},{id:'w7_refl',label:'Mi reflexión personal'}],
-  8: [{id:'w8_q1',label:'Herramienta que usé'},{id:'w8_q2',label:'Lo que avancé esta semana'},{id:'w8_q3',label:'Dificultades y cómo las resolví'},{id:'w8_refl',label:'Mi reflexión personal'}],
-  9: [{id:'w9_q1',label:'Retroalimentación que di'},{id:'w9_q2',label:'Retroalimentación que recibí'},{id:'w9_q3',label:'Cambios que hice'},{id:'w9_refl',label:'Mi reflexión personal'}],
-  10:[{id:'w10_q1',label:'Cómo me fue en el simulacro'},{id:'w10_q2',label:'Lo que mejoré'},{id:'w10_q3',label:'Cómo me siento antes de la presentación real'},{id:'w10_refl',label:'Mi reflexión personal'}],
-  11:[{id:'w11_q1',label:'Experiencia de presentar ante audiencia real'},{id:'w11_q2',label:'Reacción de la audiencia'},{id:'w11_q3',label:'Impacto que creo que tuvo'},{id:'w11_refl',label:'Mi reflexión personal'}],
-  12:[{id:'w12_q1',label:'Antes vs ahora: qué sé sobre seguridad digital'},{id:'w12_q2',label:'Cambios concretos en mis hábitos'},{id:'w12_q3',label:'Lo más difícil y cómo lo resolví'},{id:'w12_q4',label:'Consejo para futuras estudiantes'},{id:'w12_refl',label:'Mi reflexión final del curso'}]
-};
-
-/* Quiz answers */
-const quizAnswers = {};
-
-/* ── NAVIGATION ── */
-function showView(id) {
+/* ── NAV ── */
+function go(id) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
-  const v = document.getElementById('view-' + id);
-  if (v) v.classList.add('active');
+  document.getElementById('view-' + id).classList.add('active');
+  const ni = document.getElementById('ni-' + id);
+  if (ni) ni.classList.add('active');
+  if (id === 'home') document.querySelector('.ni').classList.add('active');
   document.querySelector('.main').scrollTo(0, 0);
 }
 
-function goWeek(n) {
-  showView('w' + n);
-  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
-  const nw = document.getElementById('nw' + n);
-  if (nw) nw.classList.add('active');
-}
-
-/* ── SETUP ── */
-function startJournal() {
-  const name  = document.getElementById('st-name').value.trim();
-  const grade = document.getElementById('st-grade').value.trim();
-  const school= document.getElementById('st-school').value.trim();
-  const year  = document.getElementById('st-year').value.trim();
-  if (!name) { alert('Por favor escribe tu nombre.'); return; }
-  studentInfo = { name, grade, school, year };
-  document.getElementById('sb-name-display').textContent = name;
-  localStorage.setItem('gd_student', JSON.stringify(studentInfo));
-  goWeek(1);
-}
-
-/* ── ACCORDION ── */
-function toggleAcc(head) {
-  const item = head.parentElement;
-  const body = item.querySelector('.acc-body');
-  const isOpen = item.classList.contains('open');
-  // close all in same parent
-  head.closest('[id^="acc-"]').querySelectorAll('.acc-item').forEach(i => {
-    i.classList.remove('open');
-    i.querySelector('.acc-body').classList.remove('vis');
-  });
-  if (!isOpen) {
-    item.classList.add('open');
-    body.classList.add('vis');
-  }
+/* ── THEORY PILLS ── */
+function toggleT(id, pill) {
+  const panel = document.getElementById(id);
+  if (!panel) return;
+  const block = panel.closest('.card');
+  const wasOpen = panel.classList.contains('vis');
+  block.querySelectorAll('.theory-panel').forEach(p => p.classList.remove('vis'));
+  block.querySelectorAll('.theory-pill').forEach(p => p.classList.remove('open'));
+  if (!wasOpen) { panel.classList.add('vis'); pill.classList.add('open'); }
 }
 
 /* ── QUIZ ── */
-function quiz(el, id, correct) {
-  const c = el.closest('.quiz-block');
+function qz(el, id, correct) {
+  const c = el.closest('.quiz-wrap');
   c.querySelectorAll('.qo').forEach(o => { o.onclick = null; o.style.pointerEvents = 'none'; });
   el.classList.add(correct ? 'ok' : 'fail');
   if (!correct) c.querySelectorAll('.qo').forEach(o => { if (o._c) o.classList.add('ok'); });
@@ -1074,172 +1152,146 @@ function quiz(el, id, correct) {
   const fb = document.getElementById(id);
   if (fb) {
     fb.classList.add('show', correct ? 'ok' : 'fail');
-    fb.textContent = correct ? '¡Correcto! Excelente comprensión del concepto.' : 'Casi — la respuesta correcta está en verde. ¡Sigue aprendiendo!';
+    fb.textContent = correct
+      ? '¡Correcto! El canal debe ir donde está la audiencia, no donde está la agencia.'
+      : 'Piénsalo: ¿dónde está realmente tu audiencia? La respuesta correcta está en verde.';
   }
-  quizAnswers[id] = { question: c.querySelector('.qz-q').textContent, answer: el.textContent.trim(), correct };
-  localStorage.setItem('gd_quiz', JSON.stringify(quizAnswers));
 }
 document.querySelectorAll('.qo').forEach(o => {
   const oc = o.getAttribute('onclick') || '';
   if (oc.includes(',true)')) o._c = true;
 });
 
-/* ── SAVE FIELDS ── */
-function save(w) {
-  const prefix = 'gd_w' + w + '_';
-  FIELDS[w].forEach(f => {
-    const el = document.getElementById(f.id);
-    if (el) {
-      S[f.id] = el.value;
-      localStorage.setItem(prefix + f.id, el.value);
-    }
+/* ── TONE SELECT ── */
+function selTone(el) {
+  document.querySelectorAll('.tone-opt').forEach(o => {
+    o.style.background = '';
+    o.style.borderColor = 'var(--border)';
+    o.style.color = '';
+    o.style.fontWeight = '';
   });
-  const btn = document.getElementById('sv' + w);
-  if (btn) {
-    btn.textContent = '✓ Guardado';
-    btn.classList.add('saved');
-    setTimeout(() => { btn.textContent = 'Guardar semana ' + w; btn.classList.remove('saved'); }, 2200);
-  }
+  el.style.background = 'var(--ink)';
+  el.style.borderColor = 'var(--ink)';
+  el.style.color = '#fff';
+  el.style.fontWeight = '600';
+  document.getElementById('f_tono').value = el.dataset.val;
+  saveAll();
 }
 
-/* ── COMPLETE ── */
+/* ── COLOR PICKER ── */
+function pickColor(color, el) {
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedAccent = color;
+  updatePreview();
+  saveAll();
+}
+
+/* ── BRAND PREVIEW ── */
+function updatePreview() {
+  const name = (document.getElementById('f_camp_name')?.value || '').toUpperCase() || 'NOMBRE';
+  const slogan = document.getElementById('f_slogan')?.value || 'tu slogan aquí';
+  const bp = document.getElementById('bp-name');
+  const bs = document.getElementById('bp-slogan');
+  const bt = document.getElementById('bp-tag');
+  if (bp) bp.textContent = name;
+  if (bp) bp.style.color = selectedAccent;
+  if (bs) bs.textContent = slogan;
+  if (bt) { bt.style.background = selectedAccent; bt.style.color = isLight(selectedAccent) ? '#0a0a0a' : '#fff'; }
+}
+
+function isLight(hex) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return (r*299 + g*587 + b*114) / 1000 > 128;
+}
+
+/* ── UPDATE TEAM IN SIDEBAR ── */
+function updateTeam() {
+  const name = document.getElementById('f_agencia')?.value || '';
+  document.getElementById('sb-team').textContent = name || '—';
+  localStorage.setItem('gd_team', name);
+}
+
+/* ── SAVE / LOAD ── */
+function saveAll() {
+  for (let p = 1; p <= 5; p++) {
+    FIELDS_BY_PHASE[p].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) localStorage.setItem('gd_' + id, el.value);
+    });
+  }
+  localStorage.setItem('gd_accent', selectedAccent);
+}
+
+function loadAll() {
+  for (let p = 1; p <= 5; p++) {
+    FIELDS_BY_PHASE[p].forEach(id => {
+      const el = document.getElementById(id);
+      const v = localStorage.getItem('gd_' + id);
+      if (el && v) el.value = v;
+    });
+  }
+  const accent = localStorage.getItem('gd_accent');
+  if (accent) {
+    selectedAccent = accent;
+    document.querySelectorAll('.color-swatch').forEach(s => {
+      if (s.style.background === accent || s.getAttribute('onclick')?.includes(accent)) {
+        s.classList.add('selected');
+      }
+    });
+  }
+  const team = localStorage.getItem('gd_team');
+  if (team) document.getElementById('sb-team').textContent = team;
+
+  const savedDone = localStorage.getItem('gd_done_phases');
+  if (savedDone) {
+    JSON.parse(savedDone).forEach(n => completed.add(Number(n)));
+    syncUI();
+  }
+  updatePreview();
+}
+
+/* ── AUTO-SAVE on input ── */
+document.querySelectorAll('.field-input').forEach(el => {
+  el.addEventListener('input', () => saveAll());
+});
+
+/* ── COMPLETE PHASE ── */
 function complete(n) {
-  save(n);
-  done.add(n);
+  saveAll();
+  completed.add(n);
   syncUI();
-  const b = document.getElementById('bw' + n);
-  if (b) { b.textContent = '✓ Completada'; b.classList.add('done'); }
-  localStorage.setItem('gd_done', JSON.stringify([...done]));
+  localStorage.setItem('gd_done_phases', JSON.stringify([...completed]));
+
+  // Visual feedback on button
+  const btns = document.querySelectorAll(`#view-p${n} .btn-neon`);
+  btns.forEach(b => { b.textContent = '✓ Completada'; b.classList.add('btn-done'); b.classList.remove('btn-neon'); });
+
+  // Go to next or home
+  if (n < 5) setTimeout(() => go('p' + (n + 1)), 400);
+  else setTimeout(() => go('home'), 400);
 }
 
 /* ── SYNC UI ── */
 function syncUI() {
-  for (let w = 1; w <= 12; w++) {
-    const isDone = done.has(w);
-    const nck = document.getElementById('nck' + w);
-    if (nck) nck.classList.toggle('done', isDone);
-    const b = document.getElementById('bw' + w);
-    if (b && isDone) { b.textContent = '✓ Completada'; b.classList.add('done'); }
+  const total = completed.size;
+  const pct = Math.round((total / 5) * 100);
+  document.getElementById('sp-fill').style.width = pct + '%';
+  document.getElementById('sp-num').textContent = total + '/5';
+
+  for (let p = 1; p <= 5; p++) {
+    const isDone = completed.has(p);
+    const nc = document.getElementById('nc' + p);
+    const d = document.getElementById('done' + p);
+    const bar = document.getElementById('bar' + p);
+    const pctEl = document.getElementById('pct' + p);
+    if (nc) nc.classList.toggle('show', isDone);
+    if (d) d.classList.toggle('show', isDone);
+    if (bar) bar.style.width = isDone ? '100%' : '0%';
+    if (pctEl) pctEl.textContent = isDone ? '100%' : '0%';
   }
-  const total = done.size;
-  const pct = Math.round((total / 12) * 100);
-  document.getElementById('sp-num').textContent = total + ' / 12';
-  document.getElementById('sp-bar').style.width = pct + '%';
-  document.getElementById('sp-pct').textContent = pct + '%';
-  document.getElementById('sp-left').textContent = (12 - total) + ' pendientes';
-}
-
-/* ── LOAD ── */
-function loadAll() {
-  const si = localStorage.getItem('gd_student');
-  if (si) {
-    studentInfo = JSON.parse(si);
-    document.getElementById('sb-name-display').textContent = studentInfo.name || '—';
-    ['st-name','st-grade','st-school','st-year'].forEach(id => {
-      const key = id.replace('st-','');
-      const el = document.getElementById(id);
-      if (el && studentInfo[key]) el.value = studentInfo[key];
-    });
-  }
-  for (let w = 1; w <= 12; w++) {
-    if (!FIELDS[w]) continue;
-    const prefix = 'gd_w' + w + '_';
-    FIELDS[w].forEach(f => {
-      const el = document.getElementById(f.id);
-      const v = localStorage.getItem(prefix + f.id);
-      if (el && v) { el.value = v; S[f.id] = v; }
-    });
-  }
-  const savedDone = localStorage.getItem('gd_done');
-  if (savedDone) { JSON.parse(savedDone).forEach(n => done.add(Number(n))); syncUI(); }
-  const savedQuiz = localStorage.getItem('gd_quiz');
-  if (savedQuiz) { Object.assign(quizAnswers, JSON.parse(savedQuiz)); }
-}
-
-/* ── PDF EXPORT ── */
-function exportPDF() {
-  buildPrintArea();
-  setTimeout(() => window.print(), 300);
-}
-
-function buildPrintArea() {
-  const pa = document.getElementById('print-area');
-  const si = studentInfo;
-  const today = new Date().toLocaleDateString('es-CO', {year:'numeric',month:'long',day:'numeric'});
-
-  let html = `
-  <div class="pdf-cover">
-    <div class="pdf-cover-badge">Bitácora de Aprendizaje</div>
-    <div class="pdf-cover-title">Guardianas Digitales</div>
-    <div class="pdf-cover-sub">Imagen, Redes y Seguridad Digital · Grado 8</div>
-    <div class="pdf-student-box">
-      <div class="pdf-student-cell"><div class="pdf-cell-label">Estudiante</div><div class="pdf-cell-val">${si.name||'—'}</div></div>
-      <div class="pdf-student-cell"><div class="pdf-cell-label">Curso</div><div class="pdf-cell-val">${si.grade||'—'}</div></div>
-      <div class="pdf-student-cell"><div class="pdf-cell-label">Año</div><div class="pdf-cell-val">${si.year||'—'}</div></div>
-    </div>
-    ${si.school ? `<div style="font-size:12px;color:#6b6b8a;margin-top:10px;font-family:'Lora',serif;">${si.school}</div>` : ''}
-    <div style="font-size:11px;color:#b8b4a8;margin-top:6px;font-family:'Syne',sans-serif;">Generado el ${today}</div>
-  </div>
-  <div class="pdf-footer">Guardianas Digitales · Bitácora de aprendizaje · ${si.name||''} · ${si.school||''}</div>
-  `;
-
-  const phaseColors = {1:'teal',2:'',3:'amber',4:'coral'};
-  const phaseNames = {1:'Fase 1 · Descubrir',2:'Fase 2 · Investigar',3:'Fase 3 · Crear',4:'Fase 4 · Impactar'};
-
-  let currentPhase = 0;
-
-  for (let w = 1; w <= 12; w++) {
-    // Phase separator
-    let ph = Object.keys(phW).find(p => phW[p].includes(w));
-    ph = Number(ph);
-    if (ph !== currentPhase) {
-      if (w > 1) html += '<hr class="pdf-divider">';
-      html += `<div class="pdf-page-break" style="margin-bottom:8px"></div>`;
-      html += `<div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#6b6b8a;margin-bottom:16px;padding-bottom:6px;border-bottom:1px solid #e8e4da;">${phaseNames[ph]}</div>`;
-      currentPhase = ph;
-    }
-
-    html += `
-    <div class="pdf-week-header ${wColor[w]}">
-      <div class="pdf-wh-phase">Semana ${w} · ${wPhase[w]}</div>
-      <div class="pdf-wh-title">${wTitles[w]}</div>
-    </div>
-    `;
-
-    if (FIELDS[w]) {
-      FIELDS[w].forEach(f => {
-        const val = (S[f.id] || localStorage.getItem('gd_w'+w+'_'+f.id) || '').trim();
-        html += `
-        <div class="pdf-field">
-          <div class="pdf-field-label">${f.label}</div>
-          ${val ? `<div class="pdf-field-value">${escHtml(val)}</div>` : `<div class="pdf-field-empty">Sin respuesta</div>`}
-        </div>`;
-      });
-    }
-
-    // Quiz result if available
-    const qKey = 'qr' + w;
-    if (quizAnswers[qKey]) {
-      const q = quizAnswers[qKey];
-      html += `
-      <div class="pdf-quiz-result">
-        <div class="pdf-quiz-label">Verificación de aprendizaje — ${q.correct ? '✓ Correcta' : '✗ Incorrecta'}</div>
-        <div>${escHtml(q.question)}</div>
-        <div style="margin-top:4px;font-weight:500;">Respuesta elegida: ${escHtml(q.answer)}</div>
-      </div>`;
-    }
-
-    if (done.has(w)) {
-      html += `<div style="font-size:10px;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:.5px;color:#166534;margin-bottom:14px;">✓ Semana completada</div>`;
-    }
-  }
-
-  pa.innerHTML = html;
-  pa.style.display = 'block';
-}
-
-function escHtml(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
 }
 
 loadAll();
