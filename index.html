@@ -7,29 +7,29 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f5f2ec;
-  --ink: #0f0f0f;
-  --ink2: #3a3a3a;
-  --ink3: #888;
+  --bg: #faf5ef;
+  --ink: #1a1208;
+  --ink2: #3d2f22;
+  --ink3: #8a7060;
   --white: #ffffff;
   --card: #ffffff;
-  --border: #e2ddd6;
-  --border2: #ccc8c0;
+  --border: #edddd0;
+  --border2: #d9bfad;
 
-  --neon: #c8f73a;       /* lime accent */
-  --neon2: #a8e620;
-  --electric: #0a0a0a;
-  --magenta: #e91e8c;
-  --cyan: #00c9d4;
-  --orange: #ff6b2b;
-  --purple: #7c3aed;
+  --neon: #c4623a;       /* terracota principal */
+  --neon2: #a84e2c;      /* terracota oscuro */
+  --electric: #1a1208;
+  --magenta: #b85535;
+  --cyan: #d4896a;
+  --orange: #e8c5b0;
+  --purple: #7a3820;
 
   /* Phase colors */
-  --p1: #0a0a0a;
-  --p2: #e91e8c;
-  --p3: #00c9d4;
-  --p4: #ff6b2b;
-  --p5: #7c3aed;
+  --p1: #1a1208;
+  --p2: #b85535;
+  --p3: #c4623a;
+  --p4: #d4896a;
+  --p5: #e8c5b0;
 
   --fh: 'Bebas Neue', sans-serif;
   --fb: 'Outfit', sans-serif;
@@ -47,15 +47,13 @@ body {
   line-height: 1.6;
 }
 
-/* ── NOISE TEXTURE overlay ── */
 body::before {
   content: '';
   position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
   pointer-events: none; z-index: 0;
 }
 
-/* ── LAYOUT ── */
 .app { display: flex; min-height: 100vh; position: relative; z-index: 1; }
 
 /* ── SIDEBAR ── */
@@ -94,7 +92,6 @@ body::before {
 .sb-team-lbl { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.25); margin-bottom: 3px; }
 .sb-team-val { font-family: var(--fh); font-size: 16px; color: var(--neon); letter-spacing: .5px; min-height: 20px; }
 
-/* NAV */
 .sb-nav { padding: 16px 14px; flex: 1; }
 .sb-sec-lbl {
   font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase;
@@ -109,7 +106,7 @@ body::before {
   margin-bottom: 1px;
 }
 .ni:hover { background: rgba(255,255,255,.06); color: rgba(255,255,255,.8); }
-.ni.active { background: rgba(200,247,58,.12); color: var(--neon); }
+.ni.active { background: rgba(196,98,58,.18); color: var(--neon); }
 .ni.active::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 2px; border-radius: 2px; background: var(--neon); }
 .ni-phase {
   width: 20px; height: 20px; border-radius: 5px;
@@ -120,7 +117,6 @@ body::before {
 .ni-check { margin-left: auto; font-size: 10px; opacity: 0; transition: opacity .2s; }
 .ni-check.show { opacity: 1; color: var(--neon); }
 
-/* PROGRESS in sidebar */
 .sb-progress {
   padding: 16px 24px 20px;
   border-top: 1px solid rgba(255,255,255,.06);
@@ -162,15 +158,6 @@ body::before {
 .vh-title span { color: var(--neon); background: var(--ink); padding: 0 8px; }
 .vh-desc { font-size: 15px; color: var(--ink2); max-width: 560px; line-height: 1.7; }
 
-/* ── PHASE BADGE ── */
-.phase-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--fm); font-size: 10px; font-weight: 500;
-  letter-spacing: 1px; text-transform: uppercase;
-  padding: 5px 12px; border-radius: 99px;
-  margin-bottom: 14px;
-}
-
 /* ── CARDS ── */
 .card {
   background: var(--card);
@@ -187,7 +174,7 @@ body::before {
 }
 .card-body { font-size: 14px; color: var(--ink2); line-height: 1.7; }
 
-/* ── THEORY PILL (expandable) ── */
+/* ── THEORY PILL ── */
 .theory-pill {
   display: inline-flex; align-items: center; gap: 7px;
   background: var(--ink); color: var(--neon);
@@ -196,7 +183,7 @@ body::before {
   cursor: pointer; transition: all .15s;
   user-select: none; margin: 3px 3px 3px 0;
 }
-.theory-pill:hover { background: #222; }
+.theory-pill:hover { background: var(--ink2); }
 .theory-pill.open { background: var(--neon); color: var(--ink); }
 .theory-panel {
   background: var(--ink); color: rgba(255,255,255,.8);
@@ -234,7 +221,6 @@ body::before {
 .ps-title { font-family: var(--fh); font-size: 16px; letter-spacing: .3px; color: #fff; }
 .ps-body { padding: 20px 22px; }
 
-/* Fields */
 .field { margin-bottom: 16px; }
 .field:last-child { margin-bottom: 0; }
 .field-label {
@@ -254,13 +240,13 @@ body::before {
   transition: border-color .15s;
   resize: vertical;
 }
-.field-input:focus { outline: none; border-color: var(--ink); background: #fff; }
-.field-input::placeholder { color: #bbb; }
+.field-input:focus { outline: none; border-color: var(--neon); background: #fff; }
+.field-input::placeholder { color: #c4a897; }
 textarea.field-input { min-height: 80px; }
 .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .field-grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
-/* Color picker group */
+/* Color swatches */
 .color-group { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 .color-swatch {
   width: 36px; height: 36px; border-radius: 8px;
@@ -268,12 +254,11 @@ textarea.field-input { min-height: 80px; }
   transition: all .15s;
 }
 .color-swatch.selected { border-color: var(--ink); transform: scale(1.15); }
-.color-custom { border: 1.5px solid var(--border); border-radius: 8px; padding: 4px 10px; font-size: 12px; font-family: var(--fm); width: 100px; }
 
-/* ── THEORY SIDEBAR PANEL ── */
+/* Theory grid */
 .theory-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
 
-/* ── SAVE / COMPLETE ── */
+/* ── BUTTONS ── */
 .btn {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 11px 22px; border-radius: 8px;
@@ -282,12 +267,12 @@ textarea.field-input { min-height: 80px; }
   letter-spacing: .2px;
 }
 .btn-black { background: var(--ink); color: #fff; }
-.btn-black:hover { background: #222; }
+.btn-black:hover { background: var(--ink2); }
 .btn-neon { background: var(--neon); color: var(--ink); }
-.btn-neon:hover { background: var(--neon2); }
+.btn-neon:hover { background: var(--neon2); color: #fff; }
 .btn-outline { background: transparent; border: 1.5px solid var(--border2); color: var(--ink2); }
 .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
-.btn-done { background: #166534; color: #fff; }
+.btn-done { background: var(--neon2); color: #fff; }
 .btn-row { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; align-items: center; }
 
 /* ── HIGHLIGHT BOXES ── */
@@ -295,9 +280,9 @@ textarea.field-input { min-height: 80px; }
   border-radius: 8px; padding: 13px 16px;
   font-size: 13px; line-height: 1.65; margin: 12px 0;
 }
-.hl-tip { background: #fef9e7; border-left: 3px solid #f59e0b; color: var(--ink2); }
-.hl-info { background: #eff6ff; border-left: 3px solid #3b82f6; color: var(--ink2); }
-.hl-warn { background: #fff1f2; border-left: 3px solid #e91e8c; color: var(--ink2); }
+.hl-tip { background: #fdf2ec; border-left: 3px solid var(--neon); color: var(--ink2); }
+.hl-info { background: #faf5ef; border-left: 3px solid var(--neon2); color: var(--ink2); }
+.hl-warn { background: #f5e8df; border-left: 3px solid var(--ink); color: var(--ink2); }
 .hl strong { color: var(--ink); }
 
 /* ── CHECKLIST ── */
@@ -351,7 +336,7 @@ textarea.field-input { min-height: 80px; }
   width: 36px; flex-shrink: 0; line-height: 1;
 }
 .psi-info { flex: 1; }
-.psi-title { font-family: var(--fh); font-size: 15px; letter-spacing: .3px; }
+.psi-title { font-family: var(--fh); font-size: 15px; letter-spacing: .3px; color: var(--ink); }
 .psi-sub { font-size: 12px; color: var(--ink3); }
 .psi-bar-wrap { width: 80px; flex-shrink: 0; }
 .psi-bar-o { background: var(--border); border-radius: 99px; height: 4px; margin-bottom: 3px; }
@@ -363,7 +348,7 @@ textarea.field-input { min-height: 80px; }
 .ph5 .psi-bar-i { background: var(--p5); }
 .psi-pct { font-family: var(--fm); font-size: 10px; color: var(--ink3); text-align: right; }
 .psi-done { margin-left: 8px; font-size: 14px; opacity: 0; transition: opacity .2s; }
-.psi-done.show { opacity: 1; }
+.psi-done.show { opacity: 1; color: var(--neon); }
 
 /* ── BRAND PREVIEW ── */
 .brand-preview {
@@ -392,7 +377,6 @@ textarea.field-input { min-height: 80px; }
   transition: all .3s;
 }
 
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
@@ -408,12 +392,12 @@ textarea.field-input { min-height: 80px; }
   transition: all .14s;
 }
 .qo:hover { border-color: var(--border2); }
-.qo.ok { border-color: #166534; background: #f0fdf4; color: #166534; }
-.qo.fail { border-color: var(--magenta); background: #fff1f5; color: var(--magenta); }
+.qo.ok { border-color: var(--neon2); background: #fdf2ec; color: var(--neon2); }
+.qo.fail { border-color: var(--border2); background: #f5e8df; color: var(--ink2); }
 .qfb { font-size: 12px; margin-top: 8px; padding: 8px 12px; border-radius: 6px; display: none; font-style: italic; }
 .qfb.show { display: block; }
-.qfb.ok { background: #f0fdf4; color: #166534; }
-.qfb.fail { background: #fff1f5; color: var(--magenta); }
+.qfb.ok { background: #fdf2ec; color: var(--neon2); }
+.qfb.fail { background: #f5e8df; color: var(--ink2); }
 
 @media(max-width:720px){
   .sidebar{display:none;}
@@ -441,41 +425,41 @@ textarea.field-input { min-height: 80px; }
   <nav class="sb-nav">
     <div class="sb-sec-lbl">Inicio</div>
     <div class="ni active" onclick="go('home')">
-      <div class="ni-phase" style="background:#333;color:var(--neon)">⌂</div>
+      <div class="ni-phase" style="background:#3d2010;color:var(--neon)">⌂</div>
       Panel de agencia
     </div>
 
     <div class="sb-sec-lbl" style="margin-top:14px">Fase 1 — El Brief</div>
     <div class="ni" onclick="go('p1')" id="ni-p1">
-      <div class="ni-phase" style="background:#333;color:#fff">01</div>
+      <div class="ni-phase" style="background:#3d2010;color:#fff">01</div>
       Configurar mi agencia
       <span class="ni-check" id="nc1">✓</span>
     </div>
 
     <div class="sb-sec-lbl" style="margin-top:14px">Fase 2 — Investigación</div>
     <div class="ni" onclick="go('p2')" id="ni-p2">
-      <div class="ni-phase" style="background:#2d1040;color:#e91e8c">02</div>
+      <div class="ni-phase" style="background:#3d2010;color:#e8a882">02</div>
       Problema y audiencia
       <span class="ni-check" id="nc2">✓</span>
     </div>
 
     <div class="sb-sec-lbl" style="margin-top:14px">Fase 3 — Estrategia</div>
     <div class="ni" onclick="go('p3')" id="ni-p3">
-      <div class="ni-phase" style="background:#00292d;color:#00c9d4">03</div>
+      <div class="ni-phase" style="background:#3d2010;color:#d4896a">03</div>
       Propuesta de valor
       <span class="ni-check" id="nc3">✓</span>
     </div>
 
     <div class="sb-sec-lbl" style="margin-top:14px">Fase 4 — Identidad</div>
     <div class="ni" onclick="go('p4')" id="ni-p4">
-      <div class="ni-phase" style="background:#2a1200;color:#ff6b2b">04</div>
+      <div class="ni-phase" style="background:#3d2010;color:#c4623a">04</div>
       Diseño de marca
       <span class="ni-check" id="nc4">✓</span>
     </div>
 
     <div class="sb-sec-lbl" style="margin-top:14px">Fase 5 — Lanzamiento</div>
     <div class="ni" onclick="go('p5')" id="ni-p5">
-      <div class="ni-phase" style="background:#1e0a40;color:#7c3aed">05</div>
+      <div class="ni-phase" style="background:#3d2010;color:#e8c5b0">05</div>
       Pitch & campaña
       <span class="ni-check" id="nc5">✓</span>
     </div>
@@ -576,15 +560,15 @@ textarea.field-input { min-height: 80px; }
 
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:4px">
     <div class="card" style="padding:18px;text-align:center">
-      <div style="font-family:var(--fh);font-size:32px;margin-bottom:4px">12</div>
+      <div style="font-family:var(--fh);font-size:32px;margin-bottom:4px;color:var(--ink)">12</div>
       <div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px">Semanas</div>
     </div>
     <div class="card" style="padding:18px;text-align:center">
-      <div style="font-family:var(--fh);font-size:32px;margin-bottom:4px">5</div>
+      <div style="font-family:var(--fh);font-size:32px;margin-bottom:4px;color:var(--ink)">5</div>
       <div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px">Fases</div>
     </div>
     <div class="card" style="padding:18px;text-align:center">
-      <div style="font-family:var(--fh);font-size:32px;margin-bottom:4px">1</div>
+      <div style="font-family:var(--fh);font-size:32px;margin-bottom:4px;color:var(--ink)">1</div>
       <div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px">Campaña real</div>
     </div>
   </div>
@@ -593,12 +577,11 @@ textarea.field-input { min-height: 80px; }
 <!-- ─── FASE 1: EL BRIEF ─── -->
 <div class="view" id="view-p1">
   <div class="view-hero">
-    <div class="vh-tag"><div class="vh-tag-dot" style="background:#fff"></div>Fase 01 · El Brief</div>
+    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--neon)"></div>Fase 01 · El Brief</div>
     <div class="vh-title" style="font-size:52px">CONFIGURA<br>TU AGENCIA</div>
     <div class="vh-desc">Toda campaña empieza con un brief: quién eres, con quién trabajas y qué contexto tienes. Es el documento de partida de tu agencia.</div>
   </div>
 
-  <!-- Theory pills -->
   <div class="card">
     <div class="card-title">¿Qué es un brief publicitario?</div>
     <div class="card-body" style="margin-bottom:12px">En publicidad, el <strong>brief</strong> es el documento que define el proyecto antes de empezar. Resume el cliente, el problema, la audiencia y los objetivos. Sin un buen brief, la campaña no tiene norte.</div>
@@ -674,8 +657,8 @@ textarea.field-input { min-height: 80px; }
 <!-- ─── FASE 2: INVESTIGACIÓN ─── -->
 <div class="view" id="view-p2">
   <div class="view-hero">
-    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--magenta)"></div>Fase 02 · Investigación</div>
-    <div class="vh-title" style="font-size:52px">PROBLEMA<br>Y <span style="color:var(--magenta);background:var(--ink)">AUDIENCIA</span></div>
+    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--neon)"></div>Fase 02 · Investigación</div>
+    <div class="vh-title" style="font-size:52px">PROBLEMA<br>Y <span style="color:var(--neon);background:var(--ink)">AUDIENCIA</span></div>
     <div class="vh-desc">Ninguna campaña exitosa empieza con la solución — empieza con entender el problema y a la persona que lo tiene.</div>
   </div>
 
@@ -743,14 +726,13 @@ textarea.field-input { min-height: 80px; }
         <textarea class="field-input" id="f_perfil" placeholder="Nuestra audiencia tiene entre... usa principalmente... y sabe poco sobre..."></textarea>
       </div>
       <div class="field">
-        <label class="field-label">¿Qué siente, piensa o hace frente al problema que elegieron?</label>
+        <label class="field-label">¿Qué siente, piensa o hace frente al problema que eligieron?</label>
         <div class="field-hint">Esto es el "mapa de empatía" — entender cómo vive el problema tu audiencia.</div>
         <textarea class="field-input" id="f_empatia" placeholder="Nuestra audiencia probablemente no sabe que... / Cree que... / Hace..."></textarea>
       </div>
     </div>
   </div>
 
-  <!-- Quick quiz -->
   <div class="card">
     <div class="card-title">Verifica tu comprensión</div>
     <div class="quiz-wrap">
@@ -775,7 +757,7 @@ textarea.field-input { min-height: 80px; }
 <!-- ─── FASE 3: ESTRATEGIA ─── -->
 <div class="view" id="view-p3">
   <div class="view-hero">
-    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--cyan)"></div>Fase 03 · Estrategia</div>
+    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--neon)"></div>Fase 03 · Estrategia</div>
     <div class="vh-title" style="font-size:52px">PROPUESTA<br>DE <span style="color:var(--cyan);background:var(--ink)">VALOR</span></div>
     <div class="vh-desc">¿Qué le prometemos a nuestra audiencia? ¿Qué cambio va a experimentar si sigue nuestra campaña? Esta es la columna vertebral de la marca.</div>
   </div>
@@ -863,8 +845,8 @@ textarea.field-input { min-height: 80px; }
 <!-- ─── FASE 4: IDENTIDAD ─── -->
 <div class="view" id="view-p4">
   <div class="view-hero">
-    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--orange)"></div>Fase 04 · Identidad visual</div>
-    <div class="vh-title" style="font-size:52px">DISEÑO<br>DE <span style="color:var(--orange);background:var(--ink)">MARCA</span></div>
+    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--neon)"></div>Fase 04 · Identidad visual</div>
+    <div class="vh-title" style="font-size:52px">DISEÑO<br>DE <span style="color:var(--neon);background:var(--ink)">MARCA</span></div>
     <div class="vh-desc">El nombre, los colores, la tipografía y el slogan son la piel de la campaña. Deben reflejar el tono, la audiencia y el mensaje.</div>
   </div>
 
@@ -917,16 +899,16 @@ textarea.field-input { min-height: 80px; }
         <label class="field-label">Paleta de colores de la campaña</label>
         <div class="field-hint">Elijan hasta 3 colores. ¿Por qué cada uno?</div>
         <div class="color-group" id="color-swatches">
-          <div class="color-swatch" style="background:#0a0a0a" onclick="pickColor('#0a0a0a',this)" title="Negro"></div>
-          <div class="color-swatch" style="background:#c8f73a" onclick="pickColor('#c8f73a',this)" title="Lima"></div>
-          <div class="color-swatch" style="background:#e91e8c" onclick="pickColor('#e91e8c',this)" title="Magenta"></div>
-          <div class="color-swatch" style="background:#00c9d4" onclick="pickColor('#00c9d4',this)" title="Cyan"></div>
-          <div class="color-swatch" style="background:#ff6b2b" onclick="pickColor('#ff6b2b',this)" title="Naranja"></div>
-          <div class="color-swatch" style="background:#7c3aed" onclick="pickColor('#7c3aed',this)" title="Morado"></div>
+          <div class="color-swatch" style="background:#1a1208" onclick="pickColor('#1a1208',this)" title="Negro cálido"></div>
+          <div class="color-swatch" style="background:#c4623a" onclick="pickColor('#c4623a',this)" title="Terracota"></div>
+          <div class="color-swatch" style="background:#a84e2c" onclick="pickColor('#a84e2c',this)" title="Terracota oscuro"></div>
+          <div class="color-swatch" style="background:#d4896a" onclick="pickColor('#d4896a',this)" title="Salmón"></div>
+          <div class="color-swatch" style="background:#e8c5b0" onclick="pickColor('#e8c5b0',this)" title="Durazno claro"></div>
+          <div class="color-swatch" style="background:#faf5ef;border:1.5px solid #edddd0" onclick="pickColor('#faf5ef',this)" title="Crema"></div>
+          <div class="color-swatch" style="background:#ffffff;border:1.5px solid #edddd0" onclick="pickColor('#ffffff',this)" title="Blanco"></div>
           <div class="color-swatch" style="background:#1d4ed8" onclick="pickColor('#1d4ed8',this)" title="Azul"></div>
-          <div class="color-swatch" style="background:#059669" onclick="pickColor('#059669',this)" title="Verde"></div>
-          <div class="color-swatch" style="background:#dc2626" onclick="pickColor('#dc2626',this)" title="Rojo"></div>
-          <div class="color-swatch" style="background:#f5f2ec" onclick="pickColor('#f5f2ec',this)" title="Crema"></div>
+          <div class="color-swatch" style="background:#166534" onclick="pickColor('#166534',this)" title="Verde"></div>
+          <div class="color-swatch" style="background:#7a3820" onclick="pickColor('#7a3820',this)" title="Café oscuro"></div>
         </div>
         <textarea class="field-input" id="f_colores" placeholder="Elegimos estos colores porque..." style="margin-top:10px;min-height:60px"></textarea>
       </div>
@@ -941,13 +923,12 @@ textarea.field-input { min-height: 80px; }
         <textarea class="field-input" id="f_logo" placeholder="Nuestro logo tiene un escudo/candado/pantalla que representa... El nombre aparece..."></textarea>
       </div>
 
-      <!-- Live brand preview -->
       <div class="field">
         <label class="field-label">Vista previa de marca</label>
         <div class="brand-preview" id="brand-prev">
           <div class="bp-name" id="bp-name" style="color:var(--neon)">NOMBRE</div>
           <div class="bp-slogan" id="bp-slogan">tu slogan aquí</div>
-          <div class="bp-tag" id="bp-tag" style="background:var(--neon);color:#0a0a0a">CAMPAÑA DE CIBERSEGURIDAD</div>
+          <div class="bp-tag" id="bp-tag" style="background:var(--neon);color:#fff">CAMPAÑA DE CIBERSEGURIDAD</div>
         </div>
         <div style="font-size:11px;color:var(--ink3);margin-top:6px;font-style:italic">Esta vista previa se actualiza mientras escribes. Úsala como referencia para Canva.</div>
       </div>
@@ -983,8 +964,8 @@ textarea.field-input { min-height: 80px; }
 <!-- ─── FASE 5: PITCH ─── -->
 <div class="view" id="view-p5">
   <div class="view-hero">
-    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--purple)"></div>Fase 05 · Lanzamiento</div>
-    <div class="vh-title" style="font-size:52px">PITCH<br>&amp; <span style="color:var(--purple);background:var(--ink)">CAMPAÑA</span></div>
+    <div class="vh-tag"><div class="vh-tag-dot" style="background:var(--neon)"></div>Fase 05 · Lanzamiento</div>
+    <div class="vh-title" style="font-size:52px">PITCH<br>&amp; <span style="color:var(--cyan);background:var(--ink)">CAMPAÑA</span></div>
     <div class="vh-desc">El momento de presentar ante el jurado y de lanzar la campaña a la comunidad real. Preparen cada slide de su presentación.</div>
   </div>
 
@@ -1000,7 +981,6 @@ textarea.field-input { min-height: 80px; }
     <div class="theory-panel" id="t5c">El <strong>storytelling</strong> es contar una historia que enganche emocionalmente. La mejor estructura: (1) Érase una vez [audiencia en situación de riesgo]. (2) Cada día [problema que vive]. (3) Hasta que un día [tu campaña llega]. (4) Por eso [cambio de comportamiento]. (5) Resultado: [vida más segura]. Las historias se recuerdan; las estadísticas se olvidan.</div>
   </div>
 
-  <!-- Pitch Canvas -->
   <div class="proj-section">
     <div class="ps-header">
       <div class="ps-num">A</div>
@@ -1109,7 +1089,6 @@ textarea.field-input { min-height: 80px; }
 </div>
 
 <script>
-/* ── STATE ── */
 const completed = new Set();
 const FIELDS_BY_PHASE = {
   1: ['f_agencia','f_slogan_prov','f_integrantes','f_curso','f_colegio','f_contexto','f_observacion'],
@@ -1118,9 +1097,8 @@ const FIELDS_BY_PHASE = {
   4: ['f_camp_name','f_slogan','f_nombre_why','f_colores','f_typo','f_logo','f_piezas','f_tareas'],
   5: ['ps1','ps2','ps3','ps4','ps5','ps6','ps7','ps8','f_lanzamiento','f_alcance','f_reaccion','f_evidencias','f_aprendizaje_cyber','f_aprendizaje_emp','f_mejora','f_frase_final']
 };
-let selectedAccent = '#c8f73a';
+let selectedAccent = '#c4623a';
 
-/* ── NAV ── */
 function go(id) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
@@ -1131,7 +1109,6 @@ function go(id) {
   document.querySelector('.main').scrollTo(0, 0);
 }
 
-/* ── THEORY PILLS ── */
 function toggleT(id, pill) {
   const panel = document.getElementById(id);
   if (!panel) return;
@@ -1142,27 +1119,20 @@ function toggleT(id, pill) {
   if (!wasOpen) { panel.classList.add('vis'); pill.classList.add('open'); }
 }
 
-/* ── QUIZ ── */
 function qz(el, id, correct) {
   const c = el.closest('.quiz-wrap');
   c.querySelectorAll('.qo').forEach(o => { o.onclick = null; o.style.pointerEvents = 'none'; });
   el.classList.add(correct ? 'ok' : 'fail');
-  if (!correct) c.querySelectorAll('.qo').forEach(o => { if (o._c) o.classList.add('ok'); });
   el._c = correct;
   const fb = document.getElementById(id);
   if (fb) {
     fb.classList.add('show', correct ? 'ok' : 'fail');
     fb.textContent = correct
       ? '¡Correcto! El canal debe ir donde está la audiencia, no donde está la agencia.'
-      : 'Piénsalo: ¿dónde está realmente tu audiencia? La respuesta correcta está en verde.';
+      : 'Piénsalo: ¿dónde está realmente tu audiencia? La respuesta correcta está marcada en verde.';
   }
 }
-document.querySelectorAll('.qo').forEach(o => {
-  const oc = o.getAttribute('onclick') || '';
-  if (oc.includes(',true)')) o._c = true;
-});
 
-/* ── TONE SELECT ── */
 function selTone(el) {
   document.querySelectorAll('.tone-opt').forEach(o => {
     o.style.background = '';
@@ -1178,7 +1148,6 @@ function selTone(el) {
   saveAll();
 }
 
-/* ── COLOR PICKER ── */
 function pickColor(color, el) {
   document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
   el.classList.add('selected');
@@ -1187,7 +1156,6 @@ function pickColor(color, el) {
   saveAll();
 }
 
-/* ── BRAND PREVIEW ── */
 function updatePreview() {
   const name = (document.getElementById('f_camp_name')?.value || '').toUpperCase() || 'NOMBRE';
   const slogan = document.getElementById('f_slogan')?.value || 'tu slogan aquí';
@@ -1197,7 +1165,7 @@ function updatePreview() {
   if (bp) bp.textContent = name;
   if (bp) bp.style.color = selectedAccent;
   if (bs) bs.textContent = slogan;
-  if (bt) { bt.style.background = selectedAccent; bt.style.color = isLight(selectedAccent) ? '#0a0a0a' : '#fff'; }
+  if (bt) { bt.style.background = selectedAccent; bt.style.color = isLight(selectedAccent) ? '#1a1208' : '#fff'; }
 }
 
 function isLight(hex) {
@@ -1207,14 +1175,12 @@ function isLight(hex) {
   return (r*299 + g*587 + b*114) / 1000 > 128;
 }
 
-/* ── UPDATE TEAM IN SIDEBAR ── */
 function updateTeam() {
   const name = document.getElementById('f_agencia')?.value || '';
   document.getElementById('sb-team').textContent = name || '—';
   localStorage.setItem('gd_team', name);
 }
 
-/* ── SAVE / LOAD ── */
 function saveAll() {
   for (let p = 1; p <= 5; p++) {
     FIELDS_BY_PHASE[p].forEach(id => {
@@ -1234,17 +1200,9 @@ function loadAll() {
     });
   }
   const accent = localStorage.getItem('gd_accent');
-  if (accent) {
-    selectedAccent = accent;
-    document.querySelectorAll('.color-swatch').forEach(s => {
-      if (s.style.background === accent || s.getAttribute('onclick')?.includes(accent)) {
-        s.classList.add('selected');
-      }
-    });
-  }
+  if (accent) { selectedAccent = accent; }
   const team = localStorage.getItem('gd_team');
   if (team) document.getElementById('sb-team').textContent = team;
-
   const savedDone = localStorage.getItem('gd_done_phases');
   if (savedDone) {
     JSON.parse(savedDone).forEach(n => completed.add(Number(n)));
@@ -1253,34 +1211,26 @@ function loadAll() {
   updatePreview();
 }
 
-/* ── AUTO-SAVE on input ── */
 document.querySelectorAll('.field-input').forEach(el => {
   el.addEventListener('input', () => saveAll());
 });
 
-/* ── COMPLETE PHASE ── */
 function complete(n) {
   saveAll();
   completed.add(n);
   syncUI();
   localStorage.setItem('gd_done_phases', JSON.stringify([...completed]));
-
-  // Visual feedback on button
   const btns = document.querySelectorAll(`#view-p${n} .btn-neon`);
   btns.forEach(b => { b.textContent = '✓ Completada'; b.classList.add('btn-done'); b.classList.remove('btn-neon'); });
-
-  // Go to next or home
   if (n < 5) setTimeout(() => go('p' + (n + 1)), 400);
   else setTimeout(() => go('home'), 400);
 }
 
-/* ── SYNC UI ── */
 function syncUI() {
   const total = completed.size;
   const pct = Math.round((total / 5) * 100);
   document.getElementById('sp-fill').style.width = pct + '%';
   document.getElementById('sp-num').textContent = total + '/5';
-
   for (let p = 1; p <= 5; p++) {
     const isDone = completed.has(p);
     const nc = document.getElementById('nc' + p);
